@@ -1,4 +1,4 @@
-package t.butt.entity;
+package com.butt.entity;
 
 import lombok.Data;
 

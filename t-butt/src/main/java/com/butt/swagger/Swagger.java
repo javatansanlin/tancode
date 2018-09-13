@@ -1,4 +1,4 @@
-package t.butt.swagger;
+package com.butt.swagger;
 
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;

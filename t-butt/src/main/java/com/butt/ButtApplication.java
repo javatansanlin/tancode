@@ -1,4 +1,4 @@
-package t.butt;
+package com.butt;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -7,7 +7,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@MapperScan("t.butt.dao")
+@MapperScan("com.butt.dao")
 public class ButtApplication {
 
     public static void main(String[] args) {
