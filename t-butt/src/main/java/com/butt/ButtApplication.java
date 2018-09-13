@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableSwagger2
 @MapperScan("com.butt.dao")
+@EnableSwagger2
 public class ButtApplication {
 
     public static void main(String[] args) {

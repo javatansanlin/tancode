@@ -1,6 +1,7 @@
 package com.butt.controller;
 
 import com.butt.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class SysGoodsController {
 
     /** 商品service */
+    @Autowired
     private GoodsService goodsService;
 
     @PostMapping("addGoods")
