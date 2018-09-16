@@ -1,7 +1,13 @@
 package com.butt.service.impl;
 
+import com.butt.dao.BankcardDao;
 import com.butt.dao.MemberDao;
+import com.butt.dao.MoneydetailDao;
+import com.butt.dao.WithdrawDao;
+import com.butt.entity.Bankcard;
 import com.butt.entity.Member;
+import com.butt.entity.Moneydetail;
+import com.butt.entity.Withdraw;
 import com.butt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +30,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     MemberDao memberDao;
 
+    /** 用户金额明细dao */
+    @Autowired
+    private MoneydetailDao moneydetailDao;
+
+    /** 银行卡dao */
+    @Autowired
+    BankcardDao bankcardDao;
+
+    /** 提现dao */
+    @Autowired
+    WithdrawDao withdrawDao;
+
     /** 根据用户oid查询用户信息 */
     @Override
     public Map<String, Object> findUserByOid(String oid) {
@@ -41,6 +59,61 @@ public class UserServiceImpl implements UserService {
         result.put("code" ,3);
         result.put("msg" ,"操作成功");
         result.put("member" ,mem);
+        return result;
+    }
+
+    /** 用户提现 */
+    @Override
+    public Map<String, Object> userWithdraw(String oid, double withdrawMoney, int carId) {
+        Map<String ,Object> result = new HashMap<>();
+        //判断参数
+        if (oid==null || withdrawMoney<=0 || carId<=0){
+            result.put("code" ,1);
+            result.put("msg" ,"参数错误");
+            return result;
+        }
+        //查询出该用户并且上锁
+        Member user = memberDao.findMemByOidAndLock(oid);
+        if (user==null){
+            result.put("code" ,2);
+            result.put("msg" ,"用户错误");
+            return result;
+        }
+        //判断该用户提现的余额是否大于本身的余额
+        if (user.getMoney()<withdrawMoney){
+            result.put("code" ,4);
+            result.put("msg" ,"请输入正确的提现金额");
+            return result;
+        }
+        //查询该银行卡信息是否存在
+        Bankcard card = bankcardDao.findCardByUidAndID(carId, user.getId());
+        if (card==null){
+            result.put("code" ,5);
+            result.put("msg" ,"银行卡错误");
+            return result;
+        }
+        //减去用户余额
+        memberDao.mimuMoney(withdrawMoney ,user.getId());
+        //插入资金明细
+        Moneydetail moneydetail = new Moneydetail();
+        moneydetail.setUId(user.getId());
+        moneydetail.setMoney(-withdrawMoney);
+        moneydetail.setCuMoney(user.getMoney());
+        moneydetail.setRemarke("参与促销消费");
+        moneydetailDao.insertOne(moneydetail);
+        //增加提现记录
+        Withdraw withdraw = new Withdraw();
+        withdraw.setUId(user.getId());
+        withdraw.setState(1);
+        withdraw.setWMoney(withdrawMoney);
+        withdraw.setCode(card.getCode());
+        withdraw.setName(card.getName());
+        withdraw.setPhone(card.getPhone());
+        withdraw.setArea(card.getArea());
+        withdrawDao.insertOne(withdraw);
+
+        result.put("code",3);
+        result.put("msg" ,"提现成功");
         return result;
     }
 }

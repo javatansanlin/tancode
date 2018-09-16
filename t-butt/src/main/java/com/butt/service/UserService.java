@@ -12,4 +12,8 @@ public interface UserService {
 
     /** 根据用户oid查询用户信息 */
     Map<String,Object> findUserByOid(String oid);
+
+    /** 用户提现 */
+    Map<String ,Object> userWithdraw(String oid ,double withdrawMoney ,int carId);
+
 }

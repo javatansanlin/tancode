@@ -20,8 +20,14 @@ public class Withdraw {
     private Double wMoney;
     /** 提现时间 */
     private Date wTime;
-    /** 提现到的银行卡 */
-    private Integer bankcard;
     /** 提现状态 : 1-未完成，3-已完成 */
     private Integer state;
+    /** 银行卡号 */
+    private String code;
+    /** 持卡人姓名 */
+    private String name;
+    /** 预留手机号 */
+    private String phone;
+    /** 开户地址 */
+    private String area;
 }

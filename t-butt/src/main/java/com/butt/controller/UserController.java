@@ -34,4 +34,10 @@ public class UserController {
         return userService.findUserByOid(oid);
     }
 
+    /** 用户提现 */
+    @PostMapping("withdraw")
+    public Map<String ,Object> withdraw(String oid ,double withdrawMoney ,int carId){
+        return userService.userWithdraw(oid ,withdrawMoney ,carId);
+    }
+
 }
