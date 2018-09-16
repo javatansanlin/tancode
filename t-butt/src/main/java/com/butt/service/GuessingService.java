@@ -11,4 +11,6 @@ public interface GuessingService {
     /** 获取竞猜结果，并且添加到数据库 */
     void guessingGoing();
 
+    /** 查找待开奖的订单，并且判断有没有中奖 */
+    void setGuess();
 }

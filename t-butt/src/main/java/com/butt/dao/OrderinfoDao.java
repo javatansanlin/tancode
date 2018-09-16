@@ -4,6 +4,8 @@ import com.butt.entity.Orderinfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Author: JavaTansanlin
  * @Description: 订单dao
@@ -31,4 +33,11 @@ public interface OrderinfoDao {
     @Update("UPDATE orderinfo SET STATE= #{state},GUESS=#{guess},GUESSID=#{guessid},GUESSTIME=#{guesstime} WHERE ID=#{id}")
     int updateOrderGuessAndState(Orderinfo orderinfo);
 
+    /** 查询状态3，并且开奖时间的订单 */
+    @Select("SELECT * FROM orderinfo WHERE STATE=3 AND GUESSTIME<=NOW()")
+    List<Orderinfo> findNotGuess();
+
+    /** 根据用户oid查询用户的所有订单 */
+    @Select("SELECT * FROM orderinfo AS odr LEFT JOIN member AS mem ON odr.U_ID = mem.ID WHERE mem.OID = #{oid}  ORDER BY odr.REGISTERTIME DESC")
+    List<Orderinfo> findOrderListByOid(String oid);
 }

@@ -2,13 +2,16 @@ package com.butt.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.butt.dao.GuessingDao;
+import com.butt.dao.OrderinfoDao;
 import com.butt.entity.Guessing;
+import com.butt.entity.Orderinfo;
 import com.butt.service.GuessingService;
 import com.butt.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,8 +24,13 @@ import java.util.Map;
 @Transactional
 public class GuessingServiceImpl implements GuessingService {
 
+    /** 竞猜dao */
     @Autowired
     private GuessingDao guessingDao;
+
+    /** 订单dao */
+    @Autowired
+    private OrderinfoDao orderinfoDao;
 
     /** 获取竞猜结果，并且添加到数据库 */
     @Override
@@ -49,4 +57,35 @@ public class GuessingServiceImpl implements GuessingService {
         }
     }
 
+    /** 查找待开奖的订单，并且判断有没有中奖 */
+    @Override
+    public void setGuess() {
+        //查询出状态3-点了促销，正在开奖中的订单
+        List<Orderinfo> orderinfoList = orderinfoDao.findNotGuess();
+        if (orderinfoList!=null && orderinfoList.size()>0){
+            for (Orderinfo ot : orderinfoList) {
+                //查询该中奖id的订单
+                Guessing guess = guessingDao.findGuessById(ot.getGuessid());
+                if (guess!=null && guess.getLastnum()!=null ){//判断是否已经开奖
+                    //判断用户选择的竞猜结果
+                    if ("D".equals(ot.getGuess()) || "X".equals(ot.getGuess())){//大小
+                        if (guess.getDx().equals(ot.getGuess())){
+                            ot.setState(5);
+                        }else {
+                            ot.setState(4);
+                        }
+                    }
+                    if ("J".equals(ot.getGuess()) || "O".equals(ot.getGuess())) {//鸡藕
+                        if (guess.getJo().equals(ot.getGuess())){
+                            ot.setState(5);
+                        }else {
+                            ot.setState(4);
+                        }
+                    }
+                    //更新订单状态
+                    orderinfoDao.updateOrderGuessAndState(ot);
+                }
+            }
+        }
+    }
 }
