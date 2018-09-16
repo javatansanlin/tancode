@@ -256,6 +256,14 @@ public class BuyServiceImpl implements BuyService {
         double integra = type==7?order.getPrice():order.getPrice()*100;
         //执行增加积分
         memberDao.increaseIntegra(integra ,user.getId());
+        //插入积分明细
+        memberDao.mimuIntegra(integra ,user.getId());
+        Integraldetail integraldetail = new Integraldetail();
+        integraldetail.setUId(user.getId());
+        integraldetail.setIntegral(integra);
+        integraldetail.setCuIntegral(user.getIntegral());
+        integraldetail.setRemarke("积分兑换");
+        integraldetailDao.insertOne(integraldetail);
         result.put("code" ,3);
         result.put("msg" ,"操作成功");
         return result;
@@ -292,6 +300,15 @@ public class BuyServiceImpl implements BuyService {
         double money = order.getPrice() * 1.6;
         //增加用户余额
         memberDao.increaseMoney(money ,user.getId());
+        //插入资金明细
+        memberDao.mimuMoney(money ,user.getId());
+        Moneydetail moneydetail = new Moneydetail();
+        moneydetail.setUId(user.getId());
+        moneydetail.setMoney(money);
+        moneydetail.setCuMoney(user.getMoney());
+        moneydetail.setRemarke("中奖兑换所得");
+        moneydetailDao.insertOne(moneydetail);
+
         result.put("code" ,3);
         result.put("msg" ,"操作成功");
         return result;

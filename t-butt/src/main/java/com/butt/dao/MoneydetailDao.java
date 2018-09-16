@@ -3,7 +3,10 @@ package com.butt.dao;
 import com.butt.entity.Moneydetail;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @Author: JavaTansanlin
@@ -19,4 +22,7 @@ public interface MoneydetailDao {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int insertOne(Moneydetail moneydetail);
 
+    /** 根据用户oid查询全部的资金明细 */
+    @Select("SELECT md.* FROM moneydetail AS md LEFT JOIN member AS mem ON md.U_ID = mem.ID WHERE mem.OID=#{oid}")
+    List<Moneydetail> findAllByOid(String oid);
 }
