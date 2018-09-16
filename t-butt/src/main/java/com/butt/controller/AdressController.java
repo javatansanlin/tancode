@@ -36,4 +36,16 @@ public class AdressController {
         return addreService.addAddre(oid ,name ,phone,addre);
     }
 
+    /** 修改收货地址 */
+    @PostMapping("editAddre")
+    public Map<String ,Object> editAddre(String oid ,Integer id ,String name ,String phone ,String addre){
+        return addreService.editAddre(oid ,id ,name ,phone ,addre);
+    }
+
+    /** 删除收货地址 **/
+    @PostMapping("deleAddre")
+    public Map<String ,Object> deleAddre(String oid ,Integer id){
+        return addreService.deleAddre(oid ,id);
+    }
+
 }
