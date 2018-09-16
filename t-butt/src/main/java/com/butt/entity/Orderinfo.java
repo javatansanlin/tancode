@@ -35,6 +35,7 @@ public class Orderinfo {
      * 8-中奖选择提货，
      * 9-中奖选择退货也就是换钱160%，
      * 10-中奖选择兑换积分1=100
+     * 33-订单发货，订单完成
      * */
     private Integer state;
     /** 竞猜（D-大，X-小，J-鸡，O-藕） */
@@ -45,4 +46,10 @@ public class Orderinfo {
     private Integer guessid;
     /** 订单的创建时间 */
     private Date registertime;
+    /** 收货人名字 */
+    private String addreName;
+    /** 收货人电话 */
+    private String addrePhone;
+    /** 收货人地址 */
+    private String addre;
 }

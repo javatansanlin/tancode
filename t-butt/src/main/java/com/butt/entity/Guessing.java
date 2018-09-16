@@ -14,10 +14,6 @@ import java.util.Date;
 public class Guessing {
     /** 主键 */
     private Integer id;
-    /** 开奖期数 */
-    private Integer code;
-    /** 开奖结果集 */
-    private String result;
     /** 最后一个开奖数字 */
     private Integer lastnum;
     /** 鸡藕结果： J-鸡，O-藕 */

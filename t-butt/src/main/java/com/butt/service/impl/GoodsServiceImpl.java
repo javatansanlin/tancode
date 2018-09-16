@@ -103,5 +103,15 @@ public class GoodsServiceImpl implements GoodsService {
         return result;
     }
 
+    /** 查询所有的商品列表，以类型为条件 */
+    @Override
+    public List<Goods> findAllGoods(int type) {
+        return goodsDao.findGoodsByType(type);
+    }
 
+    /** 根据id进入商品详情 **/
+    @Override
+    public Goods findGoodsByid(int id) {
+        return goodsDao.findGoodsById(id);
+    }
 }
