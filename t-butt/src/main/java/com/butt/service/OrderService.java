@@ -1,6 +1,6 @@
 package com.butt.service;
 
-import com.butt.entity.Orderinfo;
+import com.butt.model.OrderinfoModel;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -12,6 +12,6 @@ import com.github.pagehelper.PageInfo;
 public interface OrderService {
 
     /** 查看我的所有订单，按时间排序降序 */
-    PageInfo<Orderinfo> findMyOrder(String oid ,Integer index);
+    PageInfo<OrderinfoModel> findMyOrder(String oid , Integer index);
 
 }

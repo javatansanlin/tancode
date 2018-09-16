@@ -1,6 +1,6 @@
 package com.butt.controller;
 
-import com.butt.entity.Orderinfo;
+import com.butt.model.OrderinfoModel;
 import com.butt.service.OrderService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class OrderController {
 
     /** 查看我的所有订单，按时间排序降序 */
     @PostMapping("findMe")
-    PageInfo<Orderinfo> findMe(String oid ,Integer index){
+    PageInfo<OrderinfoModel> findMe(String oid , Integer index){
         return orderService.findMyOrder(oid ,index);
     }
 

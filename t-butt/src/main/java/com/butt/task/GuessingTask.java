@@ -23,7 +23,7 @@ public class GuessingTask {
     GuessingService guessingService;
 
     /** 摇奖 */
-    @Scheduled(cron = "0 0/5 * * * *")
+    //@Scheduled(cron = "0 0/5 * * * *")
     public void scheduled(){
         guessingService.guessingGoing();
     }
