@@ -9,6 +9,7 @@ import java.util.Map;
  * @Modified By:
  */
 public interface BuyService {
+
     /** 点击购买商品 */
     Map<String ,Object> buyTheShop(String oid ,Integer goodsId ,int count);
 

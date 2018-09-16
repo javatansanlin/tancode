@@ -143,7 +143,7 @@ public class BuyServiceImpl implements BuyService {
         }
         //查询订单是否存在，以用户为条件
         Orderinfo order = orderinfoDao.findOrderByIdAndUid(user.getId(), orderId);
-        if (order==null){
+        if (order==null || (order.getState()!=1 && order.getState()!=4 && order.getState()!=5) ){
             result.put("code" ,4);
             result.put("msg" ,"订单错误");
             return result;
@@ -176,8 +176,8 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"参数不正确");
             return result;
         }
-        //查询出该用户
-        Member user = memberDao.findMemByOid(oid);
+        //查询出该用户并且上锁
+        Member user = memberDao.findMemByOidAndLock(oid);
         if (user==null){
             result.put("code" ,2);
             result.put("msg" ,"用户错误");
@@ -190,6 +190,22 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"订单错误");
             return result;
         }
+        //扣取价格的百分之1
+        double koqu = order.getPrice() * 0.01;
+        //判断余额是否足以支付
+        if (user.getMoney()<koqu){
+            result.put("code" ,5);
+            result.put("msg" ,"参与促销需要扣取1%的手续费，你的余额不足");
+            return result;
+        }
+        memberDao.mimuMoney(koqu ,user.getId());
+        Moneydetail moneydetail = new Moneydetail();
+        moneydetail.setUId(user.getId());
+        moneydetail.setMoney(-koqu);
+        moneydetail.setCuMoney(user.getMoney());
+        moneydetail.setRemarke("参与促销消费");
+        moneydetailDao.insertOne(moneydetail);
+
         //获取最近未开奖的竞猜
         Guessing notGuess = guessingDao.findOneNotGuess();
         //获取开奖时间
@@ -218,8 +234,8 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"参数不正确");
             return result;
         }
-        //查询出该用户
-        Member user = memberDao.findMemByOid(oid);
+        //查询出该用户并且上锁
+        Member user = memberDao.findMemByOidAndLock(oid);
         if (user==null){
             result.put("code" ,2);
             result.put("msg" ,"用户错误");
@@ -232,6 +248,10 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"订单错误");
             return result;
         }
+        //更改订单状态
+        order.setState(type);
+        orderinfoDao.updateOrderGuessAndState(order);
+
         //计算应得积分
         double integra = type==7?order.getPrice():order.getPrice()*100;
         //执行增加积分
@@ -245,6 +265,35 @@ public class BuyServiceImpl implements BuyService {
     @Override
     public Map<String, Object> changeMoney(Integer orderId, String oid) {
         Map<String ,Object> result = new HashMap<>();
+        //判断参数
+        if (orderId==null || oid==null){
+            result.put("code" ,1);
+            result.put("msg" ,"参数不正确");
+            return result;
+        }
+        //查询出该用户并且上锁
+        Member user = memberDao.findMemByOidAndLock(oid);
+        if (user==null){
+            result.put("code" ,2);
+            result.put("msg" ,"用户错误");
+            return result;
+        }
+        //查询订单是否存在，以用户为条件
+        Orderinfo order = orderinfoDao.findOrderByIdAndUid(user.getId(), orderId);
+        if (order==null || order.getState()!=5){
+            result.put("code" ,4);
+            result.put("msg" ,"订单错误");
+            return result;
+        }
+        //更改订单状态
+        order.setState(9);
+        orderinfoDao.updateOrderGuessAndState(order);
+
+        double money = order.getPrice() * 1.6;
+        //增加用户余额
+        memberDao.increaseMoney(money ,user.getId());
+        result.put("code" ,3);
+        result.put("msg" ,"操作成功");
         return result;
     }
 }
