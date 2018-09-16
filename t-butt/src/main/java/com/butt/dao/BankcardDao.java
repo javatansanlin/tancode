@@ -32,6 +32,10 @@ public interface BankcardDao {
     @Select("SELECT car.* FROM bankcard AS car LEFT JOIN member AS mem ON mem.ID = car.U_ID WHERE mem.OID = #{oid}")
     List<Bankcard> findAllCardByOid(String oid);
 
+    /** 根据用户oid和记录id查询出银行卡记录 */
+    @Select("SELECT car.* FROM bankcard AS car LEFT JOIN member AS mem ON mem.ID = car.U_ID WHERE mem.OID = #{oid} AND car.ID = #{id}")
+    Bankcard findCarByOidAndID(@Param("oid") String oid ,@Param("id") Integer id);
+
     /** 根据用户id和记录id查询出该记录 */
     @Select("SELECT * FROM bankcard WHERE ID=#{id} AND U_ID=#{uid}")
     Bankcard findCardByUidAndID(@Param("id") Integer id ,@Param("uid") Integer uid);
