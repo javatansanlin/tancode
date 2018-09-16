@@ -1,7 +1,14 @@
 package com.butt.controller;
 
+import com.butt.entity.Address;
+import com.butt.service.AddreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: JavaTansanlin
@@ -13,7 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mem/adress")
 public class AdressController {
 
+    /** 收货地址service */
+    @Autowired
+    private AddreService addreService;
+
     /** 根据用户的oid查询用户的所有收货地址 */
+    @PostMapping("/findAll")
+    public List<Address> findAll(String oid){
+        return  addreService.findAllByOid(oid);
+    }
+
     /** 新增收货地址 */
+    @PostMapping("/addAddre")
+    public Map<String ,Object> addAddre(String oid ,String name ,String phone ,String addre){
+        return addreService.addAddre(oid ,name ,phone,addre);
+    }
 
 }
