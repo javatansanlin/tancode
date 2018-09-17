@@ -1,11 +1,13 @@
 package com.butt.controller;
 
+import com.butt.service.SendsmsService;
 import com.butt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -17,6 +19,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/mem")
 public class UserController {
+
+    /** 发送验证业务 */
+    SendsmsService sendsmsService;
 
     /** 用户的相关业务 */
     @Autowired
@@ -38,6 +43,18 @@ public class UserController {
     @PostMapping("withdraw")
     public Map<String ,Object> withdraw(String oid ,double withdrawMoney ,int carId){
         return userService.userWithdraw(oid ,withdrawMoney ,carId);
+    }
+
+    /** 发送验证码给手机号 */
+    @PostMapping("/sms")
+    public Map<String ,Object> sms(HttpSession session, String phone, String oid){
+        return sendsmsService.sendsms(session ,phone ,oid);
+    }
+
+    /** 绑定手机号 */
+    @PostMapping("/bandPhone")
+    public Map<String ,Object> bandPhone(HttpSession session,String oid ,String code , String phone){
+        return userService.bandPhone(session ,oid ,code,phone);
     }
 
 }
