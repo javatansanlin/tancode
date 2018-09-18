@@ -144,15 +144,9 @@
 
 		</ul>
 		<div class="btnbox">
-			<button>上一页</button>
-			<button>下一页</button>
+			<button id="pov">上一页</button>
+			<button id="next">下一页</button>
 		</div>
-		<div class="tips">
-			<p>促销方式</p>
-			<a id="jo">猜鸡藕</a>
-			<a id="dx">猜大小</a>
-		</div>
-		<div id="cover"></div>
 	</div>
 	<!-- 引入js资源 -->
 	<script src="../js/zepto.min.js"></script>
@@ -161,6 +155,15 @@
 		$(function(){
             var oid = getQueryString("oid");
             getData(1);
+            var index = 1;
+            $("#pov").click(function () {
+                index -- ;
+                getData(index);
+            })
+            $("#next").click(function () {
+                index ++ ;
+                getData(index);
+            })
             function getData(index){
                 $.ajax({
                     type: 'POST',
@@ -169,6 +172,19 @@
                     dataType: 'json',
                     success: function(data){
                         var view = "";
+                        if(data.isLastPage == false && data.isFirstPage == false){
+                            $("#pov").hide();
+                            $("#next").hide();
+                        }else if(data.isLastPage == false && data.isFirstPage == true){
+                            $("#pov").show();
+                            $("#next").hide();
+                        }else if(data.isLastPage == true && data.isFirstPage == false){
+                            $("#pov").hide();
+                            $("#next").show();
+                        }else if(data.isLastPage == true && data.isFirstPage == true){
+                            $("#pov").show();
+                            $("#next").show();
+                        }
                         var list = data.list;
                         for (var i = 0; i<list.length; i++){
                             view += '<li>';

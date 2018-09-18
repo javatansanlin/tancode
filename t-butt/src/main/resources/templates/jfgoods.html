@@ -54,7 +54,7 @@
               data: { oid: oid },
               dataType: 'json',
               success: function(data){
-                  if(data.phone == null || data.phone == undefined){
+                  if(data.member.phone == null || data.member.phone == undefined){
                       $("#me").attr("href","bindphone.html?oid="+oid);
                   }else{
                       $("#me").attr("href","user.html?oid="+oid);

@@ -164,8 +164,8 @@
 			</li>
 		</ul>
 		<div class="btnbox">
-			<button>上一页</button>
-			<button>下一页</button>
+			<button id="pov">上一页</button>
+			<button id="next">下一页</button>
 		</div>
 		<div class="tips">
 			<p>促销方式</p>
@@ -181,6 +181,15 @@
 		$(function(){
             var oid = getQueryString("oid");
             getData(1);
+            var index = 1;
+            $("#pov").click(function () {
+                index -- ;
+                getData(index);
+            })
+            $("#next").click(function () {
+                index ++ ;
+                getData(index);
+            })
             function getData(index){
                 $.ajax({
                     type: 'POST',
@@ -189,6 +198,19 @@
                     dataType: 'json',
                     success: function(data){
                         var view = "";
+                        if(data.isLastPage == false && data.isFirstPage == false){
+                            $("#pov").hide();
+                            $("#next").hide();
+                        }else if(data.isLastPage == false && data.isFirstPage == true){
+                            $("#pov").show();
+                            $("#next").hide();
+                        }else if(data.isLastPage == true && data.isFirstPage == false){
+                            $("#pov").hide();
+                            $("#next").show();
+                        }else if(data.isLastPage == true && data.isFirstPage == true){
+                            $("#pov").show();
+                            $("#next").show();
+                        }
                         var list = data.list;
                         for (var i = 0; i<list.length; i++){
                             view += '<li>';
