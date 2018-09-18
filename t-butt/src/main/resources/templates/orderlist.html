@@ -315,7 +315,7 @@
                             var orderId = $(this).attr("data");
                             $.ajax({
                                 type: 'POST',
-                                url: '/mem/buy/takeGoods',
+                                url: '/mem/buy/changeMoney',
                                 data: {oid: oid, orderId: orderId},
                                 dataType: 'json',
                                 success: function (backData) {
