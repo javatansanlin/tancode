@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		.order li{
+			margin-top:10px;
+			background: #fff;
+			padding:10px;
+		}
+		.order .btngroup{
+			border-top:1px solid #ccc;
+			padding:10px 0;
+			overflow: hidden;
+		}
+		.btngroup button{
+			border:1px solid;
+			border-radius: 4px;
+			padding:.4rem .6rem;
+			font-size:.75rem;
+			margin-left:10px;
+		}
+		.listtop{
+			overflow: hidden;
+		}
+		.listtop span{
+			display: block;
+			font-size:.7rem;
+			line-height:2.2rem;
+		}
+		.time{
+			color:#ccc;
+		}
+		.state{
+			color:#ee394a;
+		}
+		.price{
+			padding:10px;
+			overflow: hidden;
+			background: #ccc;
+		}
+		.price span{
+			color:#666;
+		}
+		.btn1{
+			color:#ccc;
+			border-color: #ccc;
+		}
+		.btn2{
+			color:#ee394a;
+			border-color:#ee394a;
+		}
+		.btn3{
+			color: #3A5FCD;
+			border-color: #3A5FCD;
+		}
+	</style>
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a href="index.html"><i class="icon icon-return"></i></a>
+				<h1>资金明细</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="">
+		<ul class="order" id="list">
+			<li>
+
+			</li>
+		</ul>
+		<div class="">
+			<button>上一页</button>
+			<button>下一页</button>
+		</div>
+	</div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var oid = getQueryString("oid");
+            function getData(index){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/detail/integral',
+                    data: { oid: oid, index: index },
+                    dataType: 'json',
+                    success: function(data){
+                        var view = "";
+                        var list = data.list;
+                        for (var i = 0; i<list.length; i++){
+                            view += '<li>';
+                            view += '<div class="listtop">';
+                            view += '<span class="time fl">积分：'+list[i].cuIntegral+'</span>';
+							view += '<span class="state fr">'+list[i].integral+'</span>';
+                            view += '</div>';
+                            view += '<div class="all">';
+                            view += '<p>时间：'+list[i].registertime+'</p>';
+                            view += '<p>备注：'+list[i].remarke+'</p>';
+                            view += '</div>';
+                            view += '</li>';
+						}
+						$("#list").html(view);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			}
+		})
+	</script>
+</body>
+</html>

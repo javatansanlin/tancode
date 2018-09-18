@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/index.html -->
+<html>
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>京西商城</title>
+	<link rel="stylesheet" href="../css/bass.css">
+    <link href="../css/style.css" rel="stylesheet">
+	</head>
+	<style>
+		html, body{
+			width: 100%;
+			height: 100%;
+		}
+		.background{
+			background-image: url("../img/guess.png");
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			width: 100%;
+			height: 100%;
+		}
+		.title{
+			color: #fd832b;
+			font-weight: 600;
+			text-align: center;
+			font-size: 2.3rem;
+			line-height: 1.5;
+			width: 10.0rem;
+			margin: 0 auto;
+			position: relative;
+			top:2.0rem;
+		}
+		.background a{
+			position: fixed;
+			top:20px;
+			left: 20px;
+			color:#fff;
+			font-size:0.8rem;
+		}
+		.background span{
+			position: relative;
+			top:13.0rem;
+			border-radius: 50%;
+			background: #eaeaea;
+			font-size:2.6rem;
+			width: 5.0rem;
+			height: 5.0rem;
+			display: block;
+			text-align: center;
+			line-height: 5.0rem;
+			color:#9e9e9e;
+			float:left;
+			margin-left: 2.9rem;
+		}
+		.active{
+			background: #ffca6a!important;
+			color:#ed7926!important;
+		}
+		label{
+			text-align: center;
+			font-size:1.0rem;
+			color:#fff;
+			position: relative;
+			top:10.0rem;
+			display: block;
+		}
+	</style>
+<body>
+	<div class="background">
+		<a onclick="history.go(-1)">返回</a>
+		<p class="title">升级促销 奖励多多</p>
+		<label>点击大或小即可选中立即升级促销</label>
+		<span id="j">大</span>
+		<span id="o">小</span>
+	</div>
+    <!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/zepto.kslider.js"></script>
+	<script src="../js/main.js"></script>
+    <script type="text/javascript">
+		$(function () {
+            var oid = getQueryString("oid");
+            var orderId = getQueryString("id");
+			$("#j").click(function () {
+			    $("span").removeClass("active");
+                $('span').attr('disabled',true);
+                $('span').css('pointer-events','none')
+			    $(this).addClass("active");
+				guess("D");
+            })
+            $("#o").click(function () {
+                $("span").removeClass("active");
+                $('span').attr('disabled',true);
+                $('span').css('pointer-events','none')
+                $(this).addClass("active");
+                guess("X");
+            })
+            function guess(str){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/detail/integral',
+                    data: { oid: oid, orderId: orderId, guessResult: str },
+                    dataType: 'json',
+                    success: function(data){
+                        alert(data.msg);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+            }
+        })
+	</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		.order li{
+			margin-top:10px;
+			background: #fff;
+			padding:10px;
+		}
+		.btngroup{
+			border-top:1px solid #ccc;
+			padding:10px 0;
+			overflow: hidden;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+		.btngroup button{
+			border:1px solid #ccc;
+			border-radius: 4px;
+			padding:.4rem .6rem;
+			font-size:.75rem;
+			margin-left:10px;
+			background: #fff;
+		}
+		.listtop{
+			overflow: hidden;
+		}
+		.listtop span {
+			display: block;
+			font-size: 1.0rem;
+			line-height: 2.2rem;
+		}
+		.state{
+			color:#ee394a;
+		}
+		.all p{
+			font-size:.7rem;
+			color:#666666;
+		}
+	</style>
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a href="index.html"><i class="icon icon-return"></i></a>
+				<h1>银行卡管理</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="">
+		<ul class="order" id="list">
+			<li>
+				<div class="listtop">
+					<span class="time fl">日乐购</span>
+					<span class="state fr">xx银行+开户行地址</span>
+				</div>
+				<div class="all">
+					<p>银行卡号：1515151515151515</p>
+					<p>预留手机号：日乐购</p>
+				</div>
+			</li>
+		</ul>
+		<div class="btngroup">
+			<button>添加</button>
+			<button>修改</button>
+			<button>确定</button>
+		</div>
+	</div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var oid = getQueryString("oid");
+			$.ajax({
+				type: 'POST',
+				url: '/mem/card/findAll',
+				data: { oid: oid},
+				dataType: 'json',
+				success: function(data){
+					var view = "";
+					var list = data.list;
+					if(list == undefined){
+					    view += '<p style="text-align: center">暂无银行卡</p>';
+						$(".btngroup").html('<button style="width: 100%;margin: 0;background: #ee394a;color:#fff;" id="add">添加</button>');
+						$("#add").click(function(){
+						    windwo.location.href="addbank.html?id=null&oid="+oid+"";
+						})
+					}else{
+						for (var i = 0; i<list.length; i++){
+							view += '<li>';
+							view += '<div class="listtop">';
+							view += '<span class="time fl">'+list[i].name+'</span>';
+							view += '<span class="state fr">'+list[i].area+'</span>';
+							view += '</div>';
+							view += '<div class="all">';
+							view += '<p>银行卡号：'+list[i].code+'</p>';
+							view += '<p>预留手机号：'+list[i].phone+'</p>';
+							view += '</div>';
+							view += '</li>';
+                            $(".btngroup").html('<button style="background: #ee394a;color:#fff; width: 100%" data="'+list[i].id+'" id="change">修改</button>');
+						}
+						$("#change").click(function(){
+						    window.location.href="addbank.html?id="+$(this).attr('data')+"&oid="+oid+"";
+						})
+                    }
+					$("#list").html(view);
+
+				},
+				error: function(xhr, type){
+					alert('请求错误')
+				}
+			})
+		})
+	</script>
+</body>
+</html>

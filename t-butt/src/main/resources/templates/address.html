@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<title>洋洋商城</title>
+	<link href="../css/bass.css" rel="stylesheet">
+	<link href="../css/style.css" rel="stylesheet">
+	<style>
+		.list{
+			overflow: hidden;
+		}
+		.list p, .list label, .list input{
+			height:2.0rem;
+			line-height: 2.0rem;
+		}
+		.list input {
+			border-radius: 4px;
+			border:1px solid #ccc;
+			display: block;
+			padding:0 5px;
+		}
+		.list p, .list input{
+			margin-left:10px;
+		}
+		.box{
+			background: #fff;
+			padding:10px;
+		}
+		button{
+			background: #ee394a;
+			color:#fff;
+			width: 10.0rem;
+			display: block;
+			margin: 10px auto;
+			text-align: center;
+			border:none;
+			line-height: 2.0rem;
+		}
+	</style>
+</head>
+<body>
+<!--头部 header-->
+<div>
+	<header>
+		<div class="header">
+			<a href="index.html"><i class="icon icon-return"></i></a>
+			<h1>管理收货地址</h1>
+		</div>
+	</header>
+	<div style="height: 2.5rem;"></div>
+</div>
+<div class="box">
+	<div class="list">
+		<label class="fl">收货人名字：</label>
+		<input class="fl" id="name"/>
+	</div>
+	<div class="list">
+		<label class="fl">收货人手机号：</label>
+		<input class="fl" id="phone"/>
+	</div>
+	<div class="list">
+		<label class="fl">收货人地址：</label>
+		<input class="fl" id="addre" type="tel"/>
+	</div>
+	<div class="list">
+		<label class="fl">所属银行：</label>
+		<input class="fl" id="area"/>
+	</div>
+	<span class="font-size:0.5rem;color:#ee394a">xx银行+开户行地址</span>
+	<div class="">
+		<button id="add">立即添加</button>
+	</div>
+</div>
+<!-- 引入js资源 -->
+<script src="../js/zepto.min.js"></script>
+<script src="../js/main.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var oid = getQueryString("oid");
+        var id = getQueryString("id");
+        if(id == null){
+            $("#phone").val("");
+            $("#addre").val("");
+            $("#name").val("");
+            $("#add").click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/card/add',
+                    data: { oid: oid, name: $("#name").val(), phone: $("#phone").val(), addre: $("#addre").val()},
+                    dataType: 'json',
+                    success: function(data){
+                        alert(data.msg);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+            })
+		}else{
+            $.ajax({
+                type: 'POST',
+                url: '/mem/adress/findAll',
+                data: { oid: oid},
+                dataType: 'json',
+                success: function(data){
+                    var list = data.list;
+                    for (var i = 0; i<list.length; i++){
+                        $("#phone").val(list[i].phone);
+                        $("#addre").val(list[i].addre);
+                        $("#name").val(list[i].name);
+                    }
+
+                },
+                error: function(xhr, type){
+                    alert('请求错误')
+                }
+            })
+            $("#add").click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/card/edit',
+                    data: { oid: oid, id: id,  name: $("#name").val(), phone: $("#phone").val(), addre: $("#addre").val()},
+                    dataType: 'json',
+                    success: function(data){
+                        alert(data.msg);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+            })
+		}
+
+    })
+</script>
+</body>
+</html>

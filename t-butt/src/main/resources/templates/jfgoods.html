@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/index.html -->
+<html>
+	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>京西商城</title>
+	<link rel="stylesheet" href="../css/bass.css">
+    <link href="../css/style.css" rel="stylesheet">
+	</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				
+				<h1>积分商品</h1>
+				
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+    <div class="commodity-box">
+		<ul class="commodity" id="goodlist">
+
+		</ul>	
+    </div>
+    <!-- footer 底部菜单 -->
+    <footer>
+    	<a href="javascript:;">
+    		<i class="icon icon-f1"></i>
+    		首页
+    	</a>
+    	<a href="jfgoods.html" class="pick">
+    		<i class="icon icon-f3"></i>兑换
+		</a>
+    	
+    	<a href="user.html">
+    		<i class="icon icon-f4"></i>我的
+		</a>
+    </footer>
+    <!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/zepto.kslider.js"></script>
+	<script src="../js/main.js"></script>
+    <script type="text/javascript">
+	  $(function(){
+	      var oid = getQueryString("oid");
+	     //slider
+	      $('#slider').slider({
+	        className: 'slider_box',
+	        tick: 3000 //播放间隔
+	     });
+	     var imgPieces=$('.m-slider').find('.ks_wrap');
+	     for(var i=0;i<imgPieces.length;i++){
+	       $('.ks_wt').append('<li></li>');
+	       $('.ks_wt').find('li').eq(0).addClass('active');
+	     }
+          $.ajax({
+              type: 'POST',
+              url: '/mem/goods/findAllByType',
+              data: { type: 2 },
+              dataType: 'json',
+              success: function(data){
+                  var view = "";
+                  var list = data;
+                  for (var i = 0; i<list.length; i++){
+                      view +='<li>';
+                      view +='<a href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">';
+                      view +='<img src="/mem/goods/imgShow?fileName='+list[i].img+'">';
+                      view +='<span>'+list[i].name+'</span>';
+                      view +='<div style="overflow: hidden">';
+                      view +='<span class="price fl">￥'+list[i].price+'</span>';
+                      view +='<span class="buy fr">购买</span>';
+                      view +='</div>';
+                      view +='</a>';
+                      view +='</li>';
+                  }
+                  $("#goodlist").html(view);
+              },
+              error: function(xhr, type){
+                  alert('请求错误')
+              }
+          })
+	  });
+
+	</script>
+</body>
+</html>

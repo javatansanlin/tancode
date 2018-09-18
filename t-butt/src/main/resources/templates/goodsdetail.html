@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a href="index.html"><i class="icon icon-return"></i></a>
+				<h1>商品详情</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="product-head">
+		<img src="" id="img">
+	</div>
+	<article class="product-text">
+    	<span id="name">首款海绵包包</span>
+    	<span class="price" id="price">￥68.00 </span>
+		<div class="norms-content-t norms-content-two">
+			<p class="fl">数量：</p>
+			<span class="icon norms-add" id="out"></span>
+			<p id="number" class="fl">1</p>
+			<span class="icon norms-out" id="add"></span>
+		</div>
+	</article>
+
+    <!-- 详情内容 product-content -->
+    <div class="product-content">
+    	<ul id="tab_btn" class="product-content-ul">
+    		<li class="pick">
+    			<span>图文详情</span>
+    		</li>
+    	</ul>
+    	<ul class="product-content-ul2">
+    		<li class="tab_content show">
+    			<img src="" id="img1">
+    			<img src="" id="img2">
+    			<img src="" id="img3">
+    		</li>
+    	</ul>
+    </div>
+    <!-- 加入购物车底部 -->
+    <div class="add-shopping">
+    	<a class="btn btn-red fr" id="buynow">立即购买</a>
+    </div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var id = getQueryString("id");
+            var oid = getQueryString("oid");
+            $.ajax({
+                type: 'POST',
+                url: '/mem/goods/findGoodsByid',
+                data: { id: id },
+                dataType: 'json',
+                success: function(data){
+                    $("#img").attr("src", "/mem/goods/imgShow?fileName= "+data.img);
+                    $("#name").html(data.name);
+                    $("#price").html("￥"+data.price);
+                    $("#img1").attr("src",data.img);
+                    $("#img2").attr("src",data.imgt);
+                    $("#img3").attr("src",data.imgtt);
+
+                },
+                error: function(xhr, type){
+                    alert('请求错误')
+                }
+            })
+			$("#add").click(function(){
+                var num = $("#number").html();
+                console.log(num)
+                num ++;
+                $("#number").html(num);
+			})
+			$("#out").click(function(){
+                var num = $("#number").html();
+                if(num == 1){
+                    $("#number").html(1);
+                }else{
+                    num --;
+                    $("#number").html(num);
+                }
+			})
+			$("#buynow").click(function(){
+			    alert(1111);
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/goods/findGoodsByid',
+                    data: { goodsId: id, oid: oid, count: $("#number").html()},
+                    dataType: 'json',
+                    success: function(data){
+                        if(data.code == 1){
+                            alert(data.msg);
+						}else if(data.code == 2){
+                            alert(data.msg);
+						}else if(data.code == 3){
+                            var truthBeTold = window.confirm("购买成功！是否升级")
+                            if (truthBeTold) {
+                                window.location.href="orderlist.html"
+                            } else{}
+						}else if(data.code == 4){
+                            alert(data.msg);
+						}else{
+                            var truthBeTold = window.confirm("余额不足！是否充值")
+                            if (truthBeTold) {
+                                window.location.href=""
+                            } else{}
+						}
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			})
+		})
+	</script>
+</body>
+</html>

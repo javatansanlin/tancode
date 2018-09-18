@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		.order li{
+			margin-top:10px;
+			background: #fff;
+			padding:10px;
+		}
+		.order .btngroup{
+			border-top:1px solid #ccc;
+			padding:10px 0;
+			overflow: hidden;
+		}
+		.btngroup button{
+			border:1px solid;
+			border-radius: 4px;
+			padding:.4rem .6rem;
+			font-size:.75rem;
+			margin-left:10px;
+			background: #fff;
+		}
+		.listtop{
+			overflow: hidden;
+		}
+		.listtop span{
+			display: block;
+			font-size:.7rem;
+			line-height:1.5rem;
+		}
+		.time{
+			color:#666;
+		}
+		.all{
+			overflow: hidden;
+		}
+		.all p{
+			line-height: 1.5rem;
+		}
+		.state, .price span{
+			color:#ee394a;
+		}
+		.price{
+			overflow: hidden;
+		}
+		.listmain{
+			padding:10px;
+			background: #e7e7e7;
+		}
+		.name{
+			line-height: 1.5rem;
+		}
+		.btn1{
+			color:#ccc;
+			border-color: #ccc;
+		}
+		.btn2{
+			color:#ee394a;
+			border-color:#ee394a;
+		}
+		.btn3{
+			color: #3A5FCD;
+			border-color: #3A5FCD;
+		}
+		.btnbox{
+			width: 10rem;
+			margin: 1.0rem auto;
+		}
+		.btnbox button{
+			border:0;
+			color:#fff;
+			background: #ee394a;
+			padding:10px;
+			margin-left: 1.0rem;
+			border-radius: 4px;
+		}
+		.tips
+	</style>
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a href="index.html"><i class="icon icon-return"></i></a>
+				<h1>我的订单</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="">
+		<ul class="order" id="list">
+			<li>
+				<div class="listtop">
+					<span class="time fl">111111</span>
+					<span class="state fr">正常</span>
+				</div>
+				<div class="listmain">
+					<p class="name">2222222</p>
+					<div class="price">
+						<p class="fl">￥800.00</p>
+						<span class="fr">x1</span>
+					</div>
+				</div>
+				<div class="all">
+					<p class="fr">共1件商品 合计：￥800.00</p>
+				</div>
+				<div class="btngroup">
+					<button class="fr btn1">兑换</button>
+					<button class="fr btn2">退货</button>
+					<button class="fr btn3">提货</button>
+				</div>
+			</li>
+		</ul>
+		<div class="btnbox">
+			<button>上一页</button>
+			<button>下一页</button>
+		</div>
+		<div class="tips">
+			<p>促销方式</p>
+			<a>猜鸡藕</a>
+			<a>猜大小</a>
+		</div>
+	</div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var oid = getQueryString("oid");
+            getData(1);
+            function getData(index){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/order/findMe',
+                    data: { oid: oid, index: index },
+                    dataType: 'json',
+                    success: function(data){
+                        var view = "";
+                        var list = data.list;
+                        for (var i = 0; i<list.length; i++){
+                            view += '<li>';
+                            view += '<div class="listtop">';
+                            view += '<span class="time fl">'+list[i].registertime+'</span>';
+                            if(list[i].state == 1){
+                            	view += '<span class="state fr">正常</span>';
+                            }else if(list[i].state == 2){
+                                view += '<span class="state fr">正在发货</span>';
+                            }else if(list[i].state == 3){
+                                view += '<span class="state fr">开奖中</span>';
+                            }else if(list[i].state == 4){
+                                view += '<span class="state fr">未中奖</span>';
+                            }else if(list[i].state == 5){;
+                                view += '<span class="state fr">中奖了</span>';
+                            }else {
+                                view += '<span class="state fr">订单完成</span>';
+                            }
+                            view += '</div>';
+                            view += '<div class="listmain">';
+                            view += '<p class="name">2222222</p>';
+                            view += '<div class="price">';
+                            view += '<p class="fl">￥'+list[i].price+'</p>';
+                            view += '<span class="fr">x'+list[i].conts+'</span>';
+                            view += '</div>';
+                            if(list[i].state == 1){
+                                view += '';
+                            }else if(list[i].state == 2){
+                                view += '<div class="price">';
+                                view += '<p class="fl">联系人'+list[i].addreName+'</p>';
+                                view += '<span class="fl" style="margin-left: 10px">联系电话'+list[i].addrePhone+'</span>';
+                                view += '</div>';
+                                view += '<p>收货地址：<span>'+list[i].addre+'</span></p>'
+                            }else if(list[i].state == 3){
+                                view += '<p>你的竞猜：<span>'+list[i].guess+'</span></p>';
+                            }else if(list[i].state == 4){
+                                view += '<p>开奖期数：<span>'+list[i].guessid+'</span></p>';
+                                view += '<p>你的竞猜：<span>'+list[i].guess+'</span></p>';
+                                view += '<p>开奖结果：<span>'+list[i].jo+'</span></p>';
+                            }else if(list[i].state == 5){
+                                view += '<p>开奖期数：<span>'+list[i].guessid+'</span></p>';
+                                view += '<p>你的竞猜：<span>'+list[i].guess+'</span></p>';
+                                view += '<p>开奖结果：<span>'+list[i].dx+'</span></p>';
+                            }else {
+                                view += '';
+                            }
+                            view += '</div>';
+                            view += '<div class="all">';
+                            view += '<p>共'+list[i].conts+'件商品 合计：￥'+(list[i].conts*list[i].price)+'</p>';
+                            view += '</div>';
+                            view += '<div class="btngroup">';
+                            if(list[i].state == 1){
+                                view += '<button class="fr btn2" id="cx">促销</button>';
+                                view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                                $("#getgood1").click(function () {
+									getgood(2)
+                                })
+                                $("#cx").click(function () {
+                                    window.location.href="guess.html?id="+list[i].id+"&oid="+oid+"";
+                                })
+                            }else if(list[i].state == 2){
+                                view += '';
+                            }else if(list[i].state == 3){
+                                view += '';
+                            }else if(list[i].state == 4){
+                                view += '<button class="fr btn1" id="dh1" data="'+list[i].id+'">兑换</button>';
+                                view += '<button id="getgood2" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                                $("#getgood2").click(function () {
+                                    getgood(6)
+                                })
+                                $("#dh1").click(function () {
+                                    getdh(7)
+                                })
+                            }else if(list[i].state == 5){
+                                view += '<button class="fr btn1" id="dh2" data="'+list[i].id+'">兑换</button>';
+                                view += '<button class="fr btn2" id="return">退货</button>';
+                                view += '<button id="getgood3" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                                $("#getgood3").click(function () {
+                                    getgood(8)
+                                })
+                                $("#dh2").click(function () {
+                                    getdh(10)
+                                })
+								$("#return").click(function () {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/mem/buy/takeGoods',
+                                        data: {oid: oid, orderId: list[i].id},
+                                        dataType: 'json',
+                                        success: function (backData) {
+                                            alert(backData.msg);
+                                        },
+                                        error: function(xhr, type){
+                                            alert('请求错误')
+                                        }
+                                    })
+                                })
+                            }else {
+                                view += '';
+                            }
+                            view += '</div>';
+                            view += '</li>';
+						}
+						$("#list").html(view);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			}
+			/*提货*/
+			function getgood(type){
+			    var orderId = $(this).attr("data");
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/buy/takeGoods',
+                    data: {oid: oid},
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data == undefined){
+                            var truthBeTold = window.confirm("您还没有收货地址，是否去添加？")
+                            if (truthBeTold) {
+                                window.location.href="address.html?id=null&oid="+oid+"";
+                            } else{}
+						}else{
+                            $.ajax({
+                                type: 'POST',
+                                url: '/mem/buy/takeGoods',
+                                data: {oid: oid, orderId: orderId, type: type, addressId: data[0].id},
+                                dataType: 'json',
+                                success: function (backData) {
+                                    alert(backData.msg);
+                                },
+                                error: function(xhr, type){
+                                    alert('请求错误')
+                                }
+                            })
+						}
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			}
+            /*提货*/
+            function getdh(type){
+                var orderId = $(this).attr("data");
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/buy/changeIntegra',
+                    data: {oid: oid, orderId: orderId, type: type},
+                    dataType: 'json',
+                    success: function (data) {
+                        alert(data.msg);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+            }
+		})
+	</script>
+</body>
+</html>

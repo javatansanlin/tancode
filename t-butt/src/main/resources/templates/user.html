@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/user.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initi0al-scale=1,maximum-scale=1, user-scalable=no">
+    <title>京西商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		.userbox{
+			position: absolute;
+			top:30%;
+		}
+		.fl{
+			left:10%;
+		}
+		.fr{
+			right: 10%;
+		}
+		.userbox p, .userbox span, .userbox a{
+			display: block;
+			margin-top: .5rem;
+		}
+		.userbox p{
+			font-size: 1.0rem;
+			color:#fff;
+			line-height: 1.5;
+		}
+		.userbox span{
+			font-size:1.0rem;
+			color:#FFD700;
+			line-height: 1.5;
+		}
+		.userbox a{
+			border-radius: 4px;
+			height: 1.0rem;
+			line-height: 1.0rem;
+			border:1px solid #fff;
+			color:#fff;
+			font-size:.75rem;
+			text-align: center;
+		}
+		article.user-head{
+			margin-bottom: 0;
+			border: none;
+		}
+		article{
+			border:none;
+		}
+	</style>
+</head>
+<body>
+	<!-- 个人中心 -->
+	<article class="user-head">
+		<div class="user-bg-img" style="overflow: hidden">
+			<img src="../img/user_bg.png">
+			<div class="fl userbox">
+				<p>余额</p>
+				<span id="mon"></span>
+				<a>充值</a>
+			</div>
+			<div class="user-img">
+				<img src="" id="headimg">
+				<p id="name"></p>
+			</div>
+			<div class="fr userbox">
+				<p>积分</p>
+				<span id="jf"></span>
+				<a>明细</a>
+			</div>
+		</div>
+		
+		
+	</article>
+	<article class="user-list">
+		<a href="orderlist.html" class="select-btn">我的订单 <i class="icon icon-select"></i></a>
+		<a href="withdraw.html" class="select-btn">用户提现 <i class="icon icon-select"></i></a>
+		<a href="moneylist.html" class="select-btn">资金明细 <i class="icon icon-select"></i></a>
+		<a href="jflist.html" class="select-btn">积分明细 <i class="icon icon-select"></i></a>
+		<a href="addresslist.html" class="select-btn">收货地址<i class="icon icon-select"></i></a>
+		<a href="banklist.html" class="select-btn">银行卡管理<i class="icon icon-select"></i></a>
+	</article>
+	<!-- footer 底部菜单 -->
+	<footer>
+		<a href="index.html">
+			<i class="icon icon-f1"></i>
+			首页
+		</a>
+		<a href="jfgoods.html">
+			<i class="icon icon-f3"></i>兑换
+		</a>
+
+		<a href="user.html" class="pick">
+			<i class="icon icon-f4"></i>我的
+		</a>
+	</footer>
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script>
+		$(function(){
+		    var oid = getQueryString("oid");
+            $.ajax({
+                type: 'POST',
+                url: '/mem/me',
+                data: { oid: oid },
+                dataType: 'json',
+                success: function(data){
+					$("#mon").html(data.money);
+					$("#jf").html(data.integral);
+					$("#name").html(data.name);
+					$("#mon").attr("src", data.img);
+                },
+                error: function(xhr, type){
+                    alert('请求错误')
+                }
+            })
+		})
+	</script>
+</body>
+</html>

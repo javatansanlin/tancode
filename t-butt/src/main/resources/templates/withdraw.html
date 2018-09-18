@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		.list{
+			overflow: hidden;
+		}
+		.list p, .list label, .list input{
+			height:2.0rem;
+			line-height: 2.0rem;
+		}
+		.list input {
+			border-radius: 4px;
+			border:1px solid #ccc;
+			display: block;
+			padding:0 5px;
+			width: auto;
+		}
+		.list p, .list input{
+			margin-left:10px;
+		}
+		.box{
+			background: #fff;
+			padding:10px;
+		}
+		button{
+			background: #ee394a;
+			color:#fff;
+			width: 10.0rem;
+			display: block;
+			margin: 10px auto;
+			text-align: center;
+			border:none;
+			line-height: 2.0rem;
+		}
+	</style>
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a href="index.html"><i class="icon icon-return"></i></a>
+				<h1>用户提现</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="box">
+		<div class="list">
+			<label class="fl">姓名：</label>
+			<p class="fl" id="name"></p>
+		</div>
+		<div class="list">
+			<label class="fl">银行账号：</label>
+			<p class="fl" id="code"></p>
+		</div>
+		<div class="list">
+			<label class="fl">所属银行：</label>
+			<p class="fl" id="area"></p>
+		</div>
+		<div class="list">
+			<label class="fl">可提现金额：</label>
+			<p class="fl" id="can"></p>
+		</div>
+		<div class="list">
+			<label class="fl">提现金额：</label>
+			<input class="fl" type="number" id="money"/>
+			<input type="hidden" id="bank"/>
+		</div>
+		<div class="">
+			<button id="withdraw">立即提现</button>
+		</div>
+	</div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var oid = getQueryString("oid");
+            $.ajax({
+                type: 'POST',
+                url: '/mem/card/findAll',
+                data: { oid: oid},
+                dataType: 'json',
+                success: function(data){
+                    for (var i = 0; i<list.length; i++){
+						$("#name").html(list[i].name);
+						$("#area").html(list[i].area);
+						$("#code").html(list[i].code);
+						$("#bank").html(list[i].id);
+                    }
+                },
+                error: function(xhr, type){
+                    alert('请求错误')
+                }
+            })
+            $.ajax({
+                type: 'POST',
+                url: '/mem/me',
+                data: { oid: oid},
+                dataType: 'json',
+                success: function(data){
+                    $("#can").html(data.member.money);
+                },
+                error: function(xhr, type){
+                    alert('请求错误')
+                }
+            })
+			$("#withdraw").click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/me',
+                    data: { oid: oid, carId: $("#bank").val(), withdrawMoney: $("#money").val()},
+                    dataType: 'json',
+                    success: function(data){
+                        $("#can").html(data.member.money);
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			})
+		})
+	</script>
+</body>
+</html>
