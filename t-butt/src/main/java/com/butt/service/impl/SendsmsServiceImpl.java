@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 实现类
  * @author javatansanlin
  */
-@Transactional()
-@Service()
+@Service
+@Transactional
 public class SendsmsServiceImpl implements SendsmsService{
 
 	/** 用户dao */
