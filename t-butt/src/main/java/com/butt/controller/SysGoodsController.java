@@ -24,10 +24,12 @@ public class SysGoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    /** 增加商品 */
     @PostMapping("addGoods")
     @ResponseBody
     public Map<String ,Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile[] file){
         return goodsService.addGoods(type,name ,price ,remarke ,file);
     }
 
+    /** 修改商品 */
 }

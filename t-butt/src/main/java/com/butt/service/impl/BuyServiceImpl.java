@@ -257,7 +257,6 @@ public class BuyServiceImpl implements BuyService {
         //执行增加积分
         memberDao.increaseIntegra(integra ,user.getId());
         //插入积分明细
-        memberDao.mimuIntegra(integra ,user.getId());
         Integraldetail integraldetail = new Integraldetail();
         integraldetail.setUId(user.getId());
         integraldetail.setIntegral(integra);

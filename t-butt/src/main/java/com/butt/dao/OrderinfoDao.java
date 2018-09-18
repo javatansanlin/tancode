@@ -39,6 +39,6 @@ public interface OrderinfoDao {
     List<Orderinfo> findNotGuess();
 
     /** 根据用户oid查询用户的所有订单 */
-    @Select("SELECT odr.*,gue.DX AS DX,gue.JO AS JO FROM orderinfo AS odr LEFT JOIN member AS mem ON odr.U_ID = mem.ID LEFT JOIN guessing AS gue ON odr.GUESSID = gue.ID WHERE mem.OID = #{oid} ORDER BY odr.REGISTERTIME DESC")
-    List<OrderinfoModel> findOrderListByOid(String oid);
+    @Select("SELECT odr.*,gue.DX AS DX,gue.JO AS JO FROM orderinfo AS odr LEFT JOIN member AS mem ON odr.U_ID = mem.ID LEFT JOIN guessing AS gue ON odr.GUESSID = gue.ID LEFT JOIN goods AS gs ON odr.G_ID = gs.ID WHERE mem.OID = #{oid} AND gs.TYPE=#{type} ORDER BY odr.REGISTERTIME DESC")
+    List<OrderinfoModel> findOrderListByOid(@Param("oid") String oid ,@Param("type") Integer type);
 }

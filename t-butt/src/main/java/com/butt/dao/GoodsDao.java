@@ -24,9 +24,9 @@ public interface GoodsDao {
 
     /** 根据类型查询商品 */
     @Select("SELECT * FROM goods WHERE TYPE = #{type}")
-    List<Goods> findGoodsByType(int type);
+    List<Goods> findGoodsByType(Integer type);
 
     /** 根据id查询商品 **/
     @Select("SELECT * FROM goods WHERE ID = #{id}")
-    Goods findGoodsById(int id);
+    Goods findGoodsById(Integer id);
 }

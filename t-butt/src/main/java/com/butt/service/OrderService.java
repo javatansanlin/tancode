@@ -12,6 +12,6 @@ import com.github.pagehelper.PageInfo;
 public interface OrderService {
 
     /** 查看我的所有订单，按时间排序降序 */
-    PageInfo<OrderinfoModel> findMyOrder(String oid , Integer index);
+    PageInfo<OrderinfoModel> findMyOrder(String oid , Integer index ,Integer type);
 
 }

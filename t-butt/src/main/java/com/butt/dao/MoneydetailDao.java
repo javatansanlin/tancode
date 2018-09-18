@@ -23,6 +23,6 @@ public interface MoneydetailDao {
     int insertOne(Moneydetail moneydetail);
 
     /** 根据用户oid查询全部的资金明细 */
-    @Select("SELECT md.* FROM moneydetail AS md LEFT JOIN member AS mem ON md.U_ID = mem.ID WHERE mem.OID=#{oid}")
+    @Select("SELECT md.* FROM moneydetail AS md LEFT JOIN member AS mem ON md.U_ID = mem.ID WHERE mem.OID=#{oid} ORDER BY REGISTERTIME DESC")
     List<Moneydetail> findAllByOid(String oid);
 }

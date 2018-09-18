@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Author: JavaTansanlin
  * @Description: 用户的dao
@@ -42,4 +44,25 @@ public interface MemberDao {
     //更新用户手机号
     @Update("UPDATE member SET PHONE= #{phone} WHERE ID=#{id}")
     int updatePhone(Member member);
+
+    //查询所有的用户信息，并且有名字为条件，注册时间为降序
+    @Select({
+            "<script>",
+            "SELECT * FROM member ",
+            "<if test='name != null and name !=&quot;&quot;'>WHERE NAME=#{name}</if>",
+            "ORDER BY REGISTERTIME DESC",
+            "</script>"
+    })
+    List<Member> findAllByName(String name);
+
+    //查询总用户数
+    @Select({
+            "<script>",
+            "SELECT COUNT(ID) FROM member WHERE 1=1",
+            "<if test='start != null and start !=&quot;&quot;'>AND REGISTERTIME &gt;= #{start}</if>",
+            "<if test='end != null and end !=&quot;&quot;'>AND REGISTERTIME &lt;= #{end}</if>",
+            "</script>"
+    })
+    Integer findAllUCount(@Param("start") String start ,@Param("end") String end);
+
 }
