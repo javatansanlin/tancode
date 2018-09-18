@@ -162,7 +162,7 @@
                             }
                             view += '</div>';
                             view += '<div class="listmain">';
-                            view += '<p class="name">'+list[i].+'</p>';
+                            view += '<p class="name">'+list[i].code+'</p>';
                             view += '<div class="price">';
                             view += '<p class="fl">￥'+list[i].price+'</p>';
                             view += '<span class="fr">x'+list[i].conts+'</span>';
@@ -170,21 +170,21 @@
                             if(list[i].state == 1){
                                 view += '';
                             }else if(list[i].state == 2){
-                                view += '<div class="price">';
-                                view += '<p class="fl">联系人'+list[i].addreName+'</p>';
-                                view += '<span class="fl" style="margin-left: 10px">联系电话'+list[i].addrePhone+'</span>';
+                                view += '<div class="price" style="margin-top: 10px;">';
+                                view += '<p class="fl" style="color: #000;font-size:0.7rem;">联系人:'+list[i].addreName+'</p>';
+                                view += '<span class="fr" style="color: #000;font-size:0.7rem;">联系电话：'+list[i].addrePhone+'</span>';
                                 view += '</div>';
-                                view += '<p>收货地址：<span>'+list[i].addre+'</span></p>'
+                                view += '<p style="font-size: .7rem;">收货地址：<span>'+list[i].addre+'</span></p>'
                             }else if(list[i].state == 3){
-                                view += '<p>你的竞猜：<span>'+list[i].guess+'</span></p>';
+                                view += '<p style="font-size: .7rem;">你的竞猜：<span>'+list[i].guess+'</span></p>';
                             }else if(list[i].state == 4){
-                                view += '<p>开奖期数：<span>'+list[i].guessid+'</span></p>';
-                                view += '<p>你的竞猜：<span>'+list[i].guess+'</span></p>';
-                                view += '<p>开奖结果：<span>'+list[i].jo+'</span></p>';
+                                view += '<p style="font-size: .7rem;">开奖期数：<span>'+list[i].guessid+'</span></p>';
+                                view += '<p style="font-size: .7rem;">你的竞猜：<span>'+list[i].guess+'</span></p>';
+                                view += '<p style="font-size: .7rem;">开奖结果：<span>'+list[i].jo+'</span></p>';
                             }else if(list[i].state == 5){
-                                view += '<p>开奖期数：<span>'+list[i].guessid+'</span></p>';
-                                view += '<p>你的竞猜：<span>'+list[i].guess+'</span></p>';
-                                view += '<p>开奖结果：<span>'+list[i].dx+'</span></p>';
+                                view += '<p style="font-size: .7rem;">开奖期数：<span>'+list[i].guessid+'</span></p>';
+                                view += '<p style="font-size: .7rem;">你的竞猜：<span>'+list[i].guess+'</span></p>';
+                                view += '<p style="font-size: .7rem;">开奖结果：<span>'+list[i].dx+'</span></p>';
                             }else {
                                 view += '';
                             }
@@ -196,12 +196,6 @@
                             if(list[i].state == 1){
                                 view += '<button class="fr btn2" id="cx">促销</button>';
                                 view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
-                                $("#getgood1").click(function () {
-									getgood(2)
-                                })
-                                $("#cx").click(function () {
-                                    window.location.href="guess.html?id="+list[i].id+"&oid="+oid+"";
-                                })
                             }else if(list[i].state == 2){
                                 view += '';
                             }else if(list[i].state == 3){
@@ -209,36 +203,13 @@
                             }else if(list[i].state == 4){
                                 view += '<button class="fr btn1" id="dh1" data="'+list[i].id+'">兑换</button>';
                                 view += '<button id="getgood2" class="fr btn3" data="'+list[i].id+'">提货</button>';
-                                $("#getgood2").click(function () {
-                                    getgood(6)
-                                })
-                                $("#dh1").click(function () {
-                                    getdh(7)
-                                })
+
                             }else if(list[i].state == 5){
                                 view += '<button class="fr btn1" id="dh2" data="'+list[i].id+'">兑换</button>';
                                 view += '<button class="fr btn2" id="return">退货</button>';
                                 view += '<button id="getgood3" class="fr btn3" data="'+list[i].id+'">提货</button>';
-                                $("#getgood3").click(function () {
-                                    getgood(8)
-                                })
-                                $("#dh2").click(function () {
-                                    getdh(10)
-                                })
-								$("#return").click(function () {
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '/mem/buy/takeGoods',
-                                        data: {oid: oid, orderId: list[i].id},
-                                        dataType: 'json',
-                                        success: function (backData) {
-                                            alert(backData.msg);
-                                        },
-                                        error: function(xhr, type){
-                                            alert('请求错误')
-                                        }
-                                    })
-                                })
+
+
                             }else {
                                 view += '';
                             }
@@ -246,6 +217,44 @@
                             view += '</li>';
 						}
 						$("#list").html(view);
+                        $("#getgood2").click(function () {
+                            var orderId = $(this).attr("data");
+                            getgood(6,orderId)
+                        })
+                        $("#dh1").click(function () {
+                            var orderId = $(this).attr("data");
+                            getdh(7, orderId)
+                        })
+                        $("#getgood3").click(function () {
+                            var orderId = $(this).attr("data");
+                            getgood(8, orderId)
+                        })
+                        $("#dh2").click(function () {
+                            var orderId = $(this).attr("data");
+                            getdh(10, orderId)
+                        })
+                        $("#getgood1").click(function () {
+                            var orderId = $(this).attr("data");
+                            getgood(2, orderId)
+                        })
+                        $("#cx").click(function () {
+                            window.location.href="guess.html?id="+list[i].id+"&oid="+oid+"";
+                        })
+                        $("#return").click(function () {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/mem/buy/takeGoods',
+                                data: {oid: oid, orderId: list[i].id},
+                                dataType: 'json',
+                                success: function (backData) {
+                                    alert(backData.msg);
+                                    getData(1);
+                                },
+                                error: function(xhr, type){
+                                    alert('请求错误')
+                                }
+                            })
+                        })
                     },
                     error: function(xhr, type){
                         alert('请求错误')
@@ -253,15 +262,15 @@
                 })
 			}
 			/*提货*/
-			function getgood(type){
-			    var orderId = $(this).attr("data");
+			function getgood(type,orderId ){
+
                 $.ajax({
                     type: 'POST',
-                    url: '/mem/buy/takeGoods',
+                    url: '/mem/adress/findAll',
                     data: {oid: oid},
                     dataType: 'json',
                     success: function (data) {
-                        if(data == undefined){
+                        if(data.length == 0){
                             var truthBeTold = window.confirm("您还没有收货地址，是否去添加？")
                             if (truthBeTold) {
                                 window.location.href="address.html?id=null&oid="+oid+"";
@@ -274,6 +283,7 @@
                                 dataType: 'json',
                                 success: function (backData) {
                                     alert(backData.msg);
+                                    getData(1);
                                 },
                                 error: function(xhr, type){
                                     alert('请求错误')
@@ -287,8 +297,7 @@
                 })
 			}
             /*提货*/
-            function getdh(type){
-                var orderId = $(this).attr("data");
+            function getdh(type, orderId){
                 $.ajax({
                     type: 'POST',
                     url: '/mem/buy/changeIntegra',

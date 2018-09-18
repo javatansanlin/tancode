@@ -98,7 +98,7 @@
                             $("#name").html(list[i].name);
                             $("#area").html(list[i].area);
                             $("#code").html(list[i].code);
-                            $("#bank").html(list[i].id);
+                            $("#bank").val(list[i].id);
                         }
 					}
 
@@ -122,11 +122,11 @@
 			$("#withdraw").click(function(){
                 $.ajax({
                     type: 'POST',
-                    url: '/mem/me',
+                    url: '/mem/withdraw',
                     data: { oid: oid, carId: $("#bank").val(), withdrawMoney: $("#money").val()},
                     dataType: 'json',
                     success: function(data){
-                        $("#can").html(data.member.money);
+                        $("#can").html(data.msg);
                     },
                     error: function(xhr, type){
                         alert('请求错误')
