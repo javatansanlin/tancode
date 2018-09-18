@@ -27,9 +27,10 @@ public class OrderServiceImpl implements OrderService {
 
     /** 查看我的所有订单，按时间排序降序 */
     @Override
-    public PageInfo<OrderinfoModel> findMyOrder(String oid, Integer index) {
+    public PageInfo<OrderinfoModel> findMyOrder(String oid, Integer index ,Integer type) {
         PageHelper.startPage(index, 15);
-        List<OrderinfoModel> list = orderinfoDao.findOrderListByOid(oid);
+        type = type==null?1:type;
+        List<OrderinfoModel> list = orderinfoDao.findOrderListByOid(oid ,type);
         return new PageInfo<OrderinfoModel>(list);
     }
 

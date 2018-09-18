@@ -14,7 +14,7 @@ public class Index {
 
     @RequestMapping("/")
     public String index() {
-        return "forward:/Index.html";
+        return "forward:/index.html";
     }
 
 }

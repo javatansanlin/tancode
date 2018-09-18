@@ -29,6 +29,7 @@ public class GuessingTask {
     }
 
     /** 处理猜奖 */
+    //@Scheduled(cron = "0 0/7 * * * *")
     public void scheduledTwo(){
         guessingService.setGuess();
     }

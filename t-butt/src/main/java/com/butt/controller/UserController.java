@@ -21,6 +21,7 @@ import java.util.Map;
 public class UserController {
 
     /** 发送验证业务 */
+    @Autowired
     SendsmsService sendsmsService;
 
     /** 用户的相关业务 */

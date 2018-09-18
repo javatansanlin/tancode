@@ -23,7 +23,7 @@ public interface IntegraldetailDao {
     int insertOne(Integraldetail integraldetail);
 
     /** 根据用户oid查询全部的积分明细 */
-    @Select("SELECT idt.* FROM integraldetail AS idt LEFT JOIN member AS mem ON idt.U_ID = mem.ID WHERE mem.OID=#{oid}")
+    @Select("SELECT idt.* FROM integraldetail AS idt LEFT JOIN member AS mem ON idt.U_ID = mem.ID WHERE mem.OID=#{oid} ORDER BY REGISTERTIME DESC")
     List<Integraldetail> findAllByOid(String oid);
 
 }

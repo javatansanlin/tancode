@@ -1,6 +1,9 @@
 package com.butt.service;
 
+import com.butt.entity.Member;
+
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,4 +22,10 @@ public interface UserService {
 
     /** 绑定手机号 */
     Map<String ,Object> bandPhone(HttpSession session, String oid , String code, String phone);
+
+    /** 查询所有的用户资料，有用户名条件 ，按注册时间排序*/
+    List<Member> findAll(String name);
+
+    /** 查看今日注册数和总用户数 */
+    Map<String,Object> findCount();
 }

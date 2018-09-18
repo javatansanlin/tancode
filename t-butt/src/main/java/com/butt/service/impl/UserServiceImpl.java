@@ -9,12 +9,14 @@ import com.butt.entity.Member;
 import com.butt.entity.Moneydetail;
 import com.butt.entity.Withdraw;
 import com.butt.service.UserService;
+import com.butt.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -152,6 +154,30 @@ public class UserServiceImpl implements UserService {
         memberDao.updatePhone(user);
         result.put("code" ,3);
         result.put("msg" ,"绑定成功");
+        return result;
+    }
+
+    /** 查询所有的用户资料，有用户名条件 ，按注册时间排序*/
+    @Override
+    public List<Member> findAll(String name) {
+        return memberDao.findAllByName(name);
+    }
+
+    /** 查看今日注册数和总用户数 */
+    @Override
+    public Map<String, Object> findCount() {
+        //获取开始时间
+        String start = DateUtil.getStringDate(DateUtil.getStartTime());
+        //获取结束时间
+        String end = DateUtil.getStringDate(DateUtil.getEndTime());
+        //查询总用户数
+        Integer allUCount = memberDao.findAllUCount(null, null);
+        //查询今日用户数
+        Integer todayCount = memberDao.findAllUCount(start, end);
+        Map<String ,Object> result = new HashMap<>();
+        result.put("code" ,3);
+        result.put("all" ,allUCount);
+        result.put("today" ,todayCount);
         return result;
     }
 }

@@ -23,8 +23,8 @@ public class OrderController {
 
     /** 查看我的所有订单，按时间排序降序 */
     @PostMapping("findMe")
-    PageInfo<OrderinfoModel> findMe(String oid , Integer index){
-        return orderService.findMyOrder(oid ,index);
+    PageInfo<OrderinfoModel> findMe(String oid , Integer index ,Integer type){
+        return orderService.findMyOrder(oid ,index ,type);
     }
 
 
