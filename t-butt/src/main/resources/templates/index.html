@@ -13,9 +13,9 @@
 	<div>
 		<header>
 			<div class="header">
-				
+
 				<h1>洋洋商城</h1>
-				
+
 			</div>
 		</header>
 		<div style="height: 2.5rem;"></div>
@@ -38,15 +38,15 @@
     <!--导航 nav-->
     <nav>
     	<div class="nav-box">
-	    	<a href="javascript:;"><img src="../img/nav01.png"><span>玩法介绍</span></a>
-	    	<a href="javascript:;"><img src="../img/nav02.png"><span>积分商城</span></a>
+	    	<a href="play.html"><img src="../img/nav01.png"><span>玩法介绍</span></a>
+	    	<a id="jfshop"><img src="../img/nav02.png"><span>积分商城</span></a>
 	    	<a href="javascript:;"><img src="../img/nav03.png"><span>风云榜</span></a>
 	    	<a href="javascript:;"><img src="../img/nav04.png"><span>余额充值</span></a>
-	    		
+
     	</div>
     </nav>
     <!-- 商城客户 -->
-    
+
     <!-- 精选促销 -->
     <article style="margin-bottom: 0;">
     	<h1>精选促销</h1>
@@ -54,7 +54,7 @@
     <div class="commodity-box">
 		<ul class="commodity" id="goodlist">
 
-		</ul>	
+		</ul>
     </div>
     <!-- footer 底部菜单 -->
     <footer>
@@ -65,7 +65,7 @@
     	<a id="jfdh">
     		<i class="icon icon-f3"></i>兑换
 		</a>
-    	
+
     	<a id="me">
     		<i class="icon icon-f4"></i>我的
 		</a>
@@ -79,6 +79,7 @@
 	      var oid = getQueryString("oid");
           $("#id").attr("href","index.html?oid="+oid);
           $("#jfdh").attr("href","jfgoods.html?oid="+oid);
+          $("#jfshop").attr("href","jfgoods.html?oid="+oid);
           $.ajax({
               type: 'POST',
               url: '/mem/me',

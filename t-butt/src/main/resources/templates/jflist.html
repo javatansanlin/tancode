@@ -95,18 +95,20 @@
                     success: function(data){
                         var view = "";
                         if(data.isLastPage == false && data.isFirstPage == false){
-							$("#pov").hide();
-                            $("#next").hide();
-						}else if(data.isLastPage == false && data.isFirstPage == true){
                             $("#pov").show();
-                            $("#next").hide();
-						}else if(data.isLastPage == true && data.isFirstPage == false){
+                            $("#next").show();
+                        }else if(data.isLastPage == false && data.isFirstPage == true){
                             $("#pov").hide();
                             $("#next").show();
-                        }else if(data.isLastPage == true && data.isFirstPage == true){
+                            $(".btnbox").css("width","5.5rem");
+                        }else if(data.isLastPage == true && data.isFirstPage == false){
                             $("#pov").show();
-                            $("#next").show();
-						}
+                            $("#next").hide();
+                            $(".btnbox").css("width","5.5rem");
+                        }else if(data.isLastPage == true && data.isFirstPage == true){
+                            $("#pov").hide();
+                            $("#next").hide();
+                        }
                         var list = data.list;
                         for (var i = 0; i<list.length; i++){
                             view += '<li>';
