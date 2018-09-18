@@ -79,7 +79,53 @@
 			margin-left: 1.0rem;
 			border-radius: 4px;
 		}
-		.tips
+		#cover{
+			position:fixed;left:0px;top:0px;
+			background:rgba(0, 0, 0, 0.4);
+			width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+			height:100%;
+			filter:alpha(opacity=60);  /*设置透明度为60%*/
+			opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+			display:none;
+			z-Index:999;
+		}
+		.tips{
+			display:none;
+			background: #fff;
+			position: fixed;
+			top: 30%;
+			width: 14rem;
+			left: 50%;
+			margin-left: -7.0rem;
+			border-radius: 8px;
+			padding: 10px 20px;
+			z-index: 9999;
+			box-sizing: border-box;
+		}
+		.tips p{
+			text-align: center;
+			font-size:1.0rem;
+			line-height: 1.5;
+			font-weight: 600;
+			margin-bottom: 10px;
+		}
+		.tips a{
+			display: block;
+			width: 100%;
+			border-radius: 20px;
+			height: 2.0rem;
+			color: #fff;
+			line-height: 2.0rem;
+			font-size: 1.0rem;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		#jo{
+			background: #fe5455;
+		}
+		#dx{
+			background: #ff8452;
+		}
 	</style>
 </head>
 <body>
@@ -123,9 +169,10 @@
 		</div>
 		<div class="tips">
 			<p>促销方式</p>
-			<a>猜鸡藕</a>
-			<a>猜大小</a>
+			<a id="jo">猜鸡藕</a>
+			<a id="dx">猜大小</a>
 		</div>
+		<div id="cover"></div>
 	</div>
 	<!-- 引入js资源 -->
 	<script src="../js/zepto.min.js"></script>
@@ -239,8 +286,15 @@
                         })
                         $("#cx").click(function () {
                             var id = $(this).attr("data");
-                            window.location.href="guess.html?id="+id+"&oid="+oid;
+                            $(".tips").show();
+                            $("#cover").show();
+                            $("#jo").attr("href", "guess.html?id="+id+"&oid="+oid);
+                            $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
                         })
+						$("#cover").click(function(){
+						    $(this).hide();
+						    $(".tips").hide();
+						})
                         $("#return").click(function () {
                             $.ajax({
                                 type: 'POST',
