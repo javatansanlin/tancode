@@ -163,10 +163,10 @@
                             view += '</div>';
                             view += '<div class="listmain">';
                             view += '<p class="name">'+list[i].code+'</p>';
-                            view += '<div class="price">';
+                            /*view += '<div class="price">';
                             view += '<p class="fl">￥'+list[i].price+'</p>';
                             view += '<span class="fr">x'+list[i].conts+'</span>';
-                            view += '</div>';
+                            view += '</div>';*/
                             if(list[i].state == 1){
                                 view += '';
                             }else if(list[i].state == 2){
@@ -190,11 +190,11 @@
                             }
                             view += '</div>';
                             view += '<div class="all">';
-                            view += '<p>共'+list[i].conts+'件商品 合计：￥'+(list[i].conts*list[i].price)+'</p>';
+                            view += '<p>合计：￥'+(list[i].conts*list[i].price)+'</p>';
                             view += '</div>';
                             view += '<div class="btngroup">';
                             if(list[i].state == 1){
-                                view += '<button class="fr btn2" id="cx">促销</button>';
+                                view += '<button class="fr btn2" id="cx" data="'+list[i].id+'">促销</button>';
                                 view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
                             }else if(list[i].state == 2){
                                 view += '';
@@ -238,7 +238,8 @@
                             getgood(2, orderId)
                         })
                         $("#cx").click(function () {
-                            window.location.href="guess.html?id="+list[i].id+"&oid="+oid+"";
+                            var id = $(this).attr("data");
+                            window.location.href="guess.html?id="+id+"&oid="+oid;
                         })
                         $("#return").click(function () {
                             $.ajax({
