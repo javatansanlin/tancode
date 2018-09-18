@@ -64,12 +64,12 @@
                 data: { id: id },
                 dataType: 'json',
                 success: function(data){
-                    $("#img").attr("src", "/mem/goods/imgShow?fileName= "+data.img);
+                    $("#img").attr("src", "/mem/goods/imgShow?fileName="+data.img);
                     $("#name").html(data.name);
                     $("#price").html("￥"+data.price);
-                    $("#img1").attr("src",data.img);
-                    $("#img2").attr("src",data.imgt);
-                    $("#img3").attr("src",data.imgtt);
+                    $("#img1").attr("src","/mem/goods/imgShow?fileName="+data.img);
+                    $("#img2").attr("src","/mem/goods/imgShow?fileName="+data.imgt);
+                    $("#img3").attr("src","/mem/goods/imgShow?fileName="+data.imgtt);
 
                 },
                 error: function(xhr, type){
@@ -95,7 +95,7 @@
 			    alert(1111);
                 $.ajax({
                     type: 'POST',
-                    url: '/mem/goods/findGoodsByid',
+                    url: '/mem/buy/shop',
                     data: { goodsId: id, oid: oid, count: $("#number").html()},
                     dataType: 'json',
                     success: function(data){
