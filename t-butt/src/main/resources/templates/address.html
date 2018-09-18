@@ -103,7 +103,7 @@
                 data: { oid: oid},
                 dataType: 'json',
                 success: function(data){
-                    var list = data.list;
+                    var list = data;
                     for (var i = 0; i<list.length; i++){
                         $("#phone").val(list[i].phone);
                         $("#addre").val(list[i].addre);
