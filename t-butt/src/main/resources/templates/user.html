@@ -25,6 +25,7 @@
 			font-size: 1.0rem;
 			color:#fff;
 			line-height: 1.5;
+			text-align: center;
 		}
 		.userbox span{
 			font-size:1.0rem;
@@ -61,7 +62,7 @@
 			</div>
 			<div class="user-img">
 				<img src="" id="headimg">
-				<p id="name"></p>
+				<!--<p id="name"></p>-->
 			</div>
 			<div class="fr userbox">
 				<p>积分</p>
@@ -73,12 +74,12 @@
 		
 	</article>
 	<article class="user-list">
-		<a href="orderlist.html" class="select-btn">我的订单 <i class="icon icon-select"></i></a>
-		<a href="withdraw.html" class="select-btn">用户提现 <i class="icon icon-select"></i></a>
-		<a href="moneylist.html" class="select-btn">资金明细 <i class="icon icon-select"></i></a>
-		<a href="jflist.html" class="select-btn">积分明细 <i class="icon icon-select"></i></a>
-		<a href="addresslist.html" class="select-btn">收货地址<i class="icon icon-select"></i></a>
-		<a href="banklist.html" class="select-btn">银行卡管理<i class="icon icon-select"></i></a>
+		<a id="orderlist" class="select-btn">我的订单 <i class="icon icon-select"></i></a>
+		<a id="withdraw" class="select-btn">用户提现 <i class="icon icon-select"></i></a>
+		<a id="moneylist" class="select-btn">资金明细 <i class="icon icon-select"></i></a>
+		<a id="jflist" class="select-btn">积分明细 <i class="icon icon-select"></i></a>
+		<a id="addresslist" class="select-btn">收货地址<i class="icon icon-select"></i></a>
+		<a id="banklist" class="select-btn">银行卡管理<i class="icon icon-select"></i></a>
 	</article>
 	<!-- footer 底部菜单 -->
 	<footer>
@@ -99,16 +100,25 @@
 	<script>
 		$(function(){
 		    var oid = getQueryString("oid");
+            $("#id").attr("href","index.html?oid="+oid);
+            $("#jfdh").attr("href","jfgoods.html?oid="+oid);
+            $("#me").attr("href","user.html?oid="+oid);
+            $("#orderlist").attr("href","orderlist.html?oid="+oid);
+            $("#withdraw").attr("href","withdraw.html?oid="+oid);
+            $("#moneylist").attr("href","moneylist.html?oid="+oid);
+            $("#jflist").attr("href","jflist.html?oid="+oid);
+            $("#addresslist").attr("href","addresslist.html?oid="+oid);
+            $("#banklist").attr("href","banklist.html?oid="+oid);
             $.ajax({
                 type: 'POST',
                 url: '/mem/me',
                 data: { oid: oid },
                 dataType: 'json',
                 success: function(data){
-					$("#mon").html(data.money);
-					$("#jf").html(data.integral);
-					$("#name").html(data.name);
-					$("#mon").attr("src", data.img);
+					$("#mon").html(data.member.money);
+					$("#jf").html(data.member.integral);
+					$("#name").html(data.member.name);
+					$("#mon").attr("src", data.member.img);
                 },
                 error: function(xhr, type){
                     alert('请求错误')

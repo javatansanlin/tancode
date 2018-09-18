@@ -50,7 +50,7 @@
 	<div>
 		<header>
 			<div class="header">
-				<a href="index.html"><i class="icon icon-return"></i></a>
+				<a onclick="history.go(-1)"><i class="icon icon-return"></i></a>
 				<h1>我的收货地址</h1>
 			</div>
 		</header>
@@ -88,7 +88,7 @@
 				success: function(data){
 					var view = "";
 					var list = data;
-					if(list == undefined){
+					if(list.length == 0){
 					    view += '<p style="text-align: center">暂无收货地址</p>';
 						$(".btngroup").html('<button style="width: 100%;margin: 0;background: #ee394a;color:#fff;" id="add">新增收货地址</button>');
 						$("#add").click(function(){

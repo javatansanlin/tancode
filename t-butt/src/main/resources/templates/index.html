@@ -77,6 +77,9 @@
     <script type="text/javascript">
 	  $(function(){
 	      var oid = getQueryString("oid");
+          $("#id").attr("href","index.html?oid="+oid);
+          $("#jfdh").attr("href","jfgoods.html?oid="+oid);
+          $("#me").attr("href","user.html?oid="+oid);
 	     //slider
 	      $('#slider').slider({
 	        className: 'slider_box',
