@@ -185,7 +185,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '/mem/order/findMe',
-                    data: { oid: oid, index: index },
+                    data: { oid: oid, index: index , type: 1},
                     dataType: 'json',
                     success: function(data){
                         var view = "";
@@ -223,15 +223,31 @@
                                 view += '</div>';
                                 view += '<p style="font-size: .7rem;">收货地址：<span>'+list[i].addre+'</span></p>'
                             }else if(list[i].state == 3){
-                                view += '<p style="font-size: .7rem;">你的竞猜：<span>'+list[i].guess+'</span></p>';
-                            }else if(list[i].state == 4){
+                                if(list[i].guess == "J"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>鸡</span></p>';
+                                }else if(list[i].guess == "O"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>藕</span></p>';
+                                }else if(list[i].guess == "D"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>大</span></p>';
+                                }else if(list[i].guess == "X"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>小</span></p>';
+                                }
+                            }else if(list[i].state == 4 || list[i].state == 5){
                                 view += '<p style="font-size: .7rem;">开奖期数：<span>'+list[i].guessid+'</span></p>';
-                                view += '<p style="font-size: .7rem;">你的竞猜：<span>'+list[i].guess+'</span></p>';
-                                view += '<p style="font-size: .7rem;">开奖结果：<span>'+list[i].jo+'</span></p>';
-                            }else if(list[i].state == 5){
-                                view += '<p style="font-size: .7rem;">开奖期数：<span>'+list[i].guessid+'</span></p>';
-                                view += '<p style="font-size: .7rem;">你的竞猜：<span>'+list[i].guess+'</span></p>';
-                                view += '<p style="font-size: .7rem;">开奖结果：<span>'+list[i].dx+'</span></p>';
+                                if(list[i].guess == "J"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>鸡</span></p>';
+								}else if(list[i].guess == "O"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>藕</span></p>';
+								}else if(list[i].guess == "D"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>大</span></p>';
+                                }else if(list[i].guess == "X"){
+                                    view += '<p style="font-size: .7rem;">你的竞猜：<span>小</span></p>';
+                                }
+                                if(list[i].guess == "J" || list[i].guess == "O"){
+                                    view += '<p style="font-size: .7rem;">开奖结果：<span>'+(list[i].jo == "J"? "鸡" :"藕")+'</span></p>';
+								}else{
+                                    view += '<p style="font-size: .7rem;">开奖结果：<span>'+(list[i].dx == "D"? "大" :"小")+'</span></p>';
+								}
                             }else {
                                 view += '';
                             }
@@ -253,7 +269,7 @@
 
                             }else if(list[i].state == 5){
                                 view += '<button class="fr btn1" id="dh2" data="'+list[i].id+'">兑换</button>';
-                                view += '<button class="fr btn2" id="return">退货</button>';
+                                view += '<button class="fr btn2" id="return" data="'+list[i].id+'">退货</button>';
                                 view += '<button id="getgood3" class="fr btn3" data="'+list[i].id+'">提货</button>';
 
 
@@ -296,10 +312,11 @@
 						    $(".tips").hide();
 						})
                         $("#return").click(function () {
+                            var orderId = $(this).attr("data");
                             $.ajax({
                                 type: 'POST',
                                 url: '/mem/buy/takeGoods',
-                                data: {oid: oid, orderId: list[i].id},
+                                data: {oid: oid, orderId: orderId},
                                 dataType: 'json',
                                 success: function (backData) {
                                     alert(backData.msg);
@@ -360,6 +377,7 @@
                     dataType: 'json',
                     success: function (data) {
                         alert(data.msg);
+                        getData(1);
                     },
                     error: function(xhr, type){
                         alert('请求错误')
