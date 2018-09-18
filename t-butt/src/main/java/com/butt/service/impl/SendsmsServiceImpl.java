@@ -56,7 +56,7 @@ public class SendsmsServiceImpl implements SendsmsService{
 			if("2".equals(toMap.get("code"))){
 				//把发送给手机的验证码放到session中
 				session.setAttribute(oid,mobile_code);
-				session.setAttribute(oid+"-phone",mobile_code);
+				session.setAttribute(oid+"-phone",phone);
 				result.put("msg" ,"发送成功，请查收！");
 			}else if("4085".equals(toMap.get("code"))){
 				result.put("msg" ,"该号码在于今天已经超过发送次数！");
