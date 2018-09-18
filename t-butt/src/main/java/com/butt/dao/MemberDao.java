@@ -38,4 +38,8 @@ public interface MemberDao {
     //减去用户积分
     @Update("UPDATE member SET INTEGRAL= INTEGRAL-#{updateGra} WHERE ID=#{id}")
     int mimuIntegra(@Param("updateGra") double updateGra ,@Param("id") Integer id);
+
+    //更新用户手机号
+    @Update("UPDATE member SET PHONE= #{phone} WHERE ID=#{id}")
+    int updatePhone(Member member);
 }

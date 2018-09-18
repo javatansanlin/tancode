@@ -1,5 +1,6 @@
 package com.butt.service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -16,4 +17,6 @@ public interface UserService {
     /** 用户提现 */
     Map<String ,Object> userWithdraw(String oid ,double withdrawMoney ,int carId);
 
+    /** 绑定手机号 */
+    Map<String ,Object> bandPhone(HttpSession session, String oid , String code, String phone);
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,6 +115,43 @@ public class UserServiceImpl implements UserService {
 
         result.put("code",3);
         result.put("msg" ,"提现成功");
+        return result;
+    }
+
+    /** 绑定手机号 */
+    @Override
+    public Map<String, Object> bandPhone(HttpSession session, String oid, String code, String phone) {
+        Map<String ,Object> result = new HashMap<>();
+        //判断参数
+        if (oid==null || code==null){
+            result.put("code" ,1);
+            result.put("msg" ,"参数不正确");
+            return result;
+        }
+        //判断session中有没有验证码
+        String mm = (String) session.getAttribute(oid);
+        String mphone = (String) session.getAttribute(oid+"-phone");
+        if (mm==null || mphone==null){
+            result.put("code" ,2);
+            result.put("msg" ,"请先获取验证码");
+            return result;
+        }
+        if (!mm.equals(code) || !mphone.equals(phone)){
+            result.put("code" ,4);
+            result.put("msg" ,"验证码不正确");
+            return result;
+        }
+        //查询出该用户并且上锁
+        Member user = memberDao.findMemByOid(oid);
+        if (user==null){
+            result.put("code" ,5);
+            result.put("msg" ,"用户错误");
+            return result;
+        }
+        user.setPhone(phone);
+        memberDao.updatePhone(user);
+        result.put("code" ,3);
+        result.put("msg" ,"绑定成功");
         return result;
     }
 }
