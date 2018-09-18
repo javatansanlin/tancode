@@ -106,7 +106,7 @@
 						}else if(data.code == 3){
                             var truthBeTold = window.confirm("购买成功！是否升级")
                             if (truthBeTold) {
-                                window.location.href="orderlist.html"
+                                window.location.href="orderlist.html?oid="+oid;
                             } else{}
 						}else if(data.code == 4){
                             alert(data.msg);
