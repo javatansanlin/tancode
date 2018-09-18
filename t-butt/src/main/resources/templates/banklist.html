@@ -88,8 +88,8 @@
 				dataType: 'json',
 				success: function(data){
 					var view = "";
-					var list = data.list;
-					if(list == undefined){
+					var list = data;
+					if(list.length == 0){
 					    view += '<p style="text-align: center">暂无银行卡</p>';
 						$(".btngroup").html('<button style="width: 100%;margin: 0;background: #ee394a;color:#fff;" id="add">添加</button>');
 						$("#add").click(function(){
