@@ -29,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PageInfo<OrderinfoModel> findMyOrder(String oid, Integer index ,Integer type) {
         PageHelper.startPage(index, 15);
+        type = type==null?1:type;
         List<OrderinfoModel> list = orderinfoDao.findOrderListByOid(oid ,type);
         return new PageInfo<OrderinfoModel>(list);
     }
