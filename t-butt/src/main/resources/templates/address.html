@@ -19,6 +19,10 @@
 			border:1px solid #ccc;
 			display: block;
 			padding:0 5px;
+			width: auto;
+		}
+		.list label{
+			width: 6.0rem;
 		}
 		.list p, .list input{
 			margin-left:10px;
@@ -53,21 +57,16 @@
 <div class="box">
 	<div class="list">
 		<label class="fl">收货人名字：</label>
-		<input class="fl" id="name"/>
+		<input class="fl" id="name" type="text"/>
 	</div>
 	<div class="list">
 		<label class="fl">收货人手机号：</label>
-		<input class="fl" id="phone"/>
+		<input class="fl" id="phone" type="tel"/>
 	</div>
 	<div class="list">
 		<label class="fl">收货人地址：</label>
-		<input class="fl" id="addre" type="tel"/>
+		<input class="fl" id="addre" type="text"/>
 	</div>
-	<div class="list">
-		<label class="fl">所属银行：</label>
-		<input class="fl" id="area"/>
-	</div>
-	<span class="font-size:0.5rem;color:#ee394a">xx银行+开户行地址</span>
 	<div class="">
 		<button id="add">立即添加</button>
 	</div>
@@ -79,14 +78,14 @@
     $(function(){
         var oid = getQueryString("oid");
         var id = getQueryString("id");
-        if(id == null){
+        if(id == "null"){
             $("#phone").val("");
             $("#addre").val("");
             $("#name").val("");
             $("#add").click(function(){
                 $.ajax({
                     type: 'POST',
-                    url: '/mem/card/add',
+                    url: '/mem/adress/addAddre',
                     data: { oid: oid, name: $("#name").val(), phone: $("#phone").val(), addre: $("#addre").val()},
                     dataType: 'json',
                     success: function(data){
@@ -119,7 +118,7 @@
             $("#add").click(function(){
                 $.ajax({
                     type: 'POST',
-                    url: '/mem/card/edit',
+                    url: '/mem/adress/editAddre',
                     data: { oid: oid, id: id,  name: $("#name").val(), phone: $("#phone").val(), addre: $("#addre").val()},
                     dataType: 'json',
                     success: function(data){

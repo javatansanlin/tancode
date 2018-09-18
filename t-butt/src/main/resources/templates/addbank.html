@@ -19,6 +19,10 @@
 			border:1px solid #ccc;
 			display: block;
 			padding:0 5px;
+			width: auto;
+		}
+		.list label{
+			width: 6.0rem;
 		}
 		.list p, .list input{
 			margin-left:10px;
@@ -53,11 +57,11 @@
 <div class="box">
 	<div class="list">
 		<label class="fl">持卡人姓名：</label>
-		<input class="fl" id="name"/>
+		<input class="fl" id="name" type="text"/>
 	</div>
 	<div class="list">
 		<label class="fl">银行卡账户：</label>
-		<input class="fl" id="code"/>
+		<input class="fl" id="code" type="number"/>
 	</div>
 	<div class="list">
 		<label class="fl">预留手机号：</label>
@@ -65,9 +69,9 @@
 	</div>
 	<div class="list">
 		<label class="fl">所属银行：</label>
-		<input class="fl" id="area"/>
+		<input class="fl" id="area" type="text"/>
 	</div>
-	<span class="font-size:0.5rem;color:#ee394a">xx银行+开户行地址</span>
+	<span style="font-size:0.5rem;color:#ee394a">例：xx银行+开户行地址</span>
 	<div class="">
 		<button id="add">立即添加</button>
 	</div>
@@ -79,7 +83,7 @@
     $(function(){
         var oid = getQueryString("oid");
         var id = getQueryString("id");
-        if(id == null){
+        if(id == "null"){
             $("#code").val("");
             $("#phone").val("");
             $("#area").val("");
