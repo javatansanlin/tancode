@@ -79,7 +79,23 @@
 	      var oid = getQueryString("oid");
           $("#id").attr("href","index.html?oid="+oid);
           $("#jfdh").attr("href","jfgoods.html?oid="+oid);
-          $("#me").attr("href","user.html?oid="+oid);
+          $.ajax({
+              type: 'POST',
+              url: '/mem/me',
+              data: { oid: oid },
+              dataType: 'json',
+              success: function(data){
+                  if(data.phone == null || data.phone == undefined){
+                      $("#me").attr("href","bindphone.html?oid="+oid);
+				  }else{
+                      $("#me").attr("href","user.html?oid="+oid);
+				  }
+              },
+              error: function(xhr, type){
+                  alert('请求错误')
+              }
+          })
+
 	     //slider
 	      $('#slider').slider({
 	        className: 'slider_box',

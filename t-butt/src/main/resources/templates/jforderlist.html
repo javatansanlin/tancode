@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		.order li{
+			margin-top:10px;
+			background: #fff;
+			padding:10px;
+		}
+		.order .btngroup{
+			border-top:1px solid #ccc;
+			padding:10px 0;
+			overflow: hidden;
+		}
+		.btngroup button{
+			border:1px solid;
+			border-radius: 4px;
+			padding:.4rem .6rem;
+			font-size:.75rem;
+			margin-left:10px;
+			background: #fff;
+		}
+		.listtop{
+			overflow: hidden;
+		}
+		.listtop span{
+			display: block;
+			font-size:.7rem;
+			line-height:1.5rem;
+		}
+		.time{
+			color:#666;
+		}
+		.all{
+			overflow: hidden;
+		}
+		.all p{
+			line-height: 1.5rem;
+		}
+		.state, .price span{
+			color:#ee394a;
+		}
+		.price{
+			overflow: hidden;
+		}
+		.listmain{
+			padding:10px;
+			background: #e7e7e7;
+		}
+		.name{
+			line-height: 1.5rem;
+		}
+		.btn1{
+			color:#ccc;
+			border-color: #ccc;
+		}
+		.btn2{
+			color:#ee394a;
+			border-color:#ee394a;
+		}
+		.btn3{
+			color: #3A5FCD;
+			border-color: #3A5FCD;
+		}
+		.btnbox{
+			width: 10rem;
+			margin: 1.0rem auto;
+		}
+		.btnbox button{
+			border:0;
+			color:#fff;
+			background: #ee394a;
+			padding:10px;
+			margin-left: 1.0rem;
+			border-radius: 4px;
+		}
+		#cover{
+			position:fixed;left:0px;top:0px;
+			background:rgba(0, 0, 0, 0.4);
+			width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+			height:100%;
+			filter:alpha(opacity=60);  /*设置透明度为60%*/
+			opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+			display:none;
+			z-Index:999;
+		}
+		.tips{
+			display:none;
+			background: #fff;
+			position: fixed;
+			top: 30%;
+			width: 14rem;
+			left: 50%;
+			margin-left: -7.0rem;
+			border-radius: 8px;
+			padding: 10px 20px;
+			z-index: 9999;
+			box-sizing: border-box;
+		}
+		.tips p{
+			text-align: center;
+			font-size:1.0rem;
+			line-height: 1.5;
+			font-weight: 600;
+			margin-bottom: 10px;
+		}
+		.tips a{
+			display: block;
+			width: 100%;
+			border-radius: 20px;
+			height: 2.0rem;
+			color: #fff;
+			line-height: 2.0rem;
+			font-size: 1.0rem;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		#jo{
+			background: #fe5455;
+		}
+		#dx{
+			background: #ff8452;
+		}
+	</style>
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a onclick="history.go(-1)"><i class="icon icon-return"></i></a>
+				<h1>我的订单</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="">
+		<ul class="order" id="list">
+
+		</ul>
+		<div class="btnbox">
+			<button>上一页</button>
+			<button>下一页</button>
+		</div>
+		<div class="tips">
+			<p>促销方式</p>
+			<a id="jo">猜鸡藕</a>
+			<a id="dx">猜大小</a>
+		</div>
+		<div id="cover"></div>
+	</div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var oid = getQueryString("oid");
+            getData(1);
+            function getData(index){
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/order/findMe',
+                    data: { oid: oid, index: index , type: 2},
+                    dataType: 'json',
+                    success: function(data){
+                        var view = "";
+                        var list = data.list;
+                        for (var i = 0; i<list.length; i++){
+                            view += '<li>';
+                            view += '<div class="listtop">';
+                            view += '<span class="time fl">'+list[i].registertime+'</span>';
+                            if(list[i].state == 1){
+                            	view += '<span class="state fr">正常</span>';
+                            }else if(list[i].state == 2){
+                                view += '<span class="state fr">正在发货</span>';
+                            }else if(list[i].state == 6 || list[i].state == 7 || list[i].state == 8 || list[i].state == 9 || list[i].state == 10 || list[i].state == 33) {
+                                view += '<span class="state fr">订单完成</span>';
+                            }
+                            view += '</div>';
+                            view += '<div class="listmain">';
+                            view += '<p class="name">'+list[i].code+'</p>';
+                            /*view += '<div class="price">';
+                            view += '<p class="fl">￥'+list[i].price+'</p>';
+                            view += '<span class="fr">x'+list[i].conts+'</span>';
+                            view += '</div>';*/
+                            if(list[i].state == 1){
+                                view += '';
+                            }else if(list[i].state == 2){
+                                view += '<div class="price" style="margin-top: 10px;">';
+                                view += '<p class="fl" style="color: #000;font-size:0.7rem;">联系人:'+list[i].addreName+'</p>';
+                                view += '<span class="fr" style="color: #000;font-size:0.7rem;">联系电话：'+list[i].addrePhone+'</span>';
+                                view += '</div>';
+                                view += '<p style="font-size: .7rem;">收货地址：<span>'+list[i].addre+'</span></p>'
+                            }else if(list[i].state == 6 || list[i].state == 7 || list[i].state == 8 || list[i].state == 9 || list[i].state == 10 || list[i].state == 33)  {
+                                view += '';
+                            }
+                            view += '</div>';
+                            view += '<div class="all">';
+                            view += '<p>合计：￥'+(list[i].conts*list[i].price)+'</p>';
+                            view += '</div>';
+                            view += '<div class="btngroup">';
+                            if(list[i].state == 1){
+                                view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                            }else if(list[i].state == 2){
+                                view += '';
+                            }else if(list[i].state == 6 || list[i].state == 7 || list[i].state == 8 || list[i].state == 9 || list[i].state == 10 || list[i].state == 33) {
+                                view += '';
+                            }
+                            view += '</div>';
+                            view += '</li>';
+						}
+						$("#list").html(view);
+                        $("#getgood1").click(function () {
+                            var orderId = $(this).attr("data");
+                            getgood(2, orderId)
+                        })
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			}
+			/*提货*/
+			function getgood(type,orderId ){
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/mem/adress/findAll',
+                    data: {oid: oid},
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data.length == 0){
+                            var truthBeTold = window.confirm("您还没有收货地址，是否去添加？")
+                            if (truthBeTold) {
+                                window.location.href="address.html?id=null&oid="+oid+"";
+                            } else{}
+						}else{
+                            $.ajax({
+                                type: 'POST',
+                                url: '/mem/buy/takeGoods',
+                                data: {oid: oid, orderId: orderId, type: type, addressId: data[0].id},
+                                dataType: 'json',
+                                success: function (backData) {
+                                    alert(backData.msg);
+                                    getData(1);
+                                },
+                                error: function(xhr, type){
+                                    alert('请求错误')
+                                }
+                            })
+						}
+                    },
+                    error: function(xhr, type){
+                        alert('请求错误')
+                    }
+                })
+			}
+		})
+	</script>
+</body>
+</html>
