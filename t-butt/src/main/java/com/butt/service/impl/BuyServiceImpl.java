@@ -190,6 +190,13 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"订单错误");
             return result;
         }
+        //判断该商品是否是正常商品
+        Goods goods = goodsDao.findGoodsById(order.getGId());
+        if (goods.getType()!=1){
+            result.put("code" ,6);
+            result.put("msg" ,"该商品不能参与促销");
+            return result;
+        }
         //扣取价格的百分之1
         double koqu = order.getPrice() * 0.01;
         //判断余额是否足以支付
@@ -248,6 +255,13 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"订单错误");
             return result;
         }
+        //判断该商品是否是正常商品
+        Goods goods = goodsDao.findGoodsById(order.getGId());
+        if (goods.getType()!=1){
+            result.put("code" ,6);
+            result.put("msg" ,"该商品不能参与促销");
+            return result;
+        }
         //更改订单状态
         order.setState(type);
         orderinfoDao.updateOrderGuessAndState(order);
@@ -290,6 +304,13 @@ public class BuyServiceImpl implements BuyService {
         if (order==null || order.getState()!=5){
             result.put("code" ,4);
             result.put("msg" ,"订单错误");
+            return result;
+        }
+        //判断该商品是否是正常商品
+        Goods goods = goodsDao.findGoodsById(order.getGId());
+        if (goods.getType()!=1){
+            result.put("code" ,6);
+            result.put("msg" ,"该商品不能参与促销");
             return result;
         }
         //更改订单状态
