@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">后台管理系统</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+          <a class="" href="index.html">开奖管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="index.html">用户竞猜</a></dd>
+            <dd><a href="history.html">开奖历史</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="jifenGoods.html">商品管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="jifenGoods.html">积分商品</a></dd>
+            <dd><a href="goods.html">常规商品</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="customer.html">客户管理</a>
+        </li>
+        <li class="layui-nav-item layui-nav-itemed">
+          <a href="czManager.html">财务管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="czManager.html">充值管理</a></dd>
+            <dd class="layui-this"><a href="txManager.html">提现管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="order.html">订单管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="order.html">订单中心</a></dd>>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <table id="demo" lay-filter="test"></table>
+      <script type="text/html" id="toolbar">
+        <a class="layui-btn layui-btn-xs" lay-event="converse">允许提现</a>
+      </script>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 2018
+  </div>
+</div>
+<script src="./layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use(['element','table'], function(){
+  var element = layui.element;
+  var table = layui.table;
+  var $ = layui.jquery;
+  
+  //第一个实例
+  table.render({
+    elem: '#demo'
+    ,height: 1000
+    ,method: 'post'
+    ,id : 'list'
+    ,url: '/sys/money/findWiAll' //数据接口
+    ,parseData: function(res){ //res 即为原始返回的数据
+      return {
+        "code": 0, //解析接口状态
+        /*"msg": res.message, //解析提示文本
+        "count": res.total, //解析数据长度*/
+        "data": res.list //解析数据列表
+      };
+    }
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+      ,{field: 'uname', title: '用户名', width:80}
+      ,{field: 'wmoney', title: '提现金额', width: 120,sort: true}
+      ,{field: 'name', title: '银行卡持有人名', width:130 }
+      ,{field: 'code', title: '银行卡卡号', width: 200}
+      ,{field: 'phone', title: '预留手机号', width: 200}
+      ,{field: 'area', title: '开户地址', width: 200}
+      ,{field: 'wtime', title: '提现时间', width: 180,sort: true}
+      ,{fixed: 'right', width: 100, align:'center', toolbar: '#toolbar'}
+    ]]
+  });
+  //监听行工具事件
+  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+    var data = obj.data //获得当前行数据
+    ,layEvent = obj.event; //获得 lay-event 对应的值
+      console.log(data);
+    if(layEvent === 'converse'){
+      layer.confirm('是否允许提现？', function(index){
+        layer.close(index);
+          $.ajax({
+              type: 'POST',
+              url: '/sys/money/changeReState',
+              data: { id: data.id },
+              dataType: 'json',
+              success: function(data){
+                  layer.msg(data.msg);
+                  table.reload('list', {
+                     page: {
+                          curr: 1 //重新从第 1 页开始
+                      }
+                  });
+              },
+              error:function(){
+                  layer.msg("请求错误")
+              }
+          })
+      });
+    }
+  });
+});
+</script>
+</body>
+</html>

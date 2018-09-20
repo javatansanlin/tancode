@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">后台管理系统</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+          <a class="" href="index.html">开奖管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="index.html">用户竞猜</a></dd>
+            <dd><a href="history.html">开奖历史</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="jifen.html">商品管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="jifenGoods.html">积分商品</a></dd>
+            <dd><a href="goods.html">常规商品</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="customer.html">客户管理</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="czManager.html">财务管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="czManager.html">充值管理</a></dd>
+            <dd><a href="txManager.html">提现管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item layui-nav-itemed">
+          <a href="order.html">订单管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="order.html">订单中心</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <div class="layui-row">
+        <div class="layui-col-md3 layui-text">
+          今日订单数：<em id="today"></em>
+        </div>
+        <div class="layui-col-md3 layui-text">
+          订单总数：<em id="all"></em>
+        </div>
+      </div>
+      <table id="demo" lay-filter="order"></table>
+      <script type="text/html" id="toolbar">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">已发货</a>
+      </script>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 2018
+  </div>
+</div>
+<script src="./layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use(['element','table','layer'], function(){
+  var element = layui.element;
+  var table = layui.table
+      ,layer = layui.layer
+      ,$ = layui.jquery;
+    $.ajax({
+        type: 'POST',
+        url: '/sys/order/findODCount',
+        data: {},
+        dataType: 'json',
+        success: function(data){
+            $("#today").html(data.today);
+            $("#all").html(data.all);
+        },
+        error:function(){
+            layer.msg("请求错误")
+        }
+    })
+  
+  //第一个实例
+  table.render({
+    elem: '#demo'
+    ,height: 1000
+    ,method: 'post'
+    ,url: '/sys/order/findAll' //数据接口
+    ,parseData: function(res){ //res 即为原始返回的数据
+      return {
+        "code": 0, //解析接口状态
+        /*"msg": res.message, //解析提示文本
+        "count": res.total,*/ //解析数据长度
+        "data": res.list //解析数据列表
+      };
+    }
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'id', title: 'ID', width:60, sort: true, fixed: 'left'}
+      ,{field: 'goodsName', title: '商品名称', width:110}
+      ,{field: 'price', title: '订单价格', width:100,sort: true}
+      ,{field: 'conts', title: '购买数量', width:100 , sort: true}
+      ,{field: 'code', title: '订单编号', width: 200}
+      ,{field: 'addreName', title: '收货人姓名', width: 100 }
+      ,{field: 'addrePhone', title: '收货人电话', width: 200}
+      ,{field: 'addre', title: '收货人地址', width: 280}
+      ,{field: 'stateName', title: '订单状态', width: 200 }
+      ,{field: 'right', title: '操作', width: 100, toolbar: '#toolbar'}
+    ]]
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">后台管理系统</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item">
+          <a class="" href="index.html">开奖管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="index.html">用户竞猜</a></dd>
+            <dd><a href="history.html">开奖历史</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="jifenGoods.html">商品管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="jifenGoods.html">积分商品</a></dd>
+            <dd><a href="goods.html">常规商品</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item layui-nav-itemed layui-this">
+          <a href="customer.html">客户管理</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="czManager.html">财务管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="czManager.html">充值管理</a></dd>
+            <dd><a href="txManager.html">提现管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="order.html">订单管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="order.html">订单中心</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <div class="layui-form-item layui-form">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+          <input type="text" name="title" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input" id="name">
+        </div>
+        <button class="layui-btn" lay-submit lay-filter="test" id="check">查询</button>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-md3 layui-text">
+          今天用户数：<em id="today"></em>
+        </div>
+        <div class="layui-col-md3 layui-text">
+          总用户数：<em id="all"></em>
+        </div>
+      </div>
+      <table id="demo" lay-filter="test"></table>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 2018
+  </div>
+</div>
+<script src="./layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use(['element','table', 'layer'], function(){
+  var element = layui.element;
+  var table = layui.table
+      ,layer = layui.layer
+      ,$ = layui.jquery;
+
+    $.ajax({
+        type: 'POST',
+        url: '/sys/u/findCount',
+        data: {},
+        dataType: 'json',
+        success: function(data){
+            $("#today").html(data.today);
+            $("#all").html(data.all);
+        },
+        error:function(){
+            layer.msg("请求错误")
+        }
+    })
+  //第一个实例
+  table.render({
+    elem: '#demo'
+    ,height: 1000
+    ,url: '/sys/u/findAll' //数据接口
+    ,id: 'list'
+    ,method: 'post'
+    ,request:{
+        pageName: 'pageNum'
+        ,limitName: 'pageSize'
+    }
+    ,parseData: function(res){ //res 即为原始返回的数据
+        console.log(res);
+      return {
+        "code": 0, //解析接口状态
+        /*"msg": res.msg, //解析提示文本
+        "count": res.total, *///解析数据长度
+        "data": res.list //解析数据列表
+      };
+    }
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'oid', title: '用户openid', width:150, fixed: 'left'}
+      ,{field: 'img', title: '头像', width:140}
+      ,{field: 'name', title: '名字', width:120}
+      ,{field: 'phone', title: '手机号', width:200}
+      ,{field: 'money', title: '余额', width: 100,sort: true}
+      ,{field: 'integral', title: '积分', width: 100,sort: true}
+      ,{field: 'registertime', title: '注册时间', width: 200,sort: true}
+    ]]
+  });
+
+    $("#check").click(function(){
+        var name = $("#name").val();
+        table.reload('list', {
+            where:{name: name}
+        });
+    })
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>后台管理系统</title>
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">后台管理系统</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="index.html">开奖管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="index.html">用户竞猜</a></dd>
+            <dd><a href="history.html">开奖历史</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="jifenGoods.html">商品管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="jifenGoods.html">积分商品</a></dd>
+            <dd><a href="goods.html">常规商品</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="customer.html">客户管理</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">财务管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="czManager.html">充值管理</a></dd>
+            <dd><a href="txManager.html">提现管理</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="order.html">订单管理</a>
+          <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="order.html">订单中心</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+      <table id="demo" lay-filter="test"></table>
+      <script type="text/html" id="toolbar">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="geust">修改</a>
+      </script>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 2018
+  </div>
+</div>
+<div id="geustModal" style="display: none">
+  <form action="" class="layui-form" id="change">
+    <div class="layui-form-item">
+      <label class="layui-form-label">修改</label>
+      <div class="layui-input-block">
+        <input type="radio" name="guest" value="D" title="大" checked>
+        <input type="radio" name="guest" value="X" title="小">
+        <input type="radio" name="guest" value="J" title="奇">
+        <input type="radio" name="guest" value="O" title="偶">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <p class="layui-btn" id="submit">提交</p>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="./layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use(['element','table','upload'], function(){
+  var element = layui.element;
+  var table = layui.table;
+  var upload = layui.upload;
+  var $ = layui.jquery;
+  
+  //第一个实例
+  table.render({
+    elem: '#demo'
+    ,height: 1000
+    ,method: 'post'
+    ,id: 'list'
+    ,url: '/sys/gu/findNotOGO' //数据接口
+    ,request:{
+        pageName: 'pageNum'
+        ,limitName: 'pageSize'
+    }
+    ,parseData: function(res){ //res 即为原始返回的数据
+      return {
+        "code": 0, //解析接口状态
+        /*"msg": res.message, //解析提示文本
+        "count": res.total, //解析数据长度*/
+        "data": res.list //解析数据列表
+      };
+    }
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+      ,{field: 'name', title: '用户名', width:80}
+      ,{field: 'code', title: '订单编号', width:120}
+      ,{field: 'price', title: '价格', width:80 , sort: true} 
+      ,{field: 'guess', title: '用户竞猜', width: 100}
+      ,{field: 'dx', title: '开奖（大小）', width: 120, sort: true}
+      ,{field: 'jo', title: '开奖（鸡藕）', width: 120, sort: true}
+      ,{field: 'guesstime', title: '开奖时间', width: 120, sort: true}
+      ,{field: 'isGu', title: '是否中奖', width: 120, sort: true}
+      ,{fixed: 'right', width: 100, align:'center', toolbar: '#toolbar'}
+    ]]
+  });
+
+  //监听行工具事件
+  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+    var data = obj.data //获得当前行数据
+    ,layEvent = obj.event; //获得 lay-event 对应的值
+    if(layEvent === 'geust'){
+        layer.open({
+          type: 1,
+          content: $('#geustModal') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+        });
+    }
+      $("#submit").click(function(){
+          console.log($("input[name='guest']:checked").val());
+          $.ajax({
+              type: 'POST',
+              url: '/sys/gu/upFail',
+              data: { id: data.id , gu: $("input[name='guest']:checked").val()},
+              dataType: 'json',
+              success: function(data){
+                  layer.msg(data.msg);
+                  table.reload('list', {
+                      page: {
+                          curr: 1 //重新从第 1 页开始
+                      }
+                  });
+              },
+              error:function(){
+                  layer.msg("请求错误")
+              }
+          })
+      })
+  });
+
+});
+</script>
+</body>
+</html>
