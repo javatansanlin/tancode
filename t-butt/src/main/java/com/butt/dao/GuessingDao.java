@@ -40,7 +40,7 @@ public interface GuessingDao {
             "oi.PRICE," +
             "oi.GUESS," +
             "oi.GUESSTIME ,mem.NAME, gu.DX," +
-            "gu.JO" +
+            "gu.JO " +
             "FROM " +
             "orderinfo AS oi " +
             "LEFT JOIN guessing AS gu ON oi.GUESSID = gu.ID " +
