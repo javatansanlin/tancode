@@ -124,6 +124,31 @@ public class SysServiceImpl implements SysService {
     public PageInfo<SysOrderListModel> findAllOrder(Integer pageNum) {
         PageHelper.startPage(pageNum, 15);
         List<SysOrderListModel> all = orderinfoDao.findAll();
+        for (SysOrderListModel s:all) {
+            if (s.getState()==1){
+                s.setStateName("初创订单，未进行任何操作");
+            }else if (s.getState()==2){
+                s.setStateName("选择提货，需要发货X1");
+            }else if (s.getState()==3){
+                s.setStateName("点了促销，正在开奖中");
+            }else if (s.getState()==4){
+                s.setStateName("未中奖而且未操作");
+            }else if (s.getState()==5){
+                s.setStateName("中奖而且未操作");
+            }else if (s.getState()==6){
+                s.setStateName("未中奖选择提货,需要发货X1");
+            }else if (s.getState()==7){
+                s.setStateName("未中奖选择兑换积分");
+            }else if (s.getState()==8){
+                s.setStateName("中奖选择提货,需要发货X2");
+            }else if (s.getState()==9){
+                s.setStateName("中奖选择退货");
+            }else if (s.getState()==10){
+                s.setStateName("中奖选择兑换积分");
+            }else if (s.getState()==33){
+                s.setStateName("订单发货，订单完成");
+            }
+        }
         return new PageInfo<SysOrderListModel>(all);
     }
 

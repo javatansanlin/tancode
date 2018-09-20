@@ -38,6 +38,7 @@ public class SysOrderListModel {
      * 33-订单发货，订单完成
      * */
     private Integer state;
+    private String stateName;
     /** 竞猜（D-大，X-小，J-鸡，O-藕） */
     private String guess;
     /** 开奖时间（用于定时去更改该用户订单的状态） */
