@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @Author: JavaTansanlin
  * @Description: 后台订单管理
@@ -33,7 +35,14 @@ public class SysOrder {
     }
 
     /** 修改订单状态未已发货 */
+    @PostMapping("/upOrderState")
+    Map<String ,Object> upOrderState(Integer id){
+        return sysService.upOrderState(id);
+    }
 
     /** 查看今日订单数，总订单数 */
-
+    @PostMapping("/findODCount")
+    Map<String ,Object> findODCount(){
+        return sysService.findODCount();
+    }
 }

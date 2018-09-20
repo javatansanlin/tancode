@@ -28,7 +28,7 @@ public interface RechargeDao {
     /** 查看指定时间的充值总额 */
     @Select({
             "<script>",
-            "SELECT COUNT(MONEY) FROM RECHARGE WHERE 1=1",
+            "SELECT SUM(MONEY) FROM RECHARGE WHERE 1=1",
             "<if test='start != null and start !=&quot;&quot;'>AND REGISTERTIME &gt;= #{start}</if>",
             "<if test='end != null and end !=&quot;&quot;'>AND REGISTERTIME &lt;= #{end}</if>",
             "</script>"

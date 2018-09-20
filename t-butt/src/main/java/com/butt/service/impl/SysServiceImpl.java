@@ -1,8 +1,12 @@
 package com.butt.service.impl;
 
+import com.butt.dao.GuessingDao;
 import com.butt.dao.OrderinfoDao;
 import com.butt.dao.RechargeDao;
 import com.butt.dao.WithdrawDao;
+import com.butt.entity.Guessing;
+import com.butt.entity.Orderinfo;
+import com.butt.model.SysGussOrderListModel;
 import com.butt.model.SysOrderListModel;
 import com.butt.model.SysRechargeListModel;
 import com.butt.model.SysWithdrawListModel;
@@ -29,23 +33,20 @@ import java.util.Map;
 @Transactional
 public class SysServiceImpl implements SysService {
 
-    /**
-     * 充值dao
-     */
+    /** 充值dao */
     @Autowired
     private RechargeDao rechargeDao;
 
-    /**
-     * 提现dao
-     */
+    /** 提现dao */
     @Autowired
     private WithdrawDao withdrawDao;
 
-    /**
-     * 订单dao
-     */
+    /** 订单dao */
     @Autowired
     private OrderinfoDao orderinfoDao;
+
+    /** 竞猜dao */
+    private GuessingDao guessingDao;
 
     /**
      * 财务管理-->查看所有充值，按时间排序
@@ -125,4 +126,136 @@ public class SysServiceImpl implements SysService {
         return new PageInfo<SysOrderListModel>(all);
     }
 
+    /** 订单管理--> 修改订单状态未已发货 */
+    @Override
+    public Map<String, Object> upOrderState(Integer id) {
+        Map<String ,Object> result = new HashMap<>();
+        //判断参数
+        if (id==null || id<=0){
+            result.put("code" ,1);
+            result.put("msg" ,"参数错误");
+            return result;
+        }
+        //查询订单
+        Orderinfo order = orderinfoDao.findOrderByID(id);
+        if (order==null || ( order.getState()!=2 && order.getState()!=6 && order.getState()!=8 ) ){
+            result.put("code" ,2);
+            result.put("msg" ,"该订单不能操作");
+            return result;
+        }
+        //修改状态
+        order.setState(33);
+        orderinfoDao.updateOrderAddreAndState(order);
+        result.put("code" ,3);
+        result.put("msg" ,"修改成功！");
+        return result;
+    }
+
+    /** 订单管理--> 查看今日订单数，总订单数 */
+    @Override
+    public Map<String, Object> findODCount() {
+        Map<String ,Object> result = new HashMap<>();
+        //查询总订单数
+        Integer all = orderinfoDao.findOrderCount(null, null);
+        //查询今天订单数
+        Integer today = orderinfoDao.findOrderCount(DateUtil.getStringDate(DateUtil.getStartTime()), DateUtil.getStringDate(DateUtil.getEndTime()));
+        result.put("code" ,3);
+        result.put("today" ,today);
+        result.put("all" ,all);
+        return result;
+    }
+
+    /** 开奖管理--> 查询参加促销并且未开奖的订单 */
+    @Override
+    public PageInfo<SysGussOrderListModel> findNotOGO(Integer pageNum) {
+        PageHelper.startPage(pageNum, 15);
+        List<SysGussOrderListModel> all = guessingDao.findNotOpenGuAndOi();
+        //逻辑处理
+        if (all!=null && all.size()>0){
+            for (SysGussOrderListModel aol:all) {
+                //判断用户选择的竞猜结果
+                if ("D".equals(aol.getGuess()) || "X".equals(aol.getGuess())){//大小
+                    if (aol.getDx().equals(aol.getGuess())){
+                        aol.setIsGu("中奖");
+                    }else {
+                        aol.setIsGu("未中奖");
+                    }
+                }
+                if ("J".equals(aol.getGuess()) || "O".equals(aol.getGuess())) {//鸡藕
+                    if (aol.getJo().equals(aol.getGuess())){
+                        aol.setIsGu("中奖");
+                    }else {
+                        aol.setIsGu("未中奖");
+                    }
+                }
+                //处理奇偶字符串
+                if ("D".equals(aol.getGuess())){
+                    aol.setGuess("大");
+                }else if("X".equals(aol.getGuess())){
+                    aol.setGuess("小");
+                }else if ("J".equals(aol.getGuess())){
+                    aol.setGuess("鸡");
+                }else if ("O".equals(aol.getGuess())){
+                    aol.setGuess("藕");
+                }
+                if ("J".equals(aol.getJo())){
+                    aol.setJo("鸡");
+                }else {
+                    aol.setJo("藕");
+                }
+                if ("D".equals(aol.getDx())){
+                    aol.setDx("大");
+                }else {
+                    aol.setDx("小");
+                }
+            }
+        }
+        return new PageInfo<SysGussOrderListModel>(all);
+    }
+
+    /** 开奖管理--> 修改订单结果为未中奖 */
+    @Override
+    public Map<String, Object> upFail(Integer id, String gu) {
+        Map<String ,Object> result = new HashMap<>();
+        //判断参数
+        if (id==null || id<=0 || gu==null || ( !"D".equals(gu) && !"X".equals(gu) && !"J".equals(gu) && !"O".equals(gu) )){
+            result.put("code" ,1);
+            result.put("msg" ,"参数不正确");
+            return result;
+        }
+        //查询订单
+        Orderinfo order = orderinfoDao.findOrderByID(id);
+        if (order==null){
+            result.put("code" ,2);
+            result.put("msg" ,"订单错误");
+            return result;
+        }
+        //修改用户的竞猜结果
+        order.setGuess(gu);
+        orderinfoDao.updateOrderGuessAndState(order);
+
+        result.put("code" ,3);
+        result.put("msg" ,"操作成功");
+        return result;
+    }
+
+    /** 查看今天所有的开奖信息 */
+    @Override
+    public PageInfo<Guessing> todayGuDetail(Integer pageNum) {
+        PageHelper.startPage(pageNum, 15);
+        List<Guessing> listGu = guessingDao.findListGu(DateUtil.getStringDate(DateUtil.getStartTime()), DateUtil.getStringDate(DateUtil.getEndTime()));
+        for (Guessing gu:listGu) {
+            if ("D".equals(gu.getDx())){
+                gu.setDx("大");
+            }else {
+                gu.setDx("小");
+            }
+            if ("J".equals(gu.getJo())){
+                gu.setJo("鸡");
+            }else {
+                gu.setJo("藕");
+            }
+        }
+        return new PageInfo<Guessing>(listGu);
+    }
 }

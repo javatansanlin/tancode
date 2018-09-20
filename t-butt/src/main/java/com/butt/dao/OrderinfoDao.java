@@ -47,4 +47,17 @@ public interface OrderinfoDao {
     @Select("SELECT oi.*,gd.NAME AS goods_name FROM orderinfo AS oi LEFT JOIN goods AS gd ON oi.G_ID = gd.ID ORDER BY oi.REGISTERTIME DESC")
     List<SysOrderListModel> findAll();
 
+    /** 根据id查询订单记录 */
+    @Select("SELECT * FROM orderinfo WHERE ID = #{id}")
+    Orderinfo findOrderByID(Integer id);
+
+    /** 根据时间查询订单数 */
+    @Select({
+            "<script>",
+            "SELECT COUNT(ID) FROM orderinfo WHERE 1=1",
+            "<if test='start != null and start !=&quot;&quot;'>AND REGISTERTIME &gt;= #{start}</if>",
+            "<if test='end != null and end !=&quot;&quot;'>AND REGISTERTIME &lt;= #{end}</if>",
+            "</script>"
+    })
+    Integer findOrderCount(@Param("start") String start ,@Param("end") String end);
 }

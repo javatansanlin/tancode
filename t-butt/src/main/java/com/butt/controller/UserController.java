@@ -1,7 +1,10 @@
 package com.butt.controller;
 
+import com.butt.entity.Guessing;
 import com.butt.service.SendsmsService;
+import com.butt.service.SysService;
 import com.butt.service.UserService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +59,19 @@ public class UserController {
     @PostMapping("/bandPhone")
     public Map<String ,Object> bandPhone(HttpSession session,String oid ,String code , String phone){
         return userService.bandPhone(session ,oid ,code,phone);
+    }
+
+    /** 业务逻辑 */
+    @Autowired
+    private SysService sysService;
+
+    /** 查看今天所有的开奖信息 */
+    @PostMapping("/todayGuDetail")
+    PageInfo<Guessing> todayGuDetail(Integer pageNum){
+        if (pageNum==null || pageNum<=0){
+            pageNum = 1;
+        }
+        return sysService.todayGuDetail(pageNum);
     }
 
 }

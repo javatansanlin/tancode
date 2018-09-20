@@ -1,12 +1,12 @@
 package com.butt.service;
 
-import com.butt.entity.Orderinfo;
+import com.butt.entity.Guessing;
+import com.butt.model.SysGussOrderListModel;
 import com.butt.model.SysOrderListModel;
 import com.butt.model.SysRechargeListModel;
 import com.butt.model.SysWithdrawListModel;
 import com.github.pagehelper.PageInfo;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,4 +30,19 @@ public interface SysService {
 
     /** 订单管理--> 查看所有的订单，按时间排序 */
     PageInfo<SysOrderListModel> findAllOrder(Integer pageNum);
+
+    /** 订单管理--> 修改订单状态未已发货 */
+    Map<String,Object> upOrderState(Integer id);
+
+    /** 订单管理--> 查看今日订单数，总订单数 */
+    Map<String,Object> findODCount();
+
+    /** 开奖管理--> 查询参加促销并且未开奖的订单 */
+    PageInfo<SysGussOrderListModel> findNotOGO(Integer pageNum);
+
+    /** 开奖管理--> 修改订单结果为未中奖 */
+    Map<String,Object> upFail(Integer id, String gu);
+
+    /** 查看今天所有的开奖信息 */
+    PageInfo<Guessing> todayGuDetail(Integer pageNum);
 }
