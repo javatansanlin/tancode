@@ -46,6 +46,7 @@ public class SysServiceImpl implements SysService {
     private OrderinfoDao orderinfoDao;
 
     /** 竞猜dao */
+    @Autowired
     private GuessingDao guessingDao;
 
     /**
