@@ -2,6 +2,7 @@ package com.butt.controller;
 
 import com.butt.entity.Member;
 import com.butt.service.UserService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,11 @@ public class SysMember {
 
     /** 查询所有的用户资料，有用户名条件 ，按注册时间排序*/
     @PostMapping("/findAll")
-    List<Member> findAll(String name){
-        return userService.findAll(name);
+    PageInfo<Member> findAll(String name ,Integer pageNum){
+        if (pageNum==null || pageNum>=0){
+            pageNum = 1;
+        }
+        return userService.findAll(name ,pageNum);
     }
 
     /** 查看今日注册数和总用户数 */

@@ -10,6 +10,8 @@ import com.butt.entity.Moneydetail;
 import com.butt.entity.Withdraw;
 import com.butt.service.UserService;
 import com.butt.util.DateUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -159,8 +161,10 @@ public class UserServiceImpl implements UserService {
 
     /** 查询所有的用户资料，有用户名条件 ，按注册时间排序*/
     @Override
-    public List<Member> findAll(String name) {
-        return memberDao.findAllByName(name);
+    public PageInfo<Member> findAll(String name , Integer pageNum) {
+        PageHelper.startPage(pageNum, 15);
+        List<Member> all = memberDao.findAllByName(name);
+        return new PageInfo<Member>(all);
     }
 
     /** 查看今日注册数和总用户数 */
