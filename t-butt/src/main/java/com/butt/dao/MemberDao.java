@@ -49,11 +49,11 @@ public interface MemberDao {
     @Select({
             "<script>",
             "SELECT * FROM member ",
-            "<if test='name != null and name !=&quot;&quot;'>WHERE NAME=#{name}</if>",
+            "<if test='name != null and name !=&quot;&quot;'>WHERE NAME like concat('%',#{name},'%')</if>",
             "ORDER BY REGISTERTIME DESC",
             "</script>"
     })
-    List<Member> findAllByName(String name);
+    List<Member> findAllByName(@Param("name") String name);
 
     //查询总用户数
     @Select({
