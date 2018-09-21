@@ -14,11 +14,11 @@ import java.util.Map;
  */
 public interface GoodsService {
     /** 增加商品 **/
-    Map<String ,Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile[] file);
+    Map<String ,Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile file1,MultipartFile file2,MultipartFile file3);
     /** 查询所有的商品列表，以类型为条件 */
     List<Goods> findAllGoods(int type);
     /** 根据id进入商品详情 **/
     Goods findGoodsByid(int id);
     /** 修改商品 */
-    Map<String,Object> editGoods(Integer id, int type, String name, double price, String remarke, MultipartFile[] file);
+    Map<String,Object> editGoods(Integer id, int type, String name, double price, String remarke, MultipartFile file1,MultipartFile file2,MultipartFile file3);
 }

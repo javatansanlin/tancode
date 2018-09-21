@@ -33,7 +33,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /** 增加商品 **/
     @Override
-    public Map<String, Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile[] file) {
+    public Map<String, Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile file1,MultipartFile file2,MultipartFile file3) {
         Map<String ,Object> result = new HashMap<>();
         result.put("code" ,1);
         //参数判断
@@ -49,7 +49,7 @@ public class GoodsServiceImpl implements GoodsService {
             result.put("msg" ,"商品价格填写有误");
             return result;
         }
-        if (file==null || file.length>3){
+        if (file1==null || file2==null || file3==null){
             result.put("msg" ,"商品图片有误");
             return result;
         }
@@ -58,27 +58,32 @@ public class GoodsServiceImpl implements GoodsService {
             String img = null;
             String imgt = null;
             String imgtt = null;
-            for (int i = 0; i < file.length; i++) {
-                //获取文件的后缀名
-                String s = file[i].getOriginalFilename();
-                String suffixName = s.substring(s.lastIndexOf("."));
-                String fileName = DateUtil.Date2TimeStamp(new Date())+suffixName;
-                if (i==0){
-                    img = fileName;
-                }else if (i==1){
-                    imgt = fileName;
-                }else if (i==2){
-                    imgtt = fileName;
-                }
-                //判断文件夹是否存在
-                File dir = new File(path);
-                if  (!dir.exists()  && !dir.isDirectory()) {
-                    dir .mkdir();
-                }
-                //创建文件
-                File dest = new File(path + fileName);
-                file[i].transferTo(dest);
+            //获取文件的后缀名
+            String s = file1.getOriginalFilename();
+            String suffixName1 = s.substring(s.lastIndexOf("."));
+            String fileName1 = DateUtil.Date2TimeStamp(new Date())+suffixName1;
+            img = fileName1;
+            s = file2.getOriginalFilename();
+            String suffixName2 = s.substring(s.lastIndexOf("."));
+            String fileName2 = DateUtil.Date2TimeStamp(new Date())+suffixName2;
+            imgt = fileName2;
+            s = file3.getOriginalFilename();
+            String suffixName3 = s.substring(s.lastIndexOf("."));
+            String fileName3 = DateUtil.Date2TimeStamp(new Date())+suffixName3;
+            imgtt = fileName3;
+            //判断文件夹是否存在
+            File dir = new File(path);
+            if  (!dir.exists()  && !dir.isDirectory()) {
+                dir .mkdir();
             }
+            //创建文件
+            File dest = new File(path + fileName1);
+            file1.transferTo(dest);
+            File dest2 = new File(path + fileName2);
+            file2.transferTo(dest2);
+            File dest3 = new File(path + fileName3);
+            file3.transferTo(dest3);
+
             //创建商品类
             Goods goods = new Goods();
             goods.setType(type);
@@ -117,7 +122,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     /** 修改商品 */
     @Override
-    public Map<String, Object> editGoods(Integer id, int type, String name, double price, String remarke, MultipartFile[] file) {
+    public Map<String, Object> editGoods(Integer id, int type, String name, double price, String remarke, MultipartFile file1,MultipartFile file2,MultipartFile file3) {
         Map<String ,Object> result = new HashMap<>();
         result.put("code" ,1);
         //参数判断
@@ -133,7 +138,7 @@ public class GoodsServiceImpl implements GoodsService {
             result.put("msg" ,"商品价格填写有误");
             return result;
         }
-        if (file==null || file.length>3){
+        if (file1==null || file2==null || file3==null){
             result.put("msg" ,"商品图片有误");
             return result;
         }
@@ -149,27 +154,31 @@ public class GoodsServiceImpl implements GoodsService {
             String img = null;
             String imgt = null;
             String imgtt = null;
-            for (int i = 0; i < file.length; i++) {
-                //获取文件的后缀名
-                String s = file[i].getOriginalFilename();
-                String suffixName = s.substring(s.lastIndexOf("."));
-                String fileName = DateUtil.Date2TimeStamp(new Date())+suffixName;
-                if (i==0){
-                    img = fileName;
-                }else if (i==1){
-                    imgt = fileName;
-                }else if (i==2){
-                    imgtt = fileName;
-                }
-                //判断文件夹是否存在
-                File dir = new File(path);
-                if  (!dir.exists()  && !dir.isDirectory()) {
-                    dir .mkdir();
-                }
-                //创建文件
-                File dest = new File(path + fileName);
-                file[i].transferTo(dest);
+            //获取文件的后缀名
+            String s = file1.getOriginalFilename();
+            String suffixName1 = s.substring(s.lastIndexOf("."));
+            String fileName1 = DateUtil.Date2TimeStamp(new Date())+suffixName1;
+            img = fileName1;
+            s = file2.getOriginalFilename();
+            String suffixName2 = s.substring(s.lastIndexOf("."));
+            String fileName2 = DateUtil.Date2TimeStamp(new Date())+suffixName2;
+            imgt = fileName2;
+            s = file3.getOriginalFilename();
+            String suffixName3 = s.substring(s.lastIndexOf("."));
+            String fileName3 = DateUtil.Date2TimeStamp(new Date())+suffixName3;
+            imgtt = fileName3;
+            //判断文件夹是否存在
+            File dir = new File(path);
+            if  (!dir.exists()  && !dir.isDirectory()) {
+                dir .mkdir();
             }
+            //创建文件
+            File dest = new File(path + fileName1);
+            file1.transferTo(dest);
+            File dest2 = new File(path + fileName2);
+            file2.transferTo(dest2);
+            File dest3 = new File(path + fileName3);
+            file3.transferTo(dest3);
             //创建商品类
             goods.setType(type);
             goods.setName(name);

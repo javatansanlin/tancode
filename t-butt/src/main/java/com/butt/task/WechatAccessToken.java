@@ -35,7 +35,7 @@ public class WechatAccessToken {
         return access_token;
     }
 
-    //@Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRate = 3600000)
     public void setAccess_token() {
         try {
 

@@ -27,15 +27,15 @@ public class SysGoodsController {
     /** 增加商品 */
     @PostMapping("addGoods")
     @ResponseBody
-    public Map<String ,Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile[] file){
-        return goodsService.addGoods(type,name ,price ,remarke ,file);
+    public Map<String ,Object> addGoods(int type ,String name ,double price ,String remarke ,MultipartFile file1,MultipartFile file2,MultipartFile file3){
+        return goodsService.addGoods(type,name ,price ,remarke ,file1,file2,file3);
     }
 
     /** 修改商品 */
     @PostMapping("editGoods")
     @ResponseBody
-    public Map<String ,Object> editGoods(Integer id ,int type ,String name ,double price ,String remarke ,MultipartFile[] file){
-        return goodsService.editGoods(id,type,name ,price ,remarke ,file);
+    public Map<String ,Object> editGoods(Integer id ,int type ,String name ,double price ,String remarke ,MultipartFile file1,MultipartFile file2,MultipartFile file3){
+        return goodsService.editGoods(id,type,name ,price ,remarke ,file1,file2,file3);
     }
 
 }
