@@ -14,12 +14,12 @@ import java.io.IOException;
  * @Date: Created in 9:01 2018/9/7
  * @Modified By:
  */
-@WebFilter(filterName = "loginFilter",urlPatterns = {"/sys/*"})
+//@WebFilter(filterName = "loginFilter",urlPatterns = {"/sys/*"})
 public class LoginFilter implements Filter {
 
 
     //不需要登录就可以访问的路径(比如:注册登录等)
-    String[] includeUrls = new String[]{"/login","/login.html",".css",".js",".png",".jpg",".ico"};
+    String[] includeUrls = new String[]{"/sys/login","/system/login.html",".css",".js",".png",".jpg",".ico"};
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -42,12 +42,12 @@ public class LoginFilter implements Filter {
                     filterChain.doFilter(request, response);
                 }else {
                     //重定向到登录页(需要在static文件夹下建立此html文件)
-                    response.sendRedirect(request.getContextPath()+"/login.html");
+                    response.sendRedirect(request.getContextPath()+"/system/login.html");
                     return;
                 }
             }else{
                 //重定向到登录页(需要在static文件夹下建立此html文件)
-                response.sendRedirect(request.getContextPath()+"/login.html");
+                response.sendRedirect(request.getContextPath()+"/system/login.html");
                 return;
             }
         }

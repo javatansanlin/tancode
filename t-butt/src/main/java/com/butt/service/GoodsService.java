@@ -19,4 +19,6 @@ public interface GoodsService {
     List<Goods> findAllGoods(int type);
     /** 根据id进入商品详情 **/
     Goods findGoodsByid(int id);
+    /** 修改商品 */
+    Map<String,Object> editGoods(Integer id, int type, String name, double price, String remarke, MultipartFile[] file);
 }

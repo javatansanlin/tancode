@@ -114,4 +114,82 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods findGoodsByid(int id) {
         return goodsDao.findGoodsById(id);
     }
+
+    /** 修改商品 */
+    @Override
+    public Map<String, Object> editGoods(Integer id, int type, String name, double price, String remarke, MultipartFile[] file) {
+        Map<String ,Object> result = new HashMap<>();
+        result.put("code" ,1);
+        //参数判断
+        if(type!=1 && type!=2){
+            result.put("msg" ,"商品类型选择错误");
+            return result;
+        }
+        if (name==null || "".equals(name.trim())){
+            result.put("msg" ,"商品名称不正确");
+            return result;
+        }
+        if (price<=0){
+            result.put("msg" ,"商品价格填写有误");
+            return result;
+        }
+        if (file==null || file.length>3){
+            result.put("msg" ,"商品图片有误");
+            return result;
+        }
+        //查询该商品是否存在
+        Goods goods = goodsDao.findGoodsById(id);
+        if (goods==null){
+            result.put("code" ,2);
+            result.put("msg" ,"该商品不存在");
+            return result;
+        }
+        try {
+            //进行文件处理
+            String img = null;
+            String imgt = null;
+            String imgtt = null;
+            for (int i = 0; i < file.length; i++) {
+                //获取文件的后缀名
+                String s = file[i].getOriginalFilename();
+                String suffixName = s.substring(s.lastIndexOf("."));
+                String fileName = DateUtil.Date2TimeStamp(new Date())+suffixName;
+                if (i==0){
+                    img = fileName;
+                }else if (i==1){
+                    imgt = fileName;
+                }else if (i==2){
+                    imgtt = fileName;
+                }
+                //判断文件夹是否存在
+                File dir = new File(path);
+                if  (!dir.exists()  && !dir.isDirectory()) {
+                    dir .mkdir();
+                }
+                //创建文件
+                File dest = new File(path + fileName);
+                file[i].transferTo(dest);
+            }
+            //创建商品类
+            goods.setType(type);
+            goods.setName(name);
+            goods.setRemarke(remarke);
+            goods.setImg(img);
+            goods.setImgt(imgt);
+            goods.setImgtt(imgtt);
+            if (type==1){
+                goods.setPrice(price);
+            }else {
+                goods.setIntegral(price);
+            }
+            //执行商品插入
+            goodsDao.updateOne(goods);
+            result.put("code" ,3);
+            result.put("msg" ,"操作成功");
+        }catch (Exception e){
+            result.put("code" ,33);
+            result.put("msg" ,"错误");
+        }
+        return result;
+    }
 }

@@ -3,6 +3,7 @@ package com.butt.dao;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 import com.butt.entity.Goods;
 
@@ -29,4 +30,8 @@ public interface GoodsDao {
     /** 根据id查询商品 **/
     @Select("SELECT * FROM goods WHERE ID = #{id}")
     Goods findGoodsById(Integer id);
+
+    /** 根据id更新商品 */
+    @Update("update GOODS set TYPE=#{type},NAME=#{name},PRICE=#{price},INTEGRAL=#{integral},IMG={img},IMGT=#{imgt},IMGTT={imgtt},REMARKE=#{remarke} where ID=#{id}")
+    int updateOne(Goods goods);
 }

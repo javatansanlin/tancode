@@ -32,4 +32,10 @@ public class SysGoodsController {
     }
 
     /** 修改商品 */
+    @PostMapping("editGoods")
+    @ResponseBody
+    public Map<String ,Object> editGoods(Integer id ,int type ,String name ,double price ,String remarke ,MultipartFile[] file){
+        return goodsService.editGoods(id,type,name ,price ,remarke ,file);
+    }
+
 }
