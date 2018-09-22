@@ -14,7 +14,7 @@ import java.io.IOException;
  * @Date: Created in 9:01 2018/9/7
  * @Modified By:
  */
-//@WebFilter(filterName = "loginFilter",urlPatterns = {"/sys/*"})
+@WebFilter(filterName = "loginFilter",urlPatterns = {"/sys/*"})
 public class LoginFilter implements Filter {
 
 

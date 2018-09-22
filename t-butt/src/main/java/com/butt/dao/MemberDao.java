@@ -1,9 +1,7 @@
 package com.butt.dao;
 
 import com.butt.entity.Member;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,6 +43,10 @@ public interface MemberDao {
     @Update("UPDATE member SET PHONE= #{phone} WHERE ID=#{id}")
     int updatePhone(Member member);
 
+    //更新用户名字和头像
+    @Update("UPDATE member SET IMG= #{img},NAME=#{name} WHERE ID=#{id}")
+    int updateNameAndImg(Member member);
+
     //查询所有的用户信息，并且有名字为条件，注册时间为降序
     @Select({
             "<script>",
@@ -65,4 +67,8 @@ public interface MemberDao {
     })
     Integer findAllUCount(@Param("start") String start ,@Param("end") String end);
 
+    /** 插入一条记录 */
+    @Insert("insert into member(OID,IMG,NAME,PHONE,MONEY,INTEGRAL,REGISTERTIME) values (#{oid},#{img},#{name},#{phone},#{money},#{integral},NOW())")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int insertOne(Member member);
 }

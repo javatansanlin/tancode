@@ -107,7 +107,7 @@ public class SysServiceImpl implements SysService {
             map.put("account", "C57222454");
             map.put("password", "0fc50f81274d582362c697e74e0929a1");
             map.put("mobile", phone);
-            map.put("content", new String("亲爱的洋洋商城用户:" + phone + "，您的提现已经到账，注意查看，感谢您的支持！"));
+            map.put("content", new String("亲爱的用户:" + phone + "，您的提现已经到账，注意查看，感谢您的支持！"));
             HttpUtil.sendPost(Url, map);
         }
         //修改状态

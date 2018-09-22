@@ -184,4 +184,16 @@ public class UserServiceImpl implements UserService {
         result.put("today" ,todayCount);
         return result;
     }
+
+    /** 插入一个用户,判断逻辑 */
+    @Override
+    public void inserMem(Member member) {
+        //根据oid判断该用户是否存在
+        Member mem = memberDao.findMemByOid(member.getOid());
+        if (mem==null){//无用户，插入
+            memberDao.insertOne(member);
+        }else {
+            memberDao.updateNameAndImg(member);
+        }
+    }
 }

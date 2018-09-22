@@ -29,4 +29,7 @@ public interface UserService {
 
     /** 查看今日注册数和总用户数 */
     Map<String,Object> findCount();
+
+    /** 插入一个用户 */
+    void inserMem(Member member);
 }
