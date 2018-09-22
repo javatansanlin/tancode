@@ -58,10 +58,10 @@
 			<div class="fl userbox">
 				<p>余额</p>
 				<span id="mon"></span>
-				<a>充值</a>
+				<a id="recharge">充值</a>
 			</div>
 			<div class="user-img">
-				<img src="" id="headimg">
+				<img src=""  id="headimg">
 				<!--<p id="name"></p>-->
 			</div>
 			<div class="fr userbox">
@@ -112,6 +112,7 @@
             $("#mx").attr("href","jflist.html?oid="+oid);
             $("#addresslist").attr("href","addresslist.html?oid="+oid);
             $("#banklist").attr("href","banklist.html?oid="+oid);
+            $("#recharge").attr("href","recharge.html?oid="+oid);
             $.ajax({
                 type: 'POST',
                 url: '/mem/me',
@@ -121,7 +122,7 @@
 					$("#mon").html(data.member.money);
 					$("#jf").html(data.member.integral);
 					$("#name").html(data.member.name);
-					$("#mon").attr("src", data.member.img);
+					$("#headimg").attr("src", data.member.img);
                 },
                 error: function(xhr, type){
                     alert('请求错误')

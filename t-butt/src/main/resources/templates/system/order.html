@@ -70,7 +70,10 @@
       </div>
       <table id="demo" lay-filter="order"></table>
       <script type="text/html" id="toolbar">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">已发货</a>
+        {{#  if(d.state == 2 ||d.state == 8 || d.state == 6 ){ }}
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">发货</a>
+        {{#  } else { }}
+        {{#  } }}
       </script>
     </div>
   </div>
@@ -107,6 +110,7 @@ layui.use(['element','table','layer'], function(){
     elem: '#demo'
     ,height: 1000
     ,method: 'post'
+    ,id:"list"
     ,url: '/sys/order/findAll' //数据接口
     ,parseData: function(res){ //res 即为原始返回的数据
       return {
@@ -130,6 +134,31 @@ layui.use(['element','table','layer'], function(){
       ,{field: 'right', title: '操作', width: 100, toolbar: '#toolbar'}
     ]]
   });
+    //监听行工具事件
+    table.on('tool(order)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data //获得当前行数据
+            ,layEvent = obj.event; //获得 lay-event 对应的值
+        console.log(data);
+        if(layEvent === 'add'){
+            $.ajax({
+                type: 'POST',
+                url: '/sys/order/upOrderState',
+                data: { id: data.id },
+                dataType: 'json',
+                success: function(data){
+                    layer.msg(data.msg);
+                    table.reload('list', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                },
+                error:function(){
+                    layer.msg("请求错误")
+                }
+            })
+        }
+    });
 });
 </script>
 </body>

@@ -6,7 +6,7 @@
   <title>后台管理系统</title>
   <link rel="stylesheet" href="./layui/css/layui.css">
   <style>
-    .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;} 
+    .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;}
   </style>
 </head>
 <body class="layui-layout-body">
@@ -21,11 +21,11 @@
       </li>
     </ul>
   </div>
-  
+
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-     <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
         <li class="layui-nav-item">
           <a class="" href="index.html">开奖管理</a>
           <dl class="layui-nav-child">
@@ -37,7 +37,7 @@
           <a href="jifenGoods.html">商品管理</a>
           <dl class="layui-nav-child">
             <dd class="layui-this"><a href="jifenGoods.html">积分商品</a></dd>
-            <dd><a href="goods.html">常规商品</a></dd>
+            <dd ><a href="goods.html">常规商品</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -59,202 +59,229 @@
       </ul>
     </div>
   </div>
-  
+
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
+      <a class="layui-btn layui-btn-md" lay-event="add" id="add">添加</a>
       <table id="demo" lay-filter="test"></table>
       <script type="text/html" id="toolbar">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
       </script>
-       <div id="goodsEdit" class="layui-hide">
-        <form action="" class="layui-form">
-          <p>修改图片</p>
-        </form>
-      </div>
-      <div id="goodsAdd" class="layui-hide">
-        <form class="layui-form" action="">
-          <div class="layui-form-item">
-            <label class="layui-form-label">商品名称</label>
-            <div class="layui-input-inline">
-              <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入商品名" class="layui-input">
-            </div>
-          </div>
-          
-          <div class="layui-form-item">
-            <label class="layui-form-label">商品价格</label>
-            <div class="layui-input-inline">
-              <input type="text" name="number" lay-verify="required|number" autocomplete="off" placeholder="请输入商品价格" class="layui-input">
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <div class="layui-upload layui-inline">
-              <label class="layui-form-label"><button type="button" class="layui-btn" id="pic1">上传图片</button></label>
-              <div class="layui-upload-list layui-input-inline">
-                <img class="layui-upload-img" id="picShow1">
-                <p id="demoText1"></p>
-              </div>
-            </div>
-            <div class="layui-upload layui-inline">
-              <label class="layui-form-label"><button type="button" class="layui-btn" id="pic2">上传图片</button></label>
-              <div class="layui-upload-list layui-input-inline">
-                <img class="layui-upload-img" id="picShow2">
-                <p id="demoText2"></p>
-              </div>
-            </div> 
-            <div class="layui-upload layui-inline">
-              <label class="layui-form-label"><button type="button" class="layui-btn" id="pic3">上传图片</button></label>
-              <div class="layui-upload-list layui-input-inline">
-                <img class="layui-upload-img" id="picShow3">
-                <p id="demoText3"></p>
-              </div>
-            </div> 
-          </div>
-
-          <div class="layui-form-item">
-            <div class="layui-input-block">
-              <button class="layui-btn" lay-submit="" lay-filter="demo1">立即添加</button>
-              <button type="reset" class="layui-btn layui-btn-primary">放弃添加</button>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
   </div>
-  
+
   <div class="layui-footer">
     <!-- 底部固定区域 -->
     © 2018
   </div>
 </div>
+<div id="edit" style="display: none">
+  <form class="layui-form" enctype="multipart/form-data" method="post"  id="editgoods">
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品名称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入商品名" class="layui-input">
+        <input type="hidden" value="2" name="type"/>
+        <input type="hidden" value="" name="id" id="goodid"/>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品积分</label>
+      <div class="layui-input-inline">
+        <input type="text" name="price" lay-verify="required|number" autocomplete="off" placeholder="请输入商品价格" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品描述</label>
+      <div class="layui-input-inline">
+        <input type="text" name="remarke"  autocomplete="off" placeholder="请输入商品描述" class="layui-input" >
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品图片1</label>
+      <div class="layui-input-inline">
+        <input  type="file" name="file1"/>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品图片2</label>
+      <div class="layui-input-inline">
+        <input  type="file" name="file2" />
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品图片3</label>
+      <div class="layui-input-inline">
+        <input  type="file" name="file3" />
+      </div>
+    </div>
+  </form>
+  <div class="layui-form-item">
+    <div class="layui-input-block" style="margin-left: 60px">
+      <p class="layui-btn" id="editnow">修改</p>
+    </div>
+  </div>
+</div>
+<div id="goodsAdd" style="display: none">
+  <form class="layui-form" enctype="multipart/form-data" method="post"  id="goods">
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品名称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入商品名" class="layui-input" id="name">
+        <input type="hidden" value="2" name="type"/>
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品积分</label>
+      <div class="layui-input-inline">
+        <input type="text" name="price" lay-verify="required|number" autocomplete="off" placeholder="请输入商品价格" class="layui-input" id="price">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品描述</label>
+      <div class="layui-input-inline">
+        <input type="text" name="remarke"  autocomplete="off" placeholder="请输入商品描述" class="layui-input" id="remarke">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品图片1</label>
+      <div class="layui-input-inline">
+        <input  type="file" name="file1" id="file1"/>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品图片2</label>
+      <div class="layui-input-inline">
+        <input  type="file" name="file2" id="file2" />
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">商品图片3</label>
+      <div class="layui-input-inline">
+        <input  type="file" name="file3" id="file3" />
+      </div>
+    </div>
+  </form>
+  <div class="layui-form-item">
+    <div class="layui-input-block" style="margin-left: 60px">
+      <p class="layui-btn" id="addnow">立即添加</p>
+    </div>
+  </div>
+</div>
 <script src="./layui/layui.js"></script>
 <script>
-//JavaScript代码区域
-layui.use(['element','table','upload'], function(){
-  var element = layui.element;
-  var table = layui.table;
-  var $ = layui.jquery,upload = layui.upload;
-  
-  //第一个实例
-  table.render({
-    elem: '#demo'
-    ,height: 1000
-    ,method: 'post'
-    ,where:{type : 2}
-    ,url: '/mem/goods/findAllByType' //数据接口
-    ,parseData: function(res){ //res 即为原始返回的数据
-      return {
-        "code": 0, //解析接口状态
-        /*"msg": res.message, //解析提示文本
-        "count": res.total,*/ //解析数据长度
-        "data": res //解析数据列表
-      };
-    }
-    ,page: true //开启分页
-    ,cols: [[ //表头
-      {field: 'id', title: 'ID', width:80, fixed: 'left'}
-      ,{field: 'name', title: '商品名称', width:200}
-      ,{field: 'integral', title: '商品积分', width:120,sort: true}
-      ,{fixed: 'right', width: 200, align:'center', toolbar: '#toolbar'}
-    ]]
-  });
-  //监听行工具事件
-  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-    var data = obj.data //获得当前行数据
-    ,layEvent = obj.event; //获得 lay-event 对应的值
-    if(layEvent === 'add'){
-      layer.open({
-        type: 1,
-        content: $('#goodsAdd') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-      });
-    }else if(layEvent === 'edit'){
-      layer.open({
-        type: 1,
-        content: $('#goodsEdit') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-      });
-    }
-  });
+    //JavaScript代码区域
+    layui.use(['element','table','upload','layer', 'form'], function(){
+        var element = layui.element;
+        var table = layui.table;
+        var $ = layui.jquery
+            ,upload = layui.upload
+            ,layer = layui.layer
+            ,form = layui.form;
+        form.render();
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 1000
+            ,method:'post'
+            ,id: 'list'
+            ,where:{type : 2}
+            ,url: '/mem/goods/findAllByType' //数据接口
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    /*"msg": res.message, //解析提示文本
+                    "count": res.total, *///解析数据长度
+                    "data": res //解析数据列表
+                };
+            }
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:80, fixed: 'left'}
+                ,{field: 'name', title: '商品名称', width:200}
+                ,{field: 'integral', title: '商品积分', width:120,sort: true}
+                ,{fixed: 'right', title:'操作', width: 200, align:'center', toolbar: '#toolbar'}
+            ]]
+        });
+        //监听行工具事件
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent === 'add'){
+                layer.open({
+                    type: 1,
+                    content: $('#goodsAdd') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                });
+            }else if(layEvent === 'edit'){
+                layer.open({
+                    type: 1,
+                    content: $('#edit') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                });
+                $("#editnow").click(function () {
+                    $("#goodid").val(data.id);
+                    var formData = new FormData($("#editgoods")[0]);
+                    $.ajax({
+                        type: 'POST',
+                        url: '/sys/editGoods',
+                        data: formData,
+                        dataType: 'json',
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(data){
+                            layer.msg(data.msg);
+                            table.reload('list', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
+                        },
+                        error:function(){
+                            layer.msg("请求错误")
+                        }
+                    })
+                })
+            }
+        });
+        $("#add").click(function(){
+            layer.open({
+                type: 1,
+                width:400,
+                content: $('#goodsAdd') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        });
 
-  //普通图片上传
-  var uploadInst1 = upload.render({
-    elem: '#pic1'
-    ,url: '/upload/'
-    ,before: function(obj){
-      //预读本地文件示例，不支持ie8
-      obj.preview(function(index, file, result){
-        $('#picShow1').attr('src', result); //图片链接（base64）
-      });
-    }
-    ,done: function(res){
-      //如果上传失败
-      if(res.code > 0){
-        return layer.msg('上传失败');
-      }
-      //上传成功
-    }
-    ,error: function(){
-      //演示失败状态，并实现重传
-      var demoText = $('#demoText1');
-      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-      demoText.find('.demo-reload').on('click', function(){
-        uploadInst.upload();
-      });
-    }
-  });
-  var uploadInst2 = upload.render({
-    elem: '#pic2'
-    ,url: '/upload/'
-    ,before: function(obj){
-      //预读本地文件示例，不支持ie8
-      obj.preview(function(index, file, result){
-        $('#picShow2').attr('src', result); //图片链接（base64）
-      });
-    }
-    ,done: function(res){
-      //如果上传失败
-      if(res.code > 0){
-        return layer.msg('上传失败');
-      }
-      //上传成功
-    }
-    ,error: function(){
-      //演示失败状态，并实现重传
-      var demoText = $('#demoText2');
-      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-      demoText.find('.demo-reload').on('click', function(){
-        uploadInst.upload();
-      });
-    }
-  });
-  var uploadInst3 = upload.render({
-    elem: '#pic3'
-    ,url: '/upload/'
-    ,before: function(obj){
-      //预读本地文件示例，不支持ie8
-      obj.preview(function(index, file, result){
-        $('#picShow3').attr('src', result); //图片链接（base64）
-      });
-    }
-    ,done: function(res){
-      //如果上传失败
-      if(res.code > 0){
-        return layer.msg('上传失败');
-      }
-      //上传成功
-    }
-    ,error: function(){
-      //演示失败状态，并实现重传
-      var demoText = $('#demoText3');
-      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-      demoText.find('.demo-reload').on('click', function(){
-        uploadInst.upload();
-      });
-    }
-  });
+        $("#addnow").click(function () {
+            var formData = new FormData($("#goods")[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/sys/addGoods',
+                data: formData,
+                dataType: 'json',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data){
+                    layer.msg(data.msg);
+                    table.reload('list', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                },
+                error:function(){
+                    layer.msg("请求错误")
+                }
+            })
+        })
 
 
-});
+    });
 </script>
 </body>
 </html>

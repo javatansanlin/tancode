@@ -40,8 +40,8 @@
     	<div class="nav-box">
 	    	<a href="play.html"><img src="../img/nav01.png"><span>玩法介绍</span></a>
 	    	<a id="jfshop"><img src="../img/nav02.png"><span>积分商城</span></a>
-	    	<a href="javascript:;"><img src="../img/nav03.png"><span>风云榜</span></a>
-	    	<a href="javascript:;"><img src="../img/nav04.png"><span>余额充值</span></a>
+	    	<a id="fengyun"><img src="../img/nav03.png"><span>风云榜</span></a>
+	    	<a id="recharge"><img src="../img/nav04.png"><span>余额充值</span></a>
 
     	</div>
     </nav>
@@ -80,6 +80,8 @@
           $("#id").attr("href","index.html?oid="+oid);
           $("#jfdh").attr("href","jfgoods.html?oid="+oid);
           $("#jfshop").attr("href","jfgoods.html?oid="+oid);
+          $("#fengyun").attr("href","fengyun.html?oid="+oid);
+          $("#recharge").attr("href","recharge.html?oid="+oid);
           $.ajax({
               type: 'POST',
               url: '/mem/me',

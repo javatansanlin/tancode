@@ -751,5 +751,8 @@ footer a span{ display: inherit; }
 
 .tab_content { display: none !important;}
 .show { display: block !important;}
+bady{
+    padding-bottm:76px;
+}
 
 

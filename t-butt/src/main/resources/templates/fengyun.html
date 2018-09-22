@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.17sucai.com/preview/177065/2016-09-12/Sc-5/productDetails.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>洋洋商城</title>
+    <link href="../css/bass.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+	<style>
+		img{
+			width: 100%;
+		}
+		.box{
+			background: #fb6029;
+		}
+		.table{
+			padding:10px;
+		}
+		table{
+			width: 100%;
+		}
+		table thead{
+			background: #fea133;
+			color:#fff;
+			text-align: center;
+			height: 2.2rem;
+			line-height: 2.2rem;
+			color:#fff;
+		}
+		table thead th{
+			color: #fff;
+		}
+		table tbody{
+			background: #fea133;
+			text-align: center;
+			line-height: 1.5;
+		}
+		table tbody td{
+			background: #fff;
+		}
+	</style>
+</head>
+<body>
+	<!--头部 header-->
+	<div>
+		<header>
+			<div class="header">
+				<a onclick="history.go(-1)"><i class="icon icon-return"></i></a>
+				<h1>风云榜</h1>
+			</div>
+		</header>
+		<div style="height: 2.5rem;"></div>
+	</div>
+	<div class="box">
+		<div class="">
+			<img src="../img/fengyun.png"/>
+		</div>
+		<div class="table">
+			<table>
+				<thead>
+					<tr>
+						<th>开奖时间</th>
+						<th>开奖期数</th>
+						<th>每期号码</th>
+						<th>结果</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+					<!--<tr>
+						<td width: 25%><p style="width: 4.0rem;margin: 0 auto">2018/9/21
+							23:57:39</p></td>
+						<td width: 25%>705226</td>
+						<td width: 25%><p style="width: 4.0rem; margin: 0 auto">02,06,09,10,05,01,07,08,03,04</p></td>
+						<td width: 25%>藕</td>
+					</tr>-->
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- 引入js资源 -->
+	<script src="../js/zepto.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script type="text/javascript">
+		$(function(){
+            var oid = getQueryString("oid");
+            $.ajax({
+                type: 'POST',
+                url: '/mem/todayGuDetail',
+                data: { pageNum: 1},
+                dataType: 'json',
+                success: function(data){
+                    var list = data.list;
+                    var view = "";
+                    if(list.length == 0){
+						/*view="<p>暂无数据</p>"*/
+					}else{
+                    for (var i = 0; i< list.length; i++){
+                        view += "<tr>";
+                        view += "<td width: 25%><p style='width: 4.0rem;margin: 0 auto'>"+list.registertime+"</p></td>";
+                        view += "<td width: 25%>"+list.id+"</td>";
+                        view += "<td width: 25%><p style='width: 4.0rem;margin: 0 auto'>"+list.lastnum+"</p></td>";
+                        view += "<td width: 25%>"+list.jo+"</td>";
+                        view += "</tr>";
+					}
+                    }
+					$("#list").html(view);
+
+                },
+                error: function(xhr, type){
+                    alert('请求错误')
+                }
+            })
+		})
+	</script>
+</body>
+</html>
