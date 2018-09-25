@@ -1,9 +1,6 @@
 package com.butt.util;
 
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
+import org.apache.http.*;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,29 +37,43 @@ public class HttpUtil {
     public static String sendGet(String url) {
 
         HttpGet httpget = new HttpGet(url);
-        CloseableHttpResponse response = null;
+        HttpResponse response = null;
         try {
             response = httpclient.execute(httpget);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        String result = null;
-        try {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                result = EntityUtils.toString(entity);
+                InputStream instreams = entity.getContent();
+                String str = convertStreamToString(instreams);
+                httpget.abort();
+                return str;
             }
-        } catch (ParseException | IOException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String convertStreamToString(InputStream is) {
+        StringBuilder sb1 = new StringBuilder();
+        byte[] bytes = new byte[4096];
+        int size = 0;
+        try {
+            while ((size = is.read(bytes)) > 0) {
+                String str = new String(bytes, 0,size,"UTF-8");
+                sb1.append(str);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                response.close();
+                is.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return result;
+        return sb1.toString();
     }
+
 
     /**
      * 发送HttpPost请求，参数为map

@@ -148,6 +148,19 @@ public class BuyServiceImpl implements BuyService {
             result.put("msg" ,"订单错误");
             return result;
         }
+        //抽取35的运费
+        if (user.getMoney()<35){
+            result.put("code" ,6);
+            result.put("msg" ,"余额不足以支付运费");
+            return result;
+        }
+        memberDao.mimuMoney(35 ,user.getId());
+        Moneydetail moneydetail = new Moneydetail();
+        moneydetail.setUId(user.getId());
+        moneydetail.setMoney(-35.0);
+        moneydetail.setCuMoney(user.getMoney());
+        moneydetail.setRemarke("提货运费");
+        moneydetailDao.insertOne(moneydetail);
         //查询地址是否存在
         Address addre = addressDao.findAddreByUidAndID(user.getId(), addressId);
         if (addre==null){

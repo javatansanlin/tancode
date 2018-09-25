@@ -55,4 +55,6 @@ public class SysOrderListModel {
     private String addre;
     /** 商品名 */
     private String goodsName;
+    /** 用户绑定的手机号 */
+    private String uphone;
 }

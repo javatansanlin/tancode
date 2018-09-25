@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -35,8 +36,13 @@ public class Index {
     WechatAcountConfig wechatAcountConfig;
 
     @RequestMapping("/wxAu")
-    public String wxAu(){
-        return "redirect: https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + wechatAcountConfig.getMpAppId() + "&redirect_uri=http%3A%2F%2Flyy.96ime.com%2FwxGo&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+    public void wxAu( HttpServletResponse response){
+        try {
+            response.sendRedirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + wechatAcountConfig.getMpAppId() + "&redirect_uri=http%3A%2F%2Flyy.96ime.com%2FwxGo&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //return "redirect: https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + wechatAcountConfig.getMpAppId() + "&redirect_uri=http%3A%2F%2Flyy.96ime.com%2FwxGo&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     }
 
     @RequestMapping("/wxGo")
@@ -51,17 +57,19 @@ public class Index {
         System.out.println("返回的refresh_token："+access_token);
         System.out.println("返回的openid："+openid);
 
-        String url2 = "https://api.weixin.qq.com/sns/userinfo?access_token="+access_token+"&openid="+openid+"&lang=zh_CN";
-        String userInfo = HttpUtil.sendGet(url2);
-        Map<String, Object> map2 = JSON.parseObject(userInfo).getInnerMap();
-        Member member = new Member();
-        member.setOid(map2.get("openid")+"");
-        member.setImg(map2.get("headimgurl")+"");
-        member.setName(map2.get("nickname")+"");
-        member.setMoney(0.0);
-        member.setIntegral(0.0);
-        userService.inserMem(member);
         try {
+            String url2 = "https://api.weixin.qq.com/sns/userinfo?access_token="+access_token+"&openid="+openid+"&lang=zh_CN";
+            String userInfo = HttpUtil.sendGet(url2);
+
+            Map<String, Object> map2 = JSON.parseObject(userInfo).getInnerMap();
+            Member member = new Member();
+            member.setOid(map2.get("openid")+"");
+            member.setImg(map2.get("headimgurl")+"");
+            member.setName(map2.get("nickname") + "");
+            member.setMoney(0.0);
+            member.setIntegral(0.0);
+            userService.inserMem(member);
+
             response.sendRedirect(request.getContextPath()+"/index.html?oid="+map2.get("openid")+"");
         }catch (Exception e){
             e.printStackTrace();

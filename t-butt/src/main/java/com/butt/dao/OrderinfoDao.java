@@ -40,11 +40,11 @@ public interface OrderinfoDao {
     List<Orderinfo> findNotGuess();
 
     /** 根据用户oid查询用户的所有订单 */
-    @Select("SELECT odr.*,gue.DX AS DX,gue.JO AS JO FROM orderinfo AS odr LEFT JOIN member AS mem ON odr.U_ID = mem.ID LEFT JOIN guessing AS gue ON odr.GUESSID = gue.ID LEFT JOIN goods AS gs ON odr.G_ID = gs.ID WHERE mem.OID = #{oid} AND gs.TYPE=#{type} ORDER BY odr.REGISTERTIME DESC")
+    @Select("SELECT odr.ID,odr.G_ID,odr.CONTS,odr.PRICE,odr.STATE,odr.REGISTERTIME,gs.NAME AS gname,gs.PRICE AS gprice,gs.IMG FROM orderinfo AS odr LEFT JOIN member AS mem ON odr.U_ID = mem.ID LEFT JOIN guessing AS gue ON odr.GUESSID = gue.ID LEFT JOIN goods AS gs ON odr.G_ID = gs.ID WHERE mem.OID = #{oid} AND gs.TYPE=#{type} ORDER BY odr.REGISTERTIME DESC")
     List<OrderinfoModel> findOrderListByOid(@Param("oid") String oid ,@Param("type") Integer type);
 
     /** 查询所有的订单，按照时间降序 */
-    @Select("SELECT oi.*,gd.NAME AS goods_name FROM orderinfo AS oi LEFT JOIN goods AS gd ON oi.G_ID = gd.ID ORDER BY oi.REGISTERTIME DESC")
+    @Select("SELECT oi.*,gd.NAME AS goods_name,mem.phone as uphone FROM orderinfo AS oi LEFT JOIN goods AS gd ON oi.G_ID = gd.ID LEFT JOIN member AS mem ON oi.U_ID = mem.ID ORDER BY oi.REGISTERTIME DESC")
     List<SysOrderListModel> findAll();
 
     /** 根据id查询订单记录 */
