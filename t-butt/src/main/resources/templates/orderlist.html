@@ -23,7 +23,6 @@
 			padding:.4rem .6rem;
 			font-size:.75rem;
 			margin-left:10px;
-			background: #fff;
 		}
 		.listtop{
 			overflow: hidden;
@@ -68,22 +67,25 @@
 		}
 		.infobox{
 			margin-left:110px;
-			width: 72%;
+			width: 60%;
 		}
 		.name{
 			line-height: 1.5rem;
 		}
 		.btn1{
-			color:#ccc;
+			color:#fff;
 			border-color: #cccccc;
+			background: #cccccc;
 		}
 		.btn2{
-			color:#ee394a;
+			color:#fff;
 			border-color:#ee394a;
+			background: #ee394a;
 		}
 		.btn3{
-			color: #3A5FCD;
+			color: #fff;
 			border-color: #3A5FCD;
+			background: #3A5FCD;
 		}
 		.btnbox{
 			width: 10rem;
@@ -316,9 +318,9 @@
                                 view += '<button class="fr btn2" id="cx" data="'+list[i].id+'" datapic = "'+list[i].price+'">促销</button>';
                                 view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
                             }else if(list[i].state == 2){
-                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">再来一单</a>';
+                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
                             }else if(list[i].state == 3){
-                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">再来一单</a>';
+                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
                             }else if(list[i].state == 4){
                                 view += '<button class="fr btn1" id="dh1" data="'+list[i].id+'">兑换</button>';
                                 view += '<button id="getgood2" class="fr btn3" data="'+list[i].id+'">提货</button>';
@@ -328,7 +330,7 @@
                                 view += '<button class="fr btn2" id="return" data="'+list[i].id+'">退货</button>';
                                 view += '<button id="getgood3" class="fr btn3" data="'+list[i].id+'">提货</button>';
                             }else {
-                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">再来一单</a>';
+                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
                             }
                             view += '</div>';
                             view += '</li>';

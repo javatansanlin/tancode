@@ -219,7 +219,9 @@ nav { background-color: #fff; padding: .5rem 0; margin-bottom: .5rem; border-bot
     -webkit-box-orient: vertical;}
 .commodity li span.price{ color: #ed394a; font-size: .75rem; }
 .commodity li span.price s{ color: #a6a6a6; font-size: .6rem; }
-
+.commodity li img{
+    height: 150px;
+}
 /* 商品详情 */
 .product-head{ position: relative; }
 .product-head a{
