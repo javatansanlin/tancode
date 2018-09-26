@@ -45,6 +45,7 @@ public class PayServiceImpl implements PayService {
     MoneydetailDao moneydetailDao;
 
     /** 充值dao */
+    @Autowired
     RechargeDao rechargeDao;
 
     @Autowired

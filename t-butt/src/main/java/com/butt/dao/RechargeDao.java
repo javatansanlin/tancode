@@ -17,7 +17,7 @@ import java.util.List;
 public interface RechargeDao {
 
     /** 插入一条记录 */
-    @Insert("insert into RECHARGE(U_ID,MONEY,CODE,ORDER_CODE,REGISTERTIME values (#{uid},#{money},#{code},#{orderCode},NOW())")
+    @Insert("insert into RECHARGE(U_ID,MONEY,CODE,ORDER_CODE,REGISTERTIME) values (#{uid},#{money},#{code},#{orderCode},NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int insertOne(Recharge recharge);
 

@@ -43,8 +43,12 @@ public class WechatPay {
 
     /** 充值回调 */
     @RequestMapping("/notity")
-    public ModelAndView notity(HttpServletRequest request ,@RequestBody String notifyData){
+    @ResponseBody
+    public String notity(HttpServletRequest request ,@RequestBody String notifyData){
         payService.noty(notifyData);
-        return new ModelAndView("/paysuccess.html");
+        return "<xml>" +
+                "  <return_code><![CDATA[SUCCESS]]></return_code>" +
+                "  <return_msg><![CDATA[OK]]></return_msg>" +
+                "</xml>";
     }
 }

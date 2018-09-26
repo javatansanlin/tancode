@@ -40,8 +40,8 @@ public interface GuessingDao {
             "oi.PRICE," +
             "oi.GUESS," +
             "oi.GUESSTIME ,mem.NAME, gu.DX," +
-            "oi.REGISTERTIME as ordertime " +
-            "mem.PHONE " +
+            "oi.REGISTERTIME as ordertime, " +
+            "mem.PHONE, " +
             "gu.JO " +
             "FROM " +
             "orderinfo AS oi " +
