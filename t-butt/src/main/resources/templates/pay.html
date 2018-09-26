@@ -2,12 +2,12 @@
 <script>
     function onBridgeReady(){
         /*<![CDATA[*/
-        var appId = '[[${appId}]]';
-        var timeStamp = '[[${timeStamp}]]';
-        var nonceStr = '[[${nonceStr}]]';
-        var package = '[[${packAge}]]';
-        var signType = '[[${signType}]]';
-        var paySign = '[[${paySign}]]';
+        var appId = '[[${payResponse.appId}]]';
+        var timeStamp = '[[${payResponse.timeStamp}]]';
+        var nonceStr = '[[${payResponse.nonceStr}]]';
+        var package2 = '[[${payResponse.packAge}]]';
+        var signType = '[[${payResponse.signType}]]';
+        var paySign = '[[${payResponse.paySign}]]';
         var openid = '[[${openid}]]'
         /*]]>*/
         WeixinJSBridge.invoke(
@@ -15,7 +15,7 @@
                 "appId": appId,     //公众号名称，由商户传入
                 "timeStamp":timeStamp,         //时间戳，自1970年以来的秒数
                 "nonceStr":nonceStr, //随机串
-                "package":package,
+                "package":package2,
                 "signType":signType,         //微信签名方式：
                 "paySign":paySign //微信签名
             },
