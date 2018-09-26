@@ -44,7 +44,7 @@ public interface MemberDao {
     int updatePhone(Member member);
 
     //更新用户名字和头像
-    @Update("UPDATE member SET IMG= #{img},NAME=#{name} WHERE ID=#{id}")
+    @Update("UPDATE member SET IMG= #{img},NAME=#{name} WHERE OID=#{oid}")
     int updateNameAndImg(Member member);
 
     //查询所有的用户信息，并且有名字为条件，注册时间为降序

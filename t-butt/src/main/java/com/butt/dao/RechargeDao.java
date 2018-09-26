@@ -35,4 +35,8 @@ public interface RechargeDao {
     })
     Double fingMoneyCount(@Param("start") String start ,@Param("end") String end);
 
+    /** 根据系统订单号查询订单数 */
+    @Select("SELECT COUNT(ID) FROM recharge WHERE CODE=#{code}")
+    int findConByCode(String code);
+
 }

@@ -4,16 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.butt.config.wx.PayResponse;
 import com.butt.service.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,29 +27,24 @@ public class WechatPay {
     @Autowired
     private PayService payService;
 
-    /** redis操作 */
-    @Autowired
-    private RedisTemplate redisTemplate;
-
     /** 充值 */
-    @RequestMapping("recharge")
-    public ModelAndView recharge(Double money , String oid ,HttpServletRequest request ,Map<String ,Object> map){
+    @GetMapping("recharge")
+    public String recharge(Double money , String oid ,HttpServletRequest request ,Map<String ,Object> map){
         PayResponse payResponse = payService.recharge(money, oid ,request);
-        if(payResponse==null){
-            System.out.println("返回值空-----------");
-            return new ModelAndView(request.getContextPath()+"/err.html");
-        }
-        map.put("payResponse", payResponse);
+        String appId = payResponse.getAppId();
+        String timeStamp = payResponse.getTimeStamp();
+        String nonceStr = payResponse.getNonceStr();
+        String packAge = payResponse.getPackAge();
+        String signType = payResponse.getSignType();
+        String paySign = payResponse.getPaySign();
         System.out.println(JSON.toJSON(payResponse));
-
-        return new ModelAndView(request.getContextPath()+"/pay.html",map);
+        return "redirect:"+request.getContextPath()+"/pay.html?appId="+appId+"&timeStamp="+timeStamp+"&nonceStr="+nonceStr+"&packAge="+packAge+"&signType="+signType+"&paySign="+paySign+"&oid="+oid+"";
     }
 
     /** 充值回调 */
     @RequestMapping("/notity")
-    @ResponseBody
     public ModelAndView notity(HttpServletRequest request ,@RequestBody String notifyData){
         payService.noty(notifyData);
-        return new ModelAndView(request.getContextPath()+"/paysuccess.html");
+        return new ModelAndView("/paysuccess.html");
     }
 }

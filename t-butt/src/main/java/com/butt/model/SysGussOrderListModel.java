@@ -30,4 +30,8 @@ public class SysGussOrderListModel {
     private String jo;
     /** 是否中奖 */
     private String isGu;
+    /** 下单时间 */
+    private Date ordertime;
+    /** 用户手机号 **/
+    private String phone;
 }
