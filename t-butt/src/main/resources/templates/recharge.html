@@ -108,18 +108,19 @@
             var oid = getQueryString("oid");
 
 			$("#withdraw").click(function(){
-                $.ajax({
-                    type: 'POST',
-                    url: '/mem/withdraw',
-                    data: { oid: oid, carId: $("#bank").val(), withdrawMoney: $("#money").val()},
-                    dataType: 'json',
-                    success: function(data){
-                        $("#can").html(data.msg);
-                    },
-                    error: function(xhr, type){
-                        alert('请求错误')
-                    }
-                })
+                window.location.href="/wxpay/recharge?oid="+oid+"&money=0.01";
+                // $.ajax({
+                //     type: 'POST',
+                //     url: '/wxpay/recharge',
+                //     data: { oid: oid, money: 0.01},
+                //     dataType: 'json',
+                //     success: function(data){
+                //         $("#can").html(data.msg);
+                //     },
+                //     error: function(xhr, type){
+                //         alert('请求错误')
+                //     }
+                // })
 			})
 		})
         function getmoney(mon){

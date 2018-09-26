@@ -1,5 +1,7 @@
 package com.butt.util;
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -7,6 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +48,39 @@ public class XmlUtil {
                 // do nothing
             }
             return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * xml 转 字符
+     * @param obj
+     * @return
+     */
+    public static String toString(Object obj) {
+        Serializer serializer = new Persister();
+        StringWriter output = new StringWriter();
+        try {
+            serializer.write(obj, output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+    }
+
+    /**
+     *  xml转对象
+     * @param xml
+     * @param objClass
+     * @return
+     */
+    public static Object toObject(String xml, Class objClass) {
+        Serializer serializer = new Persister();
+        try {
+            return serializer.read(objClass, xml);
         } catch (Exception e) {
             e.printStackTrace();
         }
