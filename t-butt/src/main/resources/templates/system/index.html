@@ -62,7 +62,7 @@
     <div style="padding: 15px;">
       <table id="demo" lay-filter="test"></table>
       <script type="text/html" id="toolbar">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="geust">修改</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="geust">修改</a>
       </script>
     </div>
   </div>
@@ -73,19 +73,34 @@
   </div>
 </div>
 <div id="geustModal" style="display: none">
-  <form action="" class="layui-form" id="change">
+  <form action="" class="layui-form change">
     <div class="layui-form-item">
       <label class="layui-form-label">修改</label>
       <div class="layui-input-block">
-        <input type="radio" name="guest" value="D" title="大" checked>
-        <input type="radio" name="guest" value="X" title="小">
-        <input type="radio" name="guest" value="J" title="奇">
+        <input type="radio" name="guest" value="J" title="奇" checked>
         <input type="radio" name="guest" value="O" title="偶">
       </div>
     </div>
     <div class="layui-form-item">
       <div class="layui-input-block">
-        <p class="layui-btn" id="submit">提交</p>
+        <p class="layui-btn submit">提交</p>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="geustModal1" style="display: none">
+  <form action="" class="layui-form change">
+    <div class="layui-form-item">
+      <label class="layui-form-label">修改</label>
+      <div class="layui-input-block">
+        <input type="radio" name="guest" value="D" title="大" checked>
+        <input type="radio" name="guest" value="X" title="小">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <p class="layui-btn submit" >提交</p>
       </div>
     </div>
   </form>
@@ -121,15 +136,17 @@ layui.use(['element','table','upload'], function(){
     ,page: true //开启分页
     ,cols: [[ //表头
       {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
-      ,{field: 'name', title: '用户名', width:80}
-      ,{field: 'code', title: '订单编号', width:120}
-      ,{field: 'price', title: '价格', width:80 , sort: true} 
+      ,{field: 'name', title: '微信昵称', width:180}
+      ,{field: 'phone', title: '手机号', width:200}
+      ,{field: 'code', title: '订单编号', width:200}
+      ,{field: 'ordertime', title: '下单时间', width:200}
+      ,{field: 'price', title: '价格', width:80 , sort: true}
       ,{field: 'guess', title: '用户竞猜', width: 100}
       ,{field: 'dx', title: '开奖（大小）', width: 120, sort: true}
       ,{field: 'jo', title: '开奖（鸡藕）', width: 120, sort: true}
-      ,{field: 'guesstime', title: '开奖时间', width: 120, sort: true}
+      ,{field: 'guesstime', title: '开奖时间', width: 200, sort: true}
       ,{field: 'isGu', title: '是否中奖', width: 120, sort: true}
-      ,{fixed: 'right', width: 100, align:'center', toolbar: '#toolbar'}
+      ,{fixed: 'right',title:'操作', width: 100, align:'center', toolbar: '#toolbar'}
     ]]
   });
 
@@ -138,12 +155,20 @@ layui.use(['element','table','upload'], function(){
     var data = obj.data //获得当前行数据
     ,layEvent = obj.event; //获得 lay-event 对应的值
     if(layEvent === 'geust'){
-        layer.open({
-          type: 1,
-          content: $('#geustModal') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
-        });
+        if(data.guess == "鸡" || data.guess == "藕"){
+            layer.open({
+                type: 1,
+                content: $('#geustModal') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        }else{
+            layer.open({
+                type: 1,
+                content: $('#geustModal1') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        }
+
     }
-      $("#submit").click(function(){
+      $(".submit").click(function(){
           console.log($("input[name='guest']:checked").val());
           $.ajax({
               type: 'POST',

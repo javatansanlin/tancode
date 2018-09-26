@@ -69,30 +69,30 @@
 	<div class="box">
 		<div class="list">
 			<label class="fl">充值金额：</label>
-			<input class="fl" type="number" id="money" readonly/>
+			<input class="fl" type="number" id="money" type="number"/>
 		</div>
 		<div class="recharge">
 			<ul>
 				<li>
-					<p onclick="getmoney(50)">50元</p>
-				</li>
-				<li>
-					<p onclick="getmoney(100)">100元</p>
-				</li>
-				<li>
-					<p onclick="getmoney(200)">200元</p>
-				</li>
-				<li>
-					<p onclick="getmoney(300)">300元</p>
-				</li>
-				<li>
-					<p onclick="getmoney(400)">400元</p>
-				</li>
-				<li>
 					<p onclick="getmoney(500)">500元</p>
 				</li>
 				<li>
-					<p onclick="getmoney(600)">600元</p>
+					<p onclick="getmoney(1000)">1000元</p>
+				</li>
+				<li>
+					<p onclick="getmoney(2000)">2000元</p>
+				</li>
+				<li>
+					<p onclick="getmoney(3000)">3000元</p>
+				</li>
+				<li>
+					<p onclick="getmoney(5000)">5000元</p>
+				</li>
+				<li>
+					<p onclick="getmoney(10000)">10000元</p>
+				</li>
+				<li>
+					<p onclick="getmoney(20000)">20000元</p>
 				</li>
 			</ul>
 		</div>
@@ -108,7 +108,12 @@
             var oid = getQueryString("oid");
 
 			$("#withdraw").click(function(){
-                window.location.href="/wxpay/recharge?oid="+oid+"&money=0.01";
+			    var money = $("#money").val();
+			    if(money == null|| money == "" || money <= 0){
+			        alert("充值金额必须大于100")
+				}else{
+                    window.location.href="/wxpay/recharge?oid="+oid+"&money="+money;
+				}
                 // $.ajax({
                 //     type: 'POST',
                 //     url: '/wxpay/recharge',

@@ -17,7 +17,7 @@
 			padding:10px 0;
 			overflow: hidden;
 		}
-		.btngroup button{
+		.btngroup button, .btngroup a{
 			border:1px solid;
 			border-radius: 4px;
 			padding:.4rem .6rem;
@@ -41,23 +41,41 @@
 		}
 		.all p{
 			line-height: 1.5rem;
+			text-align: right;
 		}
 		.state, .price span{
 			color:#ee394a;
 		}
 		.price{
 			overflow: hidden;
+			margin-top: 38px;
 		}
 		.listmain{
 			padding:10px;
 			background: #e7e7e7;
+			overflow: hidden;
+			position:relative;
+			height: 100px;
+		}
+		.imgbox img{
+			width:100px;
+			height: 100px;
+		}
+		.imgbox{
+			position:absolute;
+			left:10px;
+			top:10px;
+		}
+		.infobox{
+			margin-left:110px;
+			width: 72%;
 		}
 		.name{
 			line-height: 1.5rem;
 		}
 		.btn1{
 			color:#ccc;
-			border-color: #ccc;
+			border-color: #cccccc;
 		}
 		.btn2{
 			color:#ee394a;
@@ -147,10 +165,15 @@
 					<span class="state fr">正常</span>
 				</div>
 				<div class="listmain">
-					<p class="name">2222222</p>
-					<div class="price">
-						<p class="fl">￥800.00</p>
-						<span class="fr">x1</span>
+					<div class="fl imgbox">
+						<img src=""/>
+					</div>
+					<div class="fl infobox">
+						<p class="name">2222222</p>
+						<div class="price">
+							<p class="fl">￥800.00</p>
+							<span class="fr">x1</span>
+						</div>
 					</div>
 				</div>
 				<div class="all">
@@ -193,8 +216,8 @@
             function getData(index){
                 $.ajax({
                     type: 'POST',
-                    url: '/mem/order/findMe',
-                    data: { oid: oid, index: index , type: 1},
+					url: '/mem/order/findMe',
+					data: { oid: oid, index: index , type: 1},
                     dataType: 'json',
                     success: function(data){
                         var view = "";
@@ -223,22 +246,31 @@
                             }else if(list[i].state == 2){
                                 view += '<span class="state fr">正在发货</span>';
                             }else if(list[i].state == 3){
-                                view += '<span class="state fr">开奖中</span>';
+                                view += '<span class="state fr">升级中</span>';
                             }else if(list[i].state == 4){
-                                view += '<span class="state fr">未中奖</span>';
+                                view += '<span class="state fr">升级失败</span>';
                             }else if(list[i].state == 5){;
-                                view += '<span class="state fr">中奖了</span>';
+                                view += '<span class="state fr">升级成功</span>';
                             }else {
                                 view += '<span class="state fr">订单完成</span>';
                             }
                             view += '</div>';
                             view += '<div class="listmain">';
-                            view += '<p class="name">'+list[i].code+'</p>';
+                        	view += '<div class="fl imgbox">';
+                            view += '<img src="/mem/goods/imgShow?fileName='+list[i].img+'"/>';
+                            view += '</div>';
+                            view += '<div class="fl infobox">';
+                            view += '<p class="name">'+list[i].gname+'</p>';
+                            view += '<div class="price">';
+                            view += '<p class="fl">￥'+list[i].gprice+'</p>';
+                            view += '<span class="fr">x'+list[i].conts+'</span>';
+                            view += '</div>';
+                            view += '</div>';
                             /*view += '<div class="price">';
                             view += '<p class="fl">￥'+list[i].price+'</p>';
                             view += '<span class="fr">x'+list[i].conts+'</span>';
                             view += '</div>';*/
-                            if(list[i].state == 1){
+                            /*if(list[i].state == 1){
                                 view += '';
                             }else if(list[i].state == 2){
                                 view += '<div class="price" style="margin-top: 10px;">';
@@ -274,19 +306,19 @@
 								}
                             }else {
                                 view += '';
-                            }
+                            }*/
                             view += '</div>';
                             view += '<div class="all">';
                             view += '<p>合计：￥'+(list[i].conts*list[i].price)+'</p>';
                             view += '</div>';
                             view += '<div class="btngroup">';
                             if(list[i].state == 1){
-                                view += '<button class="fr btn2" id="cx" data="'+list[i].id+'">促销</button>';
+                                view += '<button class="fr btn2" id="cx" data="'+list[i].id+'" datapic = "'+list[i].price+'">促销</button>';
                                 view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
                             }else if(list[i].state == 2){
-                                view += '';
+                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">再来一单</a>';
                             }else if(list[i].state == 3){
-                                view += '';
+                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">再来一单</a>';
                             }else if(list[i].state == 4){
                                 view += '<button class="fr btn1" id="dh1" data="'+list[i].id+'">兑换</button>';
                                 view += '<button id="getgood2" class="fr btn3" data="'+list[i].id+'">提货</button>';
@@ -295,10 +327,8 @@
                                 view += '<button class="fr btn1" id="dh2" data="'+list[i].id+'">兑换</button>';
                                 view += '<button class="fr btn2" id="return" data="'+list[i].id+'">退货</button>';
                                 view += '<button id="getgood3" class="fr btn3" data="'+list[i].id+'">提货</button>';
-
-
                             }else {
-                                view += '';
+                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].id+'&oid='+oid+'">再来一单</a>';
                             }
                             view += '</div>';
                             view += '</li>';
@@ -326,10 +356,15 @@
                         })
                         $("#cx").click(function () {
                             var id = $(this).attr("data");
-                            $(".tips").show();
-                            $("#cover").show();
-                            $("#jo").attr("href", "guess.html?id="+id+"&oid="+oid);
-                            $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
+                            var datapic = $(this).attr("datapic");
+                            var truthBeTold = window.confirm("是否花费"+datapic*0.01+"元（订单价格的1%），参与促销");
+                            if (truthBeTold) {
+                                $(".tips").show();
+                                $("#cover").show();
+                                $("#jo").attr("href", "guess.html?id="+id+"&oid="+oid);
+                                $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
+                            } else{}
+
                         })
 						$("#cover").click(function(){
 						    $(this).hide();
@@ -343,7 +378,7 @@
                                 data: {oid: oid, orderId: orderId},
                                 dataType: 'json',
                                 success: function (backData) {
-                                    alert(backData.msg);
+                                    alert("已返回订单金额的160%到账户余额");
                                     getData(1);
                                 },
                                 error: function(xhr, type){
@@ -370,21 +405,31 @@
                             var truthBeTold = window.confirm("您还没有收货地址，是否去添加？")
                             if (truthBeTold) {
                                 window.location.href="address.html?id=null&oid="+oid+"";
-                            } else{}
+                            } else{
+							}
 						}else{
-                            $.ajax({
-                                type: 'POST',
-                                url: '/mem/buy/takeGoods',
-                                data: {oid: oid, orderId: orderId, type: type, addressId: data[0].id},
-                                dataType: 'json',
-                                success: function (backData) {
-                                    alert(backData.msg);
-                                    getData(1);
-                                },
-                                error: function(xhr, type){
-                                    alert('请求错误')
-                                }
-                            })
+                            var truthBeTold = window.confirm("收货地址："+data[0].addre+"，需要运费：35元，是否提货？")
+                            if (truthBeTold) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/mem/buy/takeGoods',
+                                    data: {oid: oid, orderId: orderId, type: type, addressId: data[0].id},
+                                    dataType: 'json',
+                                    success: function (backData) {
+                                        if(type == 8){
+                                            alert("已发了双倍物品给您");
+										}else{
+                                            alert(backData.msg);
+										}
+                                        getData(1);
+                                    },
+                                    error: function(xhr, type){
+                                        alert('请求错误')
+                                    }
+                                })
+                            } else{
+
+                            }
 						}
                     },
                     error: function(xhr, type){
