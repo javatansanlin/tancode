@@ -3,7 +3,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
-    <title>洋洋商城</title>
+	<title>仟秀商城</title>
     <link href="../css/bass.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 	<style>
@@ -109,7 +109,7 @@
 
 			$("#withdraw").click(function(){
 			    var money = $("#money").val();
-			    if(money == null|| money == "" || money <= 0){
+			    if(money == null|| money == "" || money <= 100){
 			        alert("充值金额必须大于100")
 				}else{
                     window.location.href="/wxpay/recharge?oid="+oid+"&money="+money;
