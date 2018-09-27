@@ -96,10 +96,10 @@
 					}else{
                     for (var i = 0; i< list.length; i++){
                         view += "<tr>";
-                        view += "<td width: 25%><p style='width: 4.0rem;margin: 0 auto'>"+list.registertime+"</p></td>";
-                        view += "<td width: 25%>"+list.id+"</td>";
-                        view += "<td width: 25%><p style='width: 4.0rem;margin: 0 auto'>"+list.lastnum+"</p></td>";
-                        view += "<td width: 25%>"+list.jo+"</td>";
+                        view += "<td width: 25%><p style='width: 4.0rem;margin: 0 auto;font-size: 14px;'>"+list[i].registertime+"</p></td>";
+                        view += "<td width: 25%>"+list[i].id+"</td>";
+                        view += "<td width: 25%><p style='width: 4.0rem;margin: 0 auto'>"+list[i].lastnum+"</p></td>";
+                        view += "<td width: 25%>"+list[i].jo+"</td>";
                         view += "</tr>";
 					}
                     }

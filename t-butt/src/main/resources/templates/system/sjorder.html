@@ -50,8 +50,8 @@
         <li class="layui-nav-item layui-nav-itemed">
           <a href="sjorder.html">订单管理</a>
           <dl class="layui-nav-child">
-            <dd class="layui-this"><a href="sOrder.html">积分订单</a></dd>
-            <dd><a href="sjorder.html">常规订单</a></dd>
+            <dd class="layui-this"><a href="sjorder.html">升级订单</a></dd>
+            <dd><a href="thorder.html">提货订单</a></dd>
           </dl>
         </li>
       </ul>
@@ -63,13 +63,19 @@
     <div style="padding: 15px;">
       <div class="layui-row">
         <div class="layui-col-md3 layui-text">
-          今日订单数：<em>100</em>
+          今日订单数：<em id="today"></em>
         </div>
         <div class="layui-col-md3 layui-text">
-          订单总数：<em>1000</em>
+          订单总数：<em id="all"></em>
         </div>
       </div>
       <table id="demo" lay-filter="order"></table>
+      <script type="text/html" id="toolbar">
+        {{#  if(d.state == 2 ||d.state == 8 || d.state == 6 ){ }}
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">发货</a>
+        {{#  } else { }}
+        {{#  } }}
+      </script>
     </div>
   </div>
   
@@ -81,36 +87,80 @@
 <script src="./layui/layui.js"></script>
 <script>
 //JavaScript代码区域
-layui.use(['element','table'], function(){
+layui.use(['element','table','layer'], function(){
   var element = layui.element;
-  var table = layui.table;
+  var table = layui.table
+      ,layer = layui.layer
+      ,$ = layui.jquery;
+    $.ajax({
+        type: 'POST',
+        url: '/sys/order/findODCount',
+        data: {},
+        dataType: 'json',
+        success: function(data){
+            $("#today").html(data.today);
+            $("#all").html(data.all);
+        },
+        error:function(){
+            layer.msg("请求错误")
+        }
+    })
   
   //第一个实例
   table.render({
     elem: '#demo'
     ,height: 1000
-    ,url: '/demo/table/user/' //数据接口
+    ,method: 'post'
+    ,where:{type: 2}
+    ,id:"list"
+    ,url: '/sys/order/findAll' //数据接口
     ,parseData: function(res){ //res 即为原始返回的数据
       return {
-        "code": res.status, //解析接口状态
-        "msg": res.message, //解析提示文本
-        "count": res.total, //解析数据长度
-        "data": res.data.item //解析数据列表
+        "code": 0, //解析接口状态
+        /*"msg": res.message, //解析提示文本
+        "count": res.total,*/ //解析数据长度
+        "data": res.list //解析数据列表
       };
     }
     ,page: true //开启分页
     ,cols: [[ //表头
       {field: 'id', title: 'ID', width:60, sort: true, fixed: 'left'}
-      ,{field: 'goodsname', title: '商品名称', width:110}
+      ,{field: 'goodsName', title: '商品名称', width:110}
       ,{field: 'price', title: '订单价格', width:100,sort: true}
-      ,{field: 'num', title: '购买数量', width:100 , sort: true} 
-      ,{field: 'orderCode', title: '订单编号', width: 100}
-      ,{field: 'name', title: '收货人姓名', width: 100 }
-      ,{field: 'phone', title: '收货人电话', width: 100}
-      ,{field: 'address', title: '收货人地址', width: 280}
-      ,{field: 'orderState', title: '订单状态', width: 100 }
+      ,{field: 'conts', title: '购买数量', width:100 , sort: true}
+      ,{field: 'code', title: '订单编号', width: 200}
+      /*,{field: 'addreName', title: '收货人姓名', width: 100 }
+      ,{field: 'addrePhone', title: '收货人电话', width: 200}
+      ,{field: 'addre', title: '收货人地址', width: 280}*/
+      ,{field: 'stateName', title: '订单状态', width: 200 }
+     /* ,{field: 'right', title: '操作', width: 100, toolbar: '#toolbar'}*/
     ]]
   });
+    //监听行工具事件
+    table.on('tool(order)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data //获得当前行数据
+            ,layEvent = obj.event; //获得 lay-event 对应的值
+        console.log(data);
+        if(layEvent === 'add'){
+            $.ajax({
+                type: 'POST',
+                url: '/sys/order/upOrderState',
+                data: { id: data.id },
+                dataType: 'json',
+                success: function(data){
+                    layer.msg(data.msg);
+                    table.reload('list', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                },
+                error:function(){
+                    layer.msg("请求错误")
+                }
+            })
+        }
+    });
 });
 </script>
 </body>
