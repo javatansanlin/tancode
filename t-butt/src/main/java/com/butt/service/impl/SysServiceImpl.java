@@ -131,25 +131,25 @@ public class SysServiceImpl implements SysService {
         }
         for (SysOrderListModel s:all) {
             if (s.getState()==1){
-                s.setStateName("初创订单，未进行任何操作");
+                s.setStateName("未升级");
             }else if (s.getState()==2){
-                s.setStateName("选择提货，需要发货X1");
+                s.setStateName("提货X1");
             }else if (s.getState()==3){
-                s.setStateName("点了促销，正在开奖中");
+                s.setStateName("升级中");
             }else if (s.getState()==4){
-                s.setStateName("未中奖而且未操作");
+                s.setStateName("升级失败");
             }else if (s.getState()==5){
-                s.setStateName("中奖而且未操作");
+                s.setStateName("升级成功");
             }else if (s.getState()==6){
-                s.setStateName("未中奖选择提货,需要发货X1");
+                s.setStateName("提货X1");
             }else if (s.getState()==7){
-                s.setStateName("未中奖选择兑换积分");
+                s.setStateName("升级失败，兑换积分");
             }else if (s.getState()==8){
-                s.setStateName("中奖选择提货,需要发货X2");
+                s.setStateName("提货X2");
             }else if (s.getState()==9){
-                s.setStateName("中奖选择退货");
+                s.setStateName("升级成功");
             }else if (s.getState()==10){
-                s.setStateName("中奖选择兑换积分");
+                s.setStateName("升级成功，兑换积分");
             }else if (s.getState()==33){
                 s.setStateName("订单发货，订单完成");
             }
