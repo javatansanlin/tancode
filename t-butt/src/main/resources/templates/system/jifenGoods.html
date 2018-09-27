@@ -82,7 +82,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">商品名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入商品名" class="layui-input">
+        <input type="text" id="goodname" name="name" lay-verify="title" autocomplete="off" placeholder="请输入商品名" class="layui-input">
         <input type="hidden" value="2" name="type"/>
         <input type="hidden" value="" name="id" id="goodid"/>
       </div>
@@ -91,13 +91,13 @@
     <div class="layui-form-item">
       <label class="layui-form-label">商品积分</label>
       <div class="layui-input-inline">
-        <input type="text" name="price" lay-verify="required|number" autocomplete="off" placeholder="请输入商品价格" class="layui-input">
+        <input type="text" id="jf" name="price" lay-verify="required|number" autocomplete="off" placeholder="请输入商品价格" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">商品描述</label>
       <div class="layui-input-inline">
-        <input type="text" name="remarke"  autocomplete="off" placeholder="请输入商品描述" class="layui-input" >
+        <input type="text" id="remark" name="remarke"  autocomplete="off" placeholder="请输入商品描述" class="layui-input" >
       </div>
     </div>
     <div class="layui-form-item">
@@ -221,6 +221,8 @@
                     type: 1,
                     content: $('#edit') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
                 });
+                $("#goodname").val(data.name);
+                $("#jf").val(data.integral);
                 $("#editnow").click(function () {
                     $("#goodid").val(data.id);
                     var formData = new FormData($("#editgoods")[0]);
