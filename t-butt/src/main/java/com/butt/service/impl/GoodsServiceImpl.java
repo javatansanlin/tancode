@@ -103,6 +103,7 @@ public class GoodsServiceImpl implements GoodsService {
             result.put("code" ,3);
             result.put("msg" ,"操作成功");
         }catch (Exception e){
+            e.printStackTrace();
             result.put("code" ,33);
             result.put("msg" ,"错误");
         }
@@ -158,15 +159,15 @@ public class GoodsServiceImpl implements GoodsService {
             //获取文件的后缀名
             String s = file1.getOriginalFilename();
             String suffixName1 = s.substring(s.lastIndexOf("."));
-            String fileName1 = DateUtil.Date2TimeStamp(new Date())+suffixName1;
+            String fileName1 = Salt.getOrderNum()+suffixName1;
             img = fileName1;
-            s = file2.getOriginalFilename();
-            String suffixName2 = s.substring(s.lastIndexOf("."));
-            String fileName2 = DateUtil.Date2TimeStamp(new Date())+suffixName2;
+            String s1 = file2.getOriginalFilename();
+            String suffixName2 = s1.substring(s1.lastIndexOf("."));
+            String fileName2 = Salt.getOrderNum()+suffixName2;
             imgt = fileName2;
-            s = file3.getOriginalFilename();
-            String suffixName3 = s.substring(s.lastIndexOf("."));
-            String fileName3 = DateUtil.Date2TimeStamp(new Date())+suffixName3;
+            String s2 = file3.getOriginalFilename();
+            String suffixName3 = s2.substring(s2.lastIndexOf("."));
+            String fileName3 = Salt.getOrderNum()+suffixName3;
             imgtt = fileName3;
             //判断文件夹是否存在
             File dir = new File(path);
@@ -197,6 +198,7 @@ public class GoodsServiceImpl implements GoodsService {
             result.put("code" ,3);
             result.put("msg" ,"操作成功");
         }catch (Exception e){
+            e.printStackTrace();
             result.put("code" ,33);
             result.put("msg" ,"错误");
         }
