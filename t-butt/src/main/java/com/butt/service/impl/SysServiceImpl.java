@@ -121,9 +121,14 @@ public class SysServiceImpl implements SysService {
      * 订单管理--> 查看所有的订单，按时间排序
      */
     @Override
-    public PageInfo<SysOrderListModel> findAllOrder(Integer pageNum) {
+    public PageInfo<SysOrderListModel> findAllOrder(Integer pageNum ,Integer type) {
         PageHelper.startPage(pageNum, 15);
-        List<SysOrderListModel> all = orderinfoDao.findAll();
+        List<SysOrderListModel> all = null;
+        if (type==1){
+            all = orderinfoDao.findTiHuoAll();
+        }else {
+            all = orderinfoDao.findAll();
+        }
         for (SysOrderListModel s:all) {
             if (s.getState()==1){
                 s.setStateName("初创订单，未进行任何操作");

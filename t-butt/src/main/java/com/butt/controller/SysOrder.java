@@ -25,13 +25,13 @@ public class SysOrder {
     @Autowired
     private SysService sysService;
 
-    /** 查看所有的订单，按时间排序 */
+    /** 查看所有的订单，按时间排序 type : 1-提货订单 ，2-其他订单（包括升级未升级订单）*/
     @PostMapping("/findAll")
-    PageInfo<SysOrderListModel> findAll(Integer pageNum){
+    PageInfo<SysOrderListModel> findAll(Integer pageNum ,Integer type){
         if (pageNum==null || pageNum>=0){
             pageNum = 1;
         }
-        return sysService.findAllOrder(pageNum);
+        return sysService.findAllOrder(pageNum ,type);
     }
 
     /** 修改订单状态未已发货 */

@@ -23,13 +23,13 @@ public class GuessingTask {
     GuessingService guessingService;
 
     /** 摇奖 */
-    //@Scheduled(cron = "0 0/5 * * * *")
+    @Scheduled(cron = "0 0/5 * * * *")
     public void scheduled(){
         guessingService.guessingGoing();
     }
 
     /** 处理猜奖 */
-    //@Scheduled(cron = "0 0/7 * * * *")
+    @Scheduled(cron = "0 0/7 * * * *")
     public void scheduledTwo(){
         guessingService.setGuess();
     }

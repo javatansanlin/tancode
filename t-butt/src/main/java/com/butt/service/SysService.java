@@ -29,7 +29,7 @@ public interface SysService {
     Map<String,Object> changeReState(Integer id);
 
     /** 订单管理--> 查看所有的订单，按时间排序 */
-    PageInfo<SysOrderListModel> findAllOrder(Integer pageNum);
+    PageInfo<SysOrderListModel> findAllOrder(Integer pageNum ,Integer type);
 
     /** 订单管理--> 修改订单状态未已发货 */
     Map<String,Object> upOrderState(Integer id);

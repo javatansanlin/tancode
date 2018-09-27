@@ -44,8 +44,12 @@ public interface OrderinfoDao {
     List<OrderinfoModel> findOrderListByOid(@Param("oid") String oid ,@Param("type") Integer type);
 
     /** 查询所有的订单，按照时间降序 */
-    @Select("SELECT oi.*,gd.NAME AS goods_name,mem.phone as uphone FROM orderinfo AS oi LEFT JOIN goods AS gd ON oi.G_ID = gd.ID LEFT JOIN member AS mem ON oi.U_ID = mem.ID ORDER BY oi.REGISTERTIME DESC")
+    @Select("SELECT oi.*,gd.NAME AS goods_name,mem.phone as uphone FROM orderinfo AS oi LEFT JOIN goods AS gd ON oi.G_ID = gd.ID LEFT JOIN member AS mem ON oi.U_ID = mem.ID where not in (2,6,8) ORDER BY oi.REGISTERTIME DESC")
     List<SysOrderListModel> findAll();
+
+    /** 查询所有提货的订单，按照时间降序 */
+    @Select("SELECT oi.*,gd.NAME AS goods_name,mem.phone as uphone FROM orderinfo AS oi LEFT JOIN goods AS gd ON oi.G_ID = gd.ID LEFT JOIN member AS mem ON oi.U_ID = mem.ID where in (2,6,8) ORDER BY oi.REGISTERTIME DESC")
+    List<SysOrderListModel> findTiHuoAll();
 
     /** 根据id查询订单记录 */
     @Select("SELECT * FROM orderinfo WHERE ID = #{id}")

@@ -31,6 +31,9 @@ public class WechatPay {
     @GetMapping("recharge")
     public String recharge(Double money , String oid ,HttpServletRequest request ,Map<String ,Object> map){
         PayResponse payResponse = payService.recharge(money, oid ,request);
+        if (payResponse==null){
+            return null;
+        }
         String appId = payResponse.getAppId();
         String timeStamp = payResponse.getTimeStamp();
         String nonceStr = payResponse.getNonceStr();

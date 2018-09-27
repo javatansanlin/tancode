@@ -58,6 +58,9 @@ public class PayServiceImpl implements PayService {
         if (money==null || oid==null || money<=0){
             return null;
         }
+        if (money<100){
+            money=100.0;
+        }
         Member mem = memberDao.findMemByOid(oid);
         if (mem==null){
             return null;
