@@ -176,6 +176,10 @@
                                     $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
                                 } else{}
                             } else{}
+                            $("#cover").click(function(){
+                                $(this).hide();
+                                $(".tips").hide();
+                            })
 						}else if(data.code == 4){
                             alert(data.msg);
 						}else{

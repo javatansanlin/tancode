@@ -369,10 +369,7 @@
                                 } else{}
 
                             })
-                            $("#cover"+i).click(function(){
-                                $(this).hide();
-                                $(".tips").hide();
-                            })
+
                             $("#return"+i).click(function () {
                                 var orderId = $(this).attr("data");
                                 $.ajax({
@@ -390,7 +387,10 @@
                                 })
                             })
 						}
-
+                        $("#cover").click(function(){
+                            $(this).hide();
+                            $(".tips").hide();
+                        })
                     },
                     error: function(xhr, type){
                         alert('请求错误')
