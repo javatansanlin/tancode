@@ -71,6 +71,7 @@ public class GuessingServiceImpl implements GuessingService {
                     if ("D".equals(ot.getGuess()) || "X".equals(ot.getGuess())){//大小
                         if (guess.getDx().equals(ot.getGuess())){
                             ot.setState(5);
+                            ot.setConts(ot.getConts()*2);
                         }else {
                             ot.setState(4);
                         }
@@ -78,6 +79,7 @@ public class GuessingServiceImpl implements GuessingService {
                     if ("J".equals(ot.getGuess()) || "O".equals(ot.getGuess())) {//鸡藕
                         if (guess.getJo().equals(ot.getGuess())){
                             ot.setState(5);
+                            ot.setConts(ot.getConts()*2);
                         }else {
                             ot.setState(4);
                         }

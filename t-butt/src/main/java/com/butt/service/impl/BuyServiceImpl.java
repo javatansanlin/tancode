@@ -334,7 +334,6 @@ public class BuyServiceImpl implements BuyService {
         //增加用户余额
         memberDao.increaseMoney(money ,user.getId());
         //插入资金明细
-        memberDao.mimuMoney(money ,user.getId());
         Moneydetail moneydetail = new Moneydetail();
         moneydetail.setUId(user.getId());
         moneydetail.setMoney(money);
