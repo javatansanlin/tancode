@@ -315,79 +315,82 @@
                             view += '</div>';
                             view += '<div class="btngroup">';
                             if(list[i].state == 1){
-                                view += '<button class="fr btn2" id="cx" data="'+list[i].id+'" datapic = "'+list[i].price+'">促销</button>';
-                                view += '<button id="getgood1" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                                view += '<button class="fr btn2" id="cx'+i+'" data="'+list[i].id+'" datapic = "'+list[i].price+'">促销</button>';
+                                view += '<button id="getgood1'+i+'" class="fr btn3" data="'+list[i].id+'">提货</button>';
                             }else if(list[i].state == 2){
-                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
+                                view += '<a class="fr btn2" id="return'+i+'" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
                             }else if(list[i].state == 3){
-                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
+                                view += '<a class="fr btn2" id="return'+i+'" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
                             }else if(list[i].state == 4){
-                                view += '<button class="fr btn1" id="dh1" data="'+list[i].id+'">兑换</button>';
-                                view += '<button id="getgood2" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                                view += '<button class="fr btn1" id="dh1'+i+'" data="'+list[i].id+'">兑换</button>';
+                                view += '<button id="getgood2'+i+'" class="fr btn3" data="'+list[i].id+'">提货</button>';
 
                             }else if(list[i].state == 5){
-                                view += '<button class="fr btn1" id="dh2" data="'+list[i].id+'">兑换</button>';
-                                view += '<button class="fr btn2" id="return" data="'+list[i].id+'">退货</button>';
-                                view += '<button id="getgood3" class="fr btn3" data="'+list[i].id+'">提货</button>';
+                                view += '<button class="fr btn1" id="dh2'+i+'" data="'+list[i].id+'">兑换</button>';
+                                view += '<button class="fr btn2" id="return'+i+'" data="'+list[i].id+'">退货</button>';
+                                view += '<button id="getgood3'+i+'" class="fr btn3" data="'+list[i].id+'">提货</button>';
                             }else {
-                                view += '<a class="fr btn2" id="return" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
+                                view += '<a class="fr btn2" id="return'+i+'" data="'+list[i].id+'" href="goodsdetail.html?id='+list[i].gid+'&oid='+oid+'">再来一单</a>';
                             }
                             view += '</div>';
                             view += '</li>';
 						}
 						$("#list").html(view);
-                        $("#getgood2").click(function () {
-                            var orderId = $(this).attr("data");
-                            getgood(6,orderId)
-                        })
-                        $("#dh1").click(function () {
-                            var orderId = $(this).attr("data");
-                            getdh(7, orderId)
-                        })
-                        $("#getgood3").click(function () {
-                            var orderId = $(this).attr("data");
-                            getgood(8, orderId)
-                        })
-                        $("#dh2").click(function () {
-                            var orderId = $(this).attr("data");
-                            getdh(10, orderId)
-                        })
-                        $("#getgood1").click(function () {
-                            var orderId = $(this).attr("data");
-                            getgood(2, orderId)
-                        })
-                        $("#cx").click(function () {
-                            var id = $(this).attr("data");
-                            var datapic = $(this).attr("datapic");
-                            var truthBeTold = window.confirm("是否花费"+datapic*0.01+"元（订单价格的1%），参与促销");
-                            if (truthBeTold) {
-                                $(".tips").show();
-                                $("#cover").show();
-                                $("#jo").attr("href", "guess.html?id="+id+"&oid="+oid);
-                                $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
-                            } else{}
-
-                        })
-						$("#cover").click(function(){
-						    $(this).hide();
-						    $(".tips").hide();
-						})
-                        $("#return").click(function () {
-                            var orderId = $(this).attr("data");
-                            $.ajax({
-                                type: 'POST',
-                                url: '/mem/buy/changeMoney',
-                                data: {oid: oid, orderId: orderId},
-                                dataType: 'json',
-                                success: function (backData) {
-                                    alert("已返回订单金额的160%到账户余额");
-                                    getData(1);
-                                },
-                                error: function(xhr, type){
-                                    alert('请求错误')
-                                }
+                        for (var i = 0; i< list.length; i++){
+                            $("#getgood2"+i).click(function () {
+                                var orderId = $(this).attr("data");
+                                getgood(6,orderId)
                             })
-                        })
+                            $("#dh1"+i).click(function () {
+                                var orderId = $(this).attr("data");
+                                getdh(7, orderId)
+                            })
+                            $("#getgood3"+i).click(function () {
+                                var orderId = $(this).attr("data");
+                                getgood(8, orderId)
+                            })
+                            $("#dh2"+i).click(function () {
+                                var orderId = $(this).attr("data");
+                                getdh(10, orderId)
+                            })
+                            $("#getgood1"+i).click(function () {
+                                var orderId = $(this).attr("data");
+                                getgood(2, orderId)
+                            })
+                            $("#cx"+i).click(function () {
+                                var id = $(this).attr("data");
+                                var datapic = $(this).attr("datapic");
+                                var truthBeTold = window.confirm("是否花费"+datapic*0.01+"元参与促销");
+                                if (truthBeTold) {
+                                    $(".tips").show();
+                                    $("#cover").show();
+                                    $("#jo").attr("href", "guess.html?id="+id+"&oid="+oid);
+                                    $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
+                                } else{}
+
+                            })
+                            $("#cover"+i).click(function(){
+                                $(this).hide();
+                                $(".tips").hide();
+                            })
+                            $("#return"+i).click(function () {
+                                var orderId = $(this).attr("data");
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/mem/buy/changeMoney',
+                                    data: {oid: oid, orderId: orderId},
+                                    dataType: 'json',
+                                    success: function (backData) {
+                                        alert("已返回订单金额的160%到账户余额");
+                                        getData(1);
+                                    },
+                                    error: function(xhr, type){
+                                        alert('请求错误')
+                                    }
+                                })
+                            })
+						}
+
                     },
                     error: function(xhr, type){
                         alert('请求错误')

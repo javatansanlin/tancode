@@ -6,6 +6,55 @@
 	<title>仟秀商城</title>
     <link href="../css/bass.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+	<style>
+		#cover{
+			position:fixed;left:0px;top:0px;
+			background:rgba(0, 0, 0, 0.4);
+			width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+			height:100%;
+			filter:alpha(opacity=60);  /*设置透明度为60%*/
+			opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+			display:none;
+			z-Index:999;
+		}
+		.tips{
+			display:none;
+			background: #fff;
+			position: fixed;
+			top: 30%;
+			width: 14rem;
+			left: 50%;
+			margin-left: -7.0rem;
+			border-radius: 8px;
+			padding: 10px 20px;
+			z-index: 9999;
+			box-sizing: border-box;
+		}
+		.tips p{
+			text-align: center;
+			font-size:1.0rem;
+			line-height: 1.5;
+			font-weight: 600;
+			margin-bottom: 10px;
+		}
+		.tips a{
+			display: block;
+			width: 100%;
+			border-radius: 20px;
+			height: 2.0rem;
+			color: #fff;
+			line-height: 2.0rem;
+			font-size: 1.0rem;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		#jo{
+			background: #fe5455;
+		}
+		#dx{
+			background: #ff8452;
+		}
+	</style>
 </head>
 <body>
 	<!--头部 header-->
@@ -51,6 +100,12 @@
     <div class="add-shopping">
     	<a class="btn btn-red fr" id="buynow">立即购买</a>
     </div>
+	<div class="tips">
+		<p>促销方式</p>
+		<a id="jo">猜鸡藕</a>
+		<a id="dx">猜大小</a>
+	</div>
+	<div id="cover"></div>
 	<!-- 引入js资源 -->
 	<script src="../js/zepto.min.js"></script>
 	<script src="../js/main.js"></script>
@@ -58,6 +113,7 @@
 		$(function(){
             var id = getQueryString("id");
             var oid = getQueryString("oid");
+            var price;
             $.ajax({
                 type: 'POST',
                 url: '/mem/goods/findGoodsByid',
@@ -67,7 +123,8 @@
                     $("#img").attr("src", "/mem/goods/imgShow?fileName="+data.img);
                     $("#name").html(data.name);
                     if(data.type == 1){
-                        $("#price").html("￥"+data.price);
+                        price = data.price;
+                        $("#price").html("￥"+price);
 					}else{
                         $("#price").html("积分："+data.integral);
 					}
@@ -109,14 +166,22 @@
 						}else if(data.code == 3){
                             var truthBeTold = window.confirm("购买成功！是否升级")
                             if (truthBeTold) {
-                                window.location.href="orderlist.html?oid="+oid;
+                                var mun = $("#number").html();
+                                var tpic = mun*price*0.01;
+                                var truthBeTold = window.confirm("是否花费"+tpic+"元参加促销？")
+                                if (truthBeTold) {
+                                    $(".tips").show();
+                                    $("#cover").show();
+                                    $("#jo").attr("href", "guess.html?id="+id+"&oid="+oid);
+                                    $("#dx").attr("href", "guess2.html?id="+id+"&oid="+oid);
+                                } else{}
                             } else{}
 						}else if(data.code == 4){
                             alert(data.msg);
 						}else{
                             var truthBeTold = window.confirm("余额不足！是否充值")
                             if (truthBeTold) {
-                                window.location.href=""
+                                window.location.href="recharge.html"
                             } else{}
 						}
                     },
