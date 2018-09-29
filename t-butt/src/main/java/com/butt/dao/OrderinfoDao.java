@@ -32,7 +32,7 @@ public interface OrderinfoDao {
     int updateOrderAddreAndState(Orderinfo orderinfo);
 
     /** 根据用户选择的竞猜结果更新相关信息 */
-    @Update("UPDATE orderinfo SET STATE= #{state},GUESS=#{guess},GUESSID=#{guessid},GUESSTIME=#{guesstime} WHERE ID=#{id}")
+    @Update("UPDATE orderinfo SET CONTS=#{conts},STATE= #{state},GUESS=#{guess},GUESSID=#{guessid},GUESSTIME=#{guesstime} WHERE ID=#{id}")
     int updateOrderGuessAndState(Orderinfo orderinfo);
 
     /** 查询状态3，并且开奖时间的订单 */

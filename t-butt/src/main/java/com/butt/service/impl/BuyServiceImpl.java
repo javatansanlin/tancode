@@ -280,7 +280,8 @@ public class BuyServiceImpl implements BuyService {
         orderinfoDao.updateOrderGuessAndState(order);
 
         //计算应得积分
-        double integra = type==7?order.getPrice():order.getPrice()*100;
+        //double integra = type==7?order.getPrice():order.getPrice()*100;
+        double integra = order.getPrice()*100;
         //执行增加积分
         memberDao.increaseIntegra(integra ,user.getId());
         //插入积分明细

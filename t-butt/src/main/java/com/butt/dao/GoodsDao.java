@@ -32,6 +32,6 @@ public interface GoodsDao {
     Goods findGoodsById(Integer id);
 
     /** 根据id更新商品 */
-    @Update("update GOODS set TYPE=#{type},NAME=#{name},PRICE=#{price},INTEGRAL=#{integral},IMG={img},IMGT=#{imgt},IMGTT={imgtt},REMARKE=#{remarke} where ID=#{id}")
+    @Update("update GOODS set TYPE=#{type},NAME=#{name},PRICE=#{price},INTEGRAL=#{integral},IMG=#{img},IMGT=#{imgt},IMGTT=#{imgtt},REMARKE=#{remarke} where ID=#{id}")
     int updateOne(Goods goods);
 }
