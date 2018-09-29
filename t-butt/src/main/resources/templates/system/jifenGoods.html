@@ -223,8 +223,8 @@
                 });
                 $("#goodname").val(data.name);
                 $("#jf").val(data.integral);
+                $("#goodid").val(data.id);
                 $("#editnow").click(function () {
-                    $("#goodid").val(data.id);
                     var formData = new FormData($("#editgoods")[0]);
                     $.ajax({
                         type: 'POST',

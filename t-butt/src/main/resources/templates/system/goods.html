@@ -223,8 +223,8 @@ layui.use(['element','table','upload','layer', 'form'], function(){
       });
         $("#goodname").val(data.name);
         $("#jf").val(data.price);
+        $("#goodid").val(data.id);
         $("#editnow").click(function () {
-            $("#goodid").val(data.id);
             var formData = new FormData($("#editgoods")[0]);
             $.ajax({
                 type: 'POST',
