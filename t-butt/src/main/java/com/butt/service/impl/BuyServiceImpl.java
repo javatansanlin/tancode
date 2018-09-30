@@ -229,7 +229,7 @@ public class BuyServiceImpl implements BuyService {
         //获取最近未开奖的竞猜
         Guessing notGuess = guessingDao.findOneNotGuess();
         //获取开奖时间
-        Date date = DateUtil.getSecondDate(360);
+        Date date = DateUtil.getSecondDate(340);
         order.setState(3);
         order.setGuess(guessResult);
         order.setGuesstime(date);
