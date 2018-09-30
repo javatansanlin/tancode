@@ -199,14 +199,12 @@ nav { background-color: #fff; padding: .5rem 0; margin-bottom: .5rem; border-bot
 .commodity li{
     float: left;
     width: 49%;
-    margin-right: 2%;
     margin-bottom: .25rem;
     background-color: #fff;
 }
-.commodity li:nth-of-type(2),
-.commodity li:nth-of-type(4),
-.commodity li:nth-of-type(6){ margin-right: 0; }
-.commodity li span{ 
+.commodity li:nth-of-type(even){ margin-right: 0; }
+.commodity li:nth-of-type(odd){ margin-right: 2%; }
+.commodity li span{
     display: initial;
     color: #1a1a1a; 
     line-height: 1rem; 
