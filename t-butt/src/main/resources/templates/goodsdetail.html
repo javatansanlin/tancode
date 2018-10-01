@@ -168,7 +168,7 @@
                             if (truthBeTold) {
                                 var mun = $("#number").html();
                                 var tpic = mun*price*0.01;
-                                var truthBeTold = window.confirm("是否花费"+tpic+"元参加促销？")
+                                var truthBeTold = window.confirm("是否花费"+tpic.toFixed(2)+"元参加促销？")
                                 if (truthBeTold) {
                                     $(".tips").show();
                                     $("#cover").show();

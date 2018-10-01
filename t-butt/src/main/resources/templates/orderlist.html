@@ -360,7 +360,7 @@
                             $("#cx"+i).click(function () {
                                 var id = $(this).attr("data");
                                 var datapic = $(this).attr("datapic");
-                                var truthBeTold = window.confirm("是否花费"+datapic*0.01+"元参与促销");
+                                var truthBeTold = window.confirm("是否花费"+(datapic*0.01).toFixed(2)+"元参与促销");
                                 if (truthBeTold) {
                                     $(".tips").show();
                                     $("#cover").show();
