@@ -54,7 +54,7 @@ public class SysServiceImpl implements SysService {
      */
     @Override
     public PageInfo<SysRechargeListModel> findAll(Integer pageNum) {
-        PageHelper.startPage(pageNum, 15);
+        PageHelper.startPage(pageNum, 10);
         List<SysRechargeListModel> list = rechargeDao.findAll();
         return new PageInfo<SysRechargeListModel>(list);
     }
@@ -122,7 +122,7 @@ public class SysServiceImpl implements SysService {
      */
     @Override
     public PageInfo<SysOrderListModel> findAllOrder(Integer pageNum ,Integer type) {
-        PageHelper.startPage(pageNum, 15);
+        PageHelper.startPage(pageNum, 10);
         List<SysOrderListModel> all = null;
         if (type==1){
             all = orderinfoDao.findTiHuoAll();
@@ -199,7 +199,7 @@ public class SysServiceImpl implements SysService {
     /** 开奖管理--> 查询参加促销并且未开奖的订单 */
     @Override
     public PageInfo<SysGussOrderListModel> findNotOGO(Integer pageNum) {
-        PageHelper.startPage(pageNum, 15);
+        PageHelper.startPage(pageNum, 10);
         List<SysGussOrderListModel> all = guessingDao.findNotOpenGuAndOi();
         //逻辑处理
         if (all!=null && all.size()>0){
@@ -273,7 +273,7 @@ public class SysServiceImpl implements SysService {
     /** 查看今天所有的开奖信息 */
     @Override
     public PageInfo<Guessing> todayGuDetail(Integer pageNum) {
-        PageHelper.startPage(pageNum, 15);
+        PageHelper.startPage(pageNum, 10);
         List<Guessing> listGu = guessingDao.findListGu(DateUtil.getStringDate(DateUtil.getStartTime()), DateUtil.getStringDate(DateUtil.getEndTime()));
         for (Guessing gu:listGu) {
             if ("D".equals(gu.getDx())){

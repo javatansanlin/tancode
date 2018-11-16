@@ -106,11 +106,15 @@ layui.use(['element','table','upload','layer'], function(){
     ,height: 1000
     ,method: 'post'
     ,url: '/sys/money/findReAll' //数据接口
+      ,request: {
+          pageName: 'pageNum' //页码的参数名称，默认：page
+          ,limitName: 'pageSize' //每页数据量的参数名，默认：limit
+      }
     ,parseData: function(res){ //res 即为原始返回的数据
       return {
         "code": 0, //解析接口状态
-        /*"msg": res.message, //解析提示文本
-        "count": res.total, //解析数据长度*/
+        /*"msg": res.message, //解析提示文本*/
+        "count": res.total, //解析数据长度
         "data": res.list //解析数据列表
       };
     }
