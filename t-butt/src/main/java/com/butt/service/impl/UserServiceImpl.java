@@ -197,4 +197,32 @@ public class UserServiceImpl implements UserService {
             memberDao.updateNameAndImg(member);
         }
     }
+
+    /** 给指定用户充值 */
+    @Override
+    public Map<String, Object> rechargeMoney(String oid , Double money) {
+        Map<String ,Object> result = new HashMap<>();
+        result.put("code" ,1);
+        //判断参数
+        if (oid==null){
+            result.put("msg" ,"请选择用户");
+            return result;
+        }
+        if (money==null || money<=0){
+            result.put("msg" ,"请输入正确充值金额");
+            return result;
+        }
+        //根据oid判断该用户是否存在
+        Member mem = memberDao.findMemByOid(oid);
+        if (mem==null){//无用户，插入
+            result.put("msg" ,"查找该用户错误");
+            return result;
+        }
+        //增加用户余额
+        memberDao.increaseMoney(money ,mem.getId());
+
+        result.put("code" ,3);
+        result.put("msg" ,"充值成功！");
+        return result;
+    }
 }

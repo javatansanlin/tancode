@@ -39,4 +39,10 @@ public class SysMember {
         return userService.findCount();
     }
 
+    /** 给指定用户充值 */
+    @PostMapping("/rechargeMoney")
+    Map<String ,Object> rechargeMoney(String oid ,Double money){
+        return userService.rechargeMoney(oid ,money);
+    }
+
 }

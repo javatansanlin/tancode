@@ -32,4 +32,7 @@ public interface UserService {
 
     /** 插入一个用户 */
     void inserMem(Member member);
+
+    /** 给指定用户充值 */
+    Map<String,Object> rechargeMoney(String oid , Double money);
 }
