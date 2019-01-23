@@ -29,7 +29,7 @@ public class SysMoney {
     /** 查看所有充值，按时间排序 */
     @PostMapping("/findReAll")
     public PageInfo<SysRechargeListModel> findAll(Integer pageNum){
-        if (pageNum==null || pageNum>=0){
+        if (pageNum==null || pageNum<=0){
             pageNum = 1;
         }
         return sysService.findAll(pageNum);

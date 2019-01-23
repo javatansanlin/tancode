@@ -162,6 +162,7 @@ public class UserServiceImpl implements UserService {
     /** 查询所有的用户资料，有用户名条件 ，按注册时间排序*/
     @Override
     public PageInfo<Member> findAll(String name , Integer pageNum) {
+        System.out.println("带过来的页数："+pageNum);
         PageHelper.startPage(pageNum, 10);
         List<Member> all = memberDao.findAllByName(name);
         return new PageInfo<Member>(all);

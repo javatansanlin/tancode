@@ -90,9 +90,9 @@
 //JavaScript代码区域
 layui.use(['element','table', 'layer'], function(){
   var element = layui.element;
-  var table = layui.table
-      ,layer = layui.layer
-      ,$ = layui.jquery;
+  var table = layui.table;
+   var layer = layui.layer;
+    var $ = layui.jquery;
 
     $.ajax({
         type: 'POST',
@@ -114,13 +114,11 @@ layui.use(['element','table', 'layer'], function(){
     ,url: '/sys/u/findAll' //数据接口
     ,id: 'list'
     ,method: 'post'
-      ,where: {pageSize: 10}
     ,request:{
         pageName: 'pageNum'
         ,limitName: 'pageSize'
     }
     ,parseData: function(res){ //res 即为原始返回的数据
-        console.log(res);
       return {
         "code": 0, //解析接口状态
         /*"msg": res.msg, //解析提示文本*/

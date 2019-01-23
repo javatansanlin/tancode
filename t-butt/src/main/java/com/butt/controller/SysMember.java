@@ -27,7 +27,7 @@ public class SysMember {
     /** 查询所有的用户资料，有用户名条件 ，按注册时间排序*/
     @PostMapping("/findAll")
     PageInfo<Member> findAll(String name ,Integer pageNum){
-        if (pageNum==null || pageNum>=0){
+        if (pageNum==null || pageNum<=0){
             pageNum = 1;
         }
         return userService.findAll(name ,pageNum);

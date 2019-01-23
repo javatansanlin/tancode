@@ -27,7 +27,7 @@ public class SysGuess {
     /** 查询参加促销并且未开奖的订单 */
     @PostMapping("/findNotOGO")
     PageInfo<SysGussOrderListModel> findNotOGO(Integer pageNum){
-        if (pageNum==null || pageNum>=0){
+        if (pageNum==null || pageNum<=0){
             pageNum = 1;
         }
         return sysService.findNotOGO(pageNum);

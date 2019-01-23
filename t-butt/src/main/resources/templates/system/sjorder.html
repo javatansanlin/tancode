@@ -155,7 +155,7 @@ layui.use(['element','table','layer'], function(){
                     layer.msg(data.msg);
                     table.reload('list', {
                         page: {
-                            curr: 1 //重新从第 1 页开始
+                            pageNum: 1 //重新从第 1 页开始
                         }
                     });
                 },
