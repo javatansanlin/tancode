@@ -77,6 +77,9 @@
         </div>
       </div>
       <table id="demo" lay-filter="test"></table>
+      <script type="text/html" id="toolbar">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="geust">充值</a>
+      </script>
     </div>
   </div>
   
@@ -85,15 +88,39 @@
     © 2018
   </div>
 </div>
+<div id="geustModal1" style="display: none">
+  <form action="" class="layui-form change">
+    <div class="layui-form-item" style="margin-top: 10px;">
+      <label class="layui-form-label" style="width: 35px">修改</label>
+      <div class="layui-input-inline">
+        <input type="number" name="guest" onkeyup="checknum(this);" class="layui-input"/>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <p class="layui-btn submit" >保存</p>
+      </div>
+    </div>
+  </form>
+</div>
 <script src="./layui/layui.js"></script>
 <script>
+    function checknum(obj)
+    {
+        if(/^\d+\.?\d{0,2}$/.test(obj.value)){
+            obj.value = obj.value;
+        }else{
+            obj.value = obj.value.substring(0,obj.value.length-1);
+        }
+    }
 //JavaScript代码区域
-layui.use(['element','table', 'layer'], function(){
+layui.use(['element','table', 'layer','form'], function(){
   var element = layui.element;
   var table = layui.table;
    var layer = layui.layer;
     var $ = layui.jquery;
-
+    var form = layui.form;
+    form.render();
     $.ajax({
         type: 'POST',
         url: '/sys/u/findCount',
@@ -135,8 +162,38 @@ layui.use(['element','table', 'layer'], function(){
       ,{field: 'money', title: '余额', width: 100,sort: true}
       ,{field: 'integral', title: '积分', width: 100,sort: true}
       ,{field: 'registertime', title: '注册时间', width: 200,sort: true}
+      ,{fixed: 'right',title:'操作', width: 100, align:'center', toolbar: '#toolbar'}
     ]]
   });
+
+    //监听行工具事件
+    table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data //获得当前行数据
+            ,layEvent = obj.event; //获得 lay-event 对应的值
+                layer.open({
+                    type: 1,
+                    content: $('#geustModal1') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                });
+        $(".submit").click(function(){
+            $.ajax({
+                type: 'POST',
+                url: '/sys/u/rechargeMoney',
+                data: { oid: data.oid , money: $("input[name='guest']").val()},
+                dataType: 'json',
+                success: function(data){
+                    layer.msg(data.msg);
+                    table.reload('list', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                },
+                error:function(){
+                    layer.msg("请求错误")
+                }
+            })
+        })
+    })
 
     $("#check").click(function(){
         var name = $("#name").val();
@@ -144,6 +201,8 @@ layui.use(['element','table', 'layer'], function(){
             where:{name: name}
         });
     })
+
+
 });
 </script>
 </body>
