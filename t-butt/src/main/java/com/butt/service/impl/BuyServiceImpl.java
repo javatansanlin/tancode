@@ -334,7 +334,7 @@ public class BuyServiceImpl implements BuyService {
         order.setState(9);
         orderinfoDao.updateOrderGuessAndState(order);
 
-        double money = order.getPrice() * 1.6;
+        double money = order.getPrice() * 1.7;
         //增加用户余额
         memberDao.increaseMoney(money ,user.getId());
         //插入资金明细
